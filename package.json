@@ -1,10 +1,12 @@
 {
   "name": "5x.ant.design",
   "version": "1.0.0",
-  "description": "sync with antd v5 doc",
-  "main": "index.js",
+  "description": "Build and deploy antd v5 documentation site",
+  "main": "sync.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node sync.js",
+    "deploy": "node sync.js",
+    "start": "node sync.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/ant-design/5x.ant.design/issues"
   },
-  "homepage": "https://github.com/ant-design/5x.ant.design#readme"
+  "homepage": "https://5x.ant.design",
+  "devDependencies": {
+    "fs-extra": "^11.2.0",
+    "gh-pages": "^6.2.0",
+    "simple-git": "^3.27.0"
+  }
 }
