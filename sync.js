@@ -29,10 +29,39 @@ async function buildAndDeploy() {
     console.log('🔄 安装依赖...');
     execSync('ut', { cwd: tempDir, stdio: 'inherit' });
 
+    // 3. 配置 Jekyll 排除文件
+    console.log('🔄 配置 Jekyll 排除文件...');
+    const configPath = path.join(tempDir, '_config.yml');
+    let configContent = '';
+    
+    // 读取现有配置文件
+    if (await fs.pathExists(configPath)) {
+      configContent = await fs.readFile(configPath, 'utf8');
+    }
+    
+    // 添加或更新 exclude 配置
+    if (configContent.includes('exclude:')) {
+      // 如果已有 exclude 配置，在其中添加 txt 文件
+      configContent = configContent.replace(
+        /exclude:\s*\n((?:\s*-.*\n)*)/,
+        (match, existingItems) => {
+          if (!existingItems.includes('- "*.txt"')) {
+            return `exclude:\n${existingItems}  - "*.txt"\n`;
+          }
+          return match;
+        }
+      );
+    } else {
+      // 如果没有 exclude 配置，添加新的
+      configContent += '\nexclude:\n  - "*.txt"\n';
+    }
+    
+    await fs.writeFile(configPath, configContent);
+
     console.log('🔄 构建文档站点...');
     execSync('ut run site', { cwd: tempDir, stdio: 'inherit' });
 
-    // 3. 查找构建产物
+    // 4. 查找构建产物
     const buildDirs = ['dist', '_site', 'build', 'public'];
     let buildPath = null;
 
@@ -49,14 +78,14 @@ async function buildAndDeploy() {
       throw new Error('找不到构建产物目录');
     }
 
-    // 4. 复制 CNAME 文件
+    // 5. 复制 CNAME 文件
     const cnamePath = path.join(process.cwd(), 'CNAME');
     if (await fs.pathExists(cnamePath)) {
       await fs.copy(cnamePath, path.join(buildPath, 'CNAME'));
       console.log('📄 复制 CNAME 文件');
     }
 
-    // 5. 部署
+    // 6. 部署
     console.log('🔄 部署到 GitHub Pages...');
     await ghPages.publish(buildPath, {
       branch: 'gh-pages',
