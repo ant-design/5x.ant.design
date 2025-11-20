@@ -15028,6 +15028,74 @@ Tree change its data by conduction. Includes checked or auto expanded, it will c
 This conduction logic prevents modifying `disabled` parent checked state by checking children nodes, and users cannot modify directly with click which avoids interactive conflicts. If you want to modify this conduction logic, you can customize it with the `checkStrictly` prop.
 
 ---
+Title: Tour
+URL: https://ant.design/components/tour
+---
+
+## When To Use
+
+Use when you want to guide users through a product.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/non-modal.tsx">Non-modal</code>
+<code src="./demo/placement.tsx">Placement</code>
+<code src="./demo/mask.tsx">Custom mask style</code>
+<code src="./demo/indicator.tsx">Custom indicator</code>
+<code src="./demo/actions-render.tsx" version="5.25.0">Custom action</code>
+<code src="./demo/gap.tsx">Custom highlighted area style</code>
+<code src="./demo/render-panel.tsx" debug>\_InternalPanelDoNotUseOrYouWillBeFired</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Tour
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| arrow | Whether to show the arrow, including the configuration whether to point to the center of the element | `boolean`\|`{ pointAtCenter: boolean}` | `true` |  |
+| closeIcon | Customize close icon | `React.ReactNode` | `true` | 5.9.0 |
+| disabledInteraction | Disable interaction on highlighted area. | `boolean` | `false` | 5.13.0 |
+| gap | Control the radius of the highlighted area and the offset between highlighted area and the element. | `{ offset?: number \| [number, number]; radius?: number }` | `{ offset?: 6 ; radius?: 2 }` | 5.0.0 (array type `offset`: 5.9.0) |
+| placement | Position of the guide card relative to the target element | `center` `left` `leftTop` `leftBottom` `right` `rightTop` `rightBottom` `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | `bottom` |  |
+| onClose | Callback function on shutdown | `Function` | - |  |
+| mask | Whether to enable masking, change mask style and fill color by pass custom props | `boolean \| { style?: React.CSSProperties; color?: string; }` | `true` |  |
+| type | Type, affects the background color and text color | `default` `primary` | `default` |  |
+| open | Open tour | `boolean` | - |  |
+| onChange | Callback when the step changes. Current is the previous step | `(current: number) => void` | - |  |
+| current | What is the current step | `number` | - |  |
+| scrollIntoViewOptions | support pass custom scrollIntoView options | `boolean \| ScrollIntoViewOptions` | `true` | 5.2.0 |
+| indicatorsRender | custom indicator | `(current: number, total: number) => ReactNode` | - | 5.2.0 |
+| actionsRender | custom action | `(originNode: ReactNode, info: { current: number, total: number }) => ReactNode` | - | 5.25.0 |
+| zIndex | Tour's zIndex | number | 1001 | 5.3.0 |
+| getPopupContainer | Set the rendering node of Tour floating layer | `(node: HTMLElement) => HTMLElement` | body | 5.12.0 |
+
+### TourStep
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| target | Get the element the guide card points to. Empty makes it show in center of screen | `() => HTMLElement` \| `HTMLElement` | - |  |
+| arrow | Whether to show the arrow, including the configuration whether to point to the center of the element | `boolean` `{ pointAtCenter: boolean}` | `true` |  |
+| closeIcon | Customize close icon | `React.ReactNode` | `true` | 5.9.0 |
+| cover | Displayed pictures or videos | `ReactNode` | - |  |
+| title | title | `ReactNode` | - |  |
+| description | description | `ReactNode` | - |  |
+| placement | Position of the guide card relative to the target element | `center` `left` `leftTop` `leftBottom` `right` `rightTop` `rightBottom` `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | `bottom` |  |
+| onClose | Callback function on shutdown | `Function` | - |  |
+| mask | Whether to enable masking, change mask style and fill color by pass custom props, the default follows the `mask` property of Tour | `boolean \| { style?: React.CSSProperties; color?: string; }` | `true` |  |
+| type | Type, affects the background color and text color | `default` `primary` | `default` |  |
+| nextButtonProps | Properties of the Next button | `{ children: ReactNode; onClick: Function }` | - |  |
+| prevButtonProps | Properties of the previous button | `{ children: ReactNode; onClick: Function }` | - |  |
+| scrollIntoViewOptions | support pass custom scrollIntoView options, the default follows the `scrollIntoViewOptions` property of Tour | `boolean \| ScrollIntoViewOptions` | `true` | 5.2.0 |
+
+## Design Token
+
+<ComponentTokenTable component="Tour"></ComponentTokenTable>
+
+---
 Title: Transfer
 URL: https://ant.design/components/transfer
 ---
@@ -15129,74 +15197,6 @@ return <Transfer rowKey={(record) => record.uid} />;
 In order to keep the page number synchronized, you can disable columns you checked without removing the option: <https://codesandbox.io/s/objective-wing-6iqbx>
 
 ---
-Title: Tour
-URL: https://ant.design/components/tour
----
-
-## When To Use
-
-Use when you want to guide users through a product.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/non-modal.tsx">Non-modal</code>
-<code src="./demo/placement.tsx">Placement</code>
-<code src="./demo/mask.tsx">Custom mask style</code>
-<code src="./demo/indicator.tsx">Custom indicator</code>
-<code src="./demo/actions-render.tsx" version="5.25.0">Custom action</code>
-<code src="./demo/gap.tsx">Custom highlighted area style</code>
-<code src="./demo/render-panel.tsx" debug>\_InternalPanelDoNotUseOrYouWillBeFired</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-### Tour
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| arrow | Whether to show the arrow, including the configuration whether to point to the center of the element | `boolean`\|`{ pointAtCenter: boolean}` | `true` |  |
-| closeIcon | Customize close icon | `React.ReactNode` | `true` | 5.9.0 |
-| disabledInteraction | Disable interaction on highlighted area. | `boolean` | `false` | 5.13.0 |
-| gap | Control the radius of the highlighted area and the offset between highlighted area and the element. | `{ offset?: number \| [number, number]; radius?: number }` | `{ offset?: 6 ; radius?: 2 }` | 5.0.0 (array type `offset`: 5.9.0) |
-| placement | Position of the guide card relative to the target element | `center` `left` `leftTop` `leftBottom` `right` `rightTop` `rightBottom` `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | `bottom` |  |
-| onClose | Callback function on shutdown | `Function` | - |  |
-| mask | Whether to enable masking, change mask style and fill color by pass custom props | `boolean \| { style?: React.CSSProperties; color?: string; }` | `true` |  |
-| type | Type, affects the background color and text color | `default` `primary` | `default` |  |
-| open | Open tour | `boolean` | - |  |
-| onChange | Callback when the step changes. Current is the previous step | `(current: number) => void` | - |  |
-| current | What is the current step | `number` | - |  |
-| scrollIntoViewOptions | support pass custom scrollIntoView options | `boolean \| ScrollIntoViewOptions` | `true` | 5.2.0 |
-| indicatorsRender | custom indicator | `(current: number, total: number) => ReactNode` | - | 5.2.0 |
-| actionsRender | custom action | `(originNode: ReactNode, info: { current: number, total: number }) => ReactNode` | - | 5.25.0 |
-| zIndex | Tour's zIndex | number | 1001 | 5.3.0 |
-| getPopupContainer | Set the rendering node of Tour floating layer | `(node: HTMLElement) => HTMLElement` | body | 5.12.0 |
-
-### TourStep
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| target | Get the element the guide card points to. Empty makes it show in center of screen | `() => HTMLElement` \| `HTMLElement` | - |  |
-| arrow | Whether to show the arrow, including the configuration whether to point to the center of the element | `boolean` `{ pointAtCenter: boolean}` | `true` |  |
-| closeIcon | Customize close icon | `React.ReactNode` | `true` | 5.9.0 |
-| cover | Displayed pictures or videos | `ReactNode` | - |  |
-| title | title | `ReactNode` | - |  |
-| description | description | `ReactNode` | - |  |
-| placement | Position of the guide card relative to the target element | `center` `left` `leftTop` `leftBottom` `right` `rightTop` `rightBottom` `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | `bottom` |  |
-| onClose | Callback function on shutdown | `Function` | - |  |
-| mask | Whether to enable masking, change mask style and fill color by pass custom props, the default follows the `mask` property of Tour | `boolean \| { style?: React.CSSProperties; color?: string; }` | `true` |  |
-| type | Type, affects the background color and text color | `default` `primary` | `default` |  |
-| nextButtonProps | Properties of the Next button | `{ children: ReactNode; onClick: Function }` | - |  |
-| prevButtonProps | Properties of the previous button | `{ children: ReactNode; onClick: Function }` | - |  |
-| scrollIntoViewOptions | support pass custom scrollIntoView options, the default follows the `scrollIntoViewOptions` property of Tour | `boolean \| ScrollIntoViewOptions` | `true` | 5.2.0 |
-
-## Design Token
-
-<ComponentTokenTable component="Tour"></ComponentTokenTable>
-
----
 Title: Tooltip
 URL: https://ant.design/components/tooltip
 ---
@@ -15273,6 +15273,78 @@ If need update content when close, you can set `fresh` property ([#44830](https:
 <!-- 请确保在 FAQ 最后 -->
 
 <embed src="./shared/sharedFAQ.en-US.md"></embed>
+
+---
+Title: Timeline
+URL: https://ant.design/components/timeline
+---
+
+## When To Use
+
+- When a series of information needs to be ordered by time (ascending or descending).
+- When you need a timeline to make a visual connection.
+
+<!-- prettier-ignore -->
+:::warning{title="Upgrade Tip"}
+After version 5.2.0, we provide a simpler usage `<Timeline items={[...]} />` with better performance and potential of writing simpler code style in your applications.
+Meanwhile, we deprecated the old usage in browser console, we will remove it in antd 6.0.
+:::
+
+```jsx
+// works when >=5.2.0, recommended ✅
+const items = [{ children: 'sample', label: 'sample' }];
+return <Timeline items={items} />;
+
+// works when <5.2.0, deprecated when >=5.2.0 🙅🏻‍♀️
+return (
+  <Timeline onChange={onChange}>
+    <Timeline.Item>Sample</Timeline.Item>
+  </Timeline>
+);
+```
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/color.tsx">Color</code>
+<code src="./demo/pending.tsx">Last node and Reversing</code>
+<code src="./demo/alternate.tsx">Alternate</code>
+<code src="./demo/custom.tsx">Custom</code>
+<code src="./demo/right.tsx">Right alternate</code>
+<code src="./demo/label.tsx">Label</code>
+<code src="./demo/wireframe.tsx" debug>Wireframe</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Timeline
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| mode | By sending `alternate` the timeline will distribute the nodes to the left and right | `left` \| `alternate` \| `right` | - |  |
+| pending | Set the last ghost node's existence or its content | ReactNode | false |  |
+| pendingDot | Set the dot of the last ghost node when pending is true | ReactNode | &lt;LoadingOutlined /&gt; |  |
+| reverse | Whether reverse nodes or not | boolean | false |  |
+| items | Each node of timeline | [Items](#Items)[] | - | 5.2.0 |
+
+### Items
+
+Node of timeline.
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| color | Set the circle's color to `blue`, `red`, `green`, `gray` or other custom colors | string | `blue` |
+| dot | Customize timeline dot | ReactNode | - |
+| label | Set the label | ReactNode | - |
+| children | Set the content | ReactNode | - |
+| position | Customize node position | `left` \| `right` | - |
+
+## Design Token
+
+<ComponentTokenTable component="Timeline"></ComponentTokenTable>
 
 ---
 Title: TimePicker
@@ -15413,78 +15485,6 @@ type RangeDisabledTime = (
 - [How to use TimePicker with customize date library like dayjs](/docs/react/use-custom-date-library#timepicker)
 
 ---
-Title: Timeline
-URL: https://ant.design/components/timeline
----
-
-## When To Use
-
-- When a series of information needs to be ordered by time (ascending or descending).
-- When you need a timeline to make a visual connection.
-
-<!-- prettier-ignore -->
-:::warning{title="Upgrade Tip"}
-After version 5.2.0, we provide a simpler usage `<Timeline items={[...]} />` with better performance and potential of writing simpler code style in your applications.
-Meanwhile, we deprecated the old usage in browser console, we will remove it in antd 6.0.
-:::
-
-```jsx
-// works when >=5.2.0, recommended ✅
-const items = [{ children: 'sample', label: 'sample' }];
-return <Timeline items={items} />;
-
-// works when <5.2.0, deprecated when >=5.2.0 🙅🏻‍♀️
-return (
-  <Timeline onChange={onChange}>
-    <Timeline.Item>Sample</Timeline.Item>
-  </Timeline>
-);
-```
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/color.tsx">Color</code>
-<code src="./demo/pending.tsx">Last node and Reversing</code>
-<code src="./demo/alternate.tsx">Alternate</code>
-<code src="./demo/custom.tsx">Custom</code>
-<code src="./demo/right.tsx">Right alternate</code>
-<code src="./demo/label.tsx">Label</code>
-<code src="./demo/wireframe.tsx" debug>Wireframe</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-### Timeline
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| mode | By sending `alternate` the timeline will distribute the nodes to the left and right | `left` \| `alternate` \| `right` | - |  |
-| pending | Set the last ghost node's existence or its content | ReactNode | false |  |
-| pendingDot | Set the dot of the last ghost node when pending is true | ReactNode | &lt;LoadingOutlined /&gt; |  |
-| reverse | Whether reverse nodes or not | boolean | false |  |
-| items | Each node of timeline | [Items](#Items)[] | - | 5.2.0 |
-
-### Items
-
-Node of timeline.
-
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| color | Set the circle's color to `blue`, `red`, `green`, `gray` or other custom colors | string | `blue` |
-| dot | Customize timeline dot | ReactNode | - |
-| label | Set the label | ReactNode | - |
-| children | Set the content | ReactNode | - |
-| position | Customize node position | `left` \| `right` | - |
-
-## Design Token
-
-<ComponentTokenTable component="Timeline"></ComponentTokenTable>
-
----
 Title: Tag
 URL: https://ant.design/components/tag
 ---
@@ -15537,6 +15537,69 @@ Common props ref：[Common props](/docs/react/common-props)
 ## Design Token
 
 <ComponentTokenTable component="Tag"></ComponentTokenTable>
+
+---
+Title: Switch
+URL: https://ant.design/components/switch
+---
+
+## When To Use
+
+- If you need to represent the switching between two states or on-off state.
+- The difference between `Switch` and `Checkbox` is that `Switch` will trigger a state change directly when you toggle it, while `Checkbox` is generally used for state marking, which should work in conjunction with submit operation.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/disabled.tsx">Disabled</code>
+<code src="./demo/text.tsx">Text & icon</code>
+<code src="./demo/size.tsx">Two sizes</code>
+<code src="./demo/loading.tsx">Loading</code>
+<code src="./demo/component-token.tsx" debug>Custom component token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| autoFocus | Whether get focus when component mounted | boolean | false |  |
+| checked | Determine whether the Switch is checked | boolean | false |  |
+| checkedChildren | The content to be shown when the state is checked | ReactNode | - |  |
+| className | The additional class to Switch | string | - |  |
+| defaultChecked | Whether to set the initial state | boolean | false |  |
+| defaultValue | Alias for `defaultChecked` | boolean | - | 5.12.0 |
+| disabled | Disable switch | boolean | false |  |
+| loading | Loading state of switch | boolean | false |  |
+| size | The size of the Switch, options: `default` `small` | string | `default` |  |
+| unCheckedChildren | The content to be shown when the state is unchecked | ReactNode | - |  |
+| value | Alias for `checked` | boolean | - | 5.12.0 |
+| onChange | Trigger when the checked state is changing | function(checked: boolean, event: Event) | - |  |
+| onClick | Trigger when clicked | function(checked: boolean, event: Event) | - |  |
+
+## Methods
+
+| Name    | Description  |
+| ------- | ------------ |
+| blur()  | Remove focus |
+| focus() | Get focus    |
+
+## Design Token
+
+<ComponentTokenTable component="Switch"></ComponentTokenTable>
+
+## FAQ
+
+### Why not work in Form.Item?
+
+Form.Item default bind value to `value` property, but Switch value property is `checked`. You can use `valuePropName` to change bind property.
+
+```tsx | pure
+<Form.Item name="fieldA" valuePropName="checked">
+  <Switch />
+</Form.Item>
+```
 
 ---
 Title: Tabs
@@ -16034,153 +16097,6 @@ Since `4.1.0`, You can use [`rowSelection.renderCell`](https://ant.design/compon
 Because virtual table needs to get its ref to do some calculations, so you need to use `React.forwardRef` wrapper and pass the ref to the dom
 
 ---
-Title: Switch
-URL: https://ant.design/components/switch
----
-
-## When To Use
-
-- If you need to represent the switching between two states or on-off state.
-- The difference between `Switch` and `Checkbox` is that `Switch` will trigger a state change directly when you toggle it, while `Checkbox` is generally used for state marking, which should work in conjunction with submit operation.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/disabled.tsx">Disabled</code>
-<code src="./demo/text.tsx">Text & icon</code>
-<code src="./demo/size.tsx">Two sizes</code>
-<code src="./demo/loading.tsx">Loading</code>
-<code src="./demo/component-token.tsx" debug>Custom component token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| autoFocus | Whether get focus when component mounted | boolean | false |  |
-| checked | Determine whether the Switch is checked | boolean | false |  |
-| checkedChildren | The content to be shown when the state is checked | ReactNode | - |  |
-| className | The additional class to Switch | string | - |  |
-| defaultChecked | Whether to set the initial state | boolean | false |  |
-| defaultValue | Alias for `defaultChecked` | boolean | - | 5.12.0 |
-| disabled | Disable switch | boolean | false |  |
-| loading | Loading state of switch | boolean | false |  |
-| size | The size of the Switch, options: `default` `small` | string | `default` |  |
-| unCheckedChildren | The content to be shown when the state is unchecked | ReactNode | - |  |
-| value | Alias for `checked` | boolean | - | 5.12.0 |
-| onChange | Trigger when the checked state is changing | function(checked: boolean, event: Event) | - |  |
-| onClick | Trigger when clicked | function(checked: boolean, event: Event) | - |  |
-
-## Methods
-
-| Name    | Description  |
-| ------- | ------------ |
-| blur()  | Remove focus |
-| focus() | Get focus    |
-
-## Design Token
-
-<ComponentTokenTable component="Switch"></ComponentTokenTable>
-
-## FAQ
-
-### Why not work in Form.Item?
-
-Form.Item default bind value to `value` property, but Switch value property is `checked`. You can use `valuePropName` to change bind property.
-
-```tsx | pure
-<Form.Item name="fieldA" valuePropName="checked">
-  <Switch />
-</Form.Item>
-```
-
----
-Title: Steps
-URL: https://ant.design/components/steps
----
-
-## When To Use
-
-When a given task is complicated or has a certain sequence in the series of subtasks, we can decompose it into several steps to make things easier.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/simple.tsx">Basic</code>
-<code src="./demo/small-size.tsx">Mini version</code>
-<code src="./demo/icon.tsx">With icon</code>
-<code src="./demo/step-next.tsx">Switch Step</code>
-<code src="./demo/vertical.tsx">Vertical</code>
-<code src="./demo/vertical-small.tsx">Vertical mini version</code>
-<code src="./demo/error.tsx">Error status</code>
-<code src="./demo/progress-dot.tsx">Dot Style</code>
-<code src="./demo/customized-progress-dot.tsx">Customized Dot Style</code>
-<code src="./demo/progress-dot-small.tsx" debug>Dot Style Size Small</code>
-<code src="./demo/clickable.tsx">Clickable</code>
-<code src="./demo/nav.tsx">Navigation Steps</code>
-<code src="./demo/progress.tsx">Steps with progress</code>
-<code src="./demo/label-placement.tsx">Label Placement</code>
-<code src="./demo/progress-debug.tsx" debug>Progress Debug</code>
-<code src="./demo/steps-in-steps.tsx" debug>Steps inside Steps</code>
-<code src="./demo/inline.tsx">Inline Steps</code>
-<code src="./demo/wireframe.tsx" debug>Wireframe</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-### Steps
-
-The whole of the step bar.
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| className | Additional class to Steps | string | - |  |
-| current | To set the current step, counting from 0. You can overwrite this state by using `status` of `Step` | number | 0 |  |
-| direction | To specify the direction of the step bar, `horizontal` or `vertical` | string | `horizontal` |  |
-| initial | Set the initial step, counting from 0 | number | 0 |  |
-| labelPlacement | Place title and description with `horizontal` or `vertical` direction | string | `horizontal` |  |
-| percent | Progress circle percentage of current step in `process` status (only works on basic Steps) | number | - | 4.5.0 |
-| progressDot | Steps with progress dot style, customize the progress dot by setting it to a function. labelPlacement will be `vertical` | boolean \| (iconDot, {index, status, title, description}) => ReactNode | false |  |
-| responsive | Change to vertical direction when screen width smaller than `532px` | boolean | true |  |
-| size | To specify the size of the step bar, `default` and `small` are currently supported | string | `default` |  |
-| status | To specify the status of current step, can be set to one of the following values: `wait` `process` `finish` `error` | string | `process` |  |
-| type | Type of steps, can be set to one of the following values: `default` `navigation` `inline` | string | `default` | inline: 5.0 |
-| onChange | Trigger when Step is changed | (current) => void | - |  |
-| items | StepItem content | [StepItem](#stepitem) | [] | 4.24.0 |
-
-### `type="inline"`
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| className | Additional class to Steps | string | - |  |
-| current | To set the current step, counting from 0. You can overwrite this state by using `status` of `Step` | number | 0 |  |
-| initial | Set the initial step, counting from 0 | number | 0 |  |
-| status | To specify the status of current step, can be set to one of the following values: `wait` `process` `finish` `error` | string | `process` |  |
-| onChange | Trigger when Step is changed | (current) => void | - |  |
-| items | StepItem content. not supported: `icon` `subtitle` | [StepItem](#stepitem) | [] | 4.24.0 |
-
-### StepItem
-
-A single step in the step bar.
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| description | Description of the step, optional property | ReactNode | - |  |
-| disabled | Disable click | boolean | false |  |
-| icon | Icon of the step, optional property | ReactNode | - |  |
-| status | To specify the status. It will be automatically set by `current` of `Steps` if not configured. Optional values are: `wait` `process` `finish` `error` | string | `wait` |  |
-| subTitle | Subtitle of the step | ReactNode | - |  |
-| title | Title of the step | ReactNode | - |  |
-
-## Design Token
-
-<ComponentTokenTable component="Steps"></ComponentTokenTable>
-
----
 Title: Splitter
 URL: https://ant.design/components/splitter
 ---
@@ -16312,6 +16228,90 @@ Common props ref：[Common props](/docs/react/common-props)
 <ComponentTokenTable component="Statistic"></ComponentTokenTable>
 
 ---
+Title: Steps
+URL: https://ant.design/components/steps
+---
+
+## When To Use
+
+When a given task is complicated or has a certain sequence in the series of subtasks, we can decompose it into several steps to make things easier.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/simple.tsx">Basic</code>
+<code src="./demo/small-size.tsx">Mini version</code>
+<code src="./demo/icon.tsx">With icon</code>
+<code src="./demo/step-next.tsx">Switch Step</code>
+<code src="./demo/vertical.tsx">Vertical</code>
+<code src="./demo/vertical-small.tsx">Vertical mini version</code>
+<code src="./demo/error.tsx">Error status</code>
+<code src="./demo/progress-dot.tsx">Dot Style</code>
+<code src="./demo/customized-progress-dot.tsx">Customized Dot Style</code>
+<code src="./demo/progress-dot-small.tsx" debug>Dot Style Size Small</code>
+<code src="./demo/clickable.tsx">Clickable</code>
+<code src="./demo/nav.tsx">Navigation Steps</code>
+<code src="./demo/progress.tsx">Steps with progress</code>
+<code src="./demo/label-placement.tsx">Label Placement</code>
+<code src="./demo/progress-debug.tsx" debug>Progress Debug</code>
+<code src="./demo/steps-in-steps.tsx" debug>Steps inside Steps</code>
+<code src="./demo/inline.tsx">Inline Steps</code>
+<code src="./demo/wireframe.tsx" debug>Wireframe</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Steps
+
+The whole of the step bar.
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| className | Additional class to Steps | string | - |  |
+| current | To set the current step, counting from 0. You can overwrite this state by using `status` of `Step` | number | 0 |  |
+| direction | To specify the direction of the step bar, `horizontal` or `vertical` | string | `horizontal` |  |
+| initial | Set the initial step, counting from 0 | number | 0 |  |
+| labelPlacement | Place title and description with `horizontal` or `vertical` direction | string | `horizontal` |  |
+| percent | Progress circle percentage of current step in `process` status (only works on basic Steps) | number | - | 4.5.0 |
+| progressDot | Steps with progress dot style, customize the progress dot by setting it to a function. labelPlacement will be `vertical` | boolean \| (iconDot, {index, status, title, description}) => ReactNode | false |  |
+| responsive | Change to vertical direction when screen width smaller than `532px` | boolean | true |  |
+| size | To specify the size of the step bar, `default` and `small` are currently supported | string | `default` |  |
+| status | To specify the status of current step, can be set to one of the following values: `wait` `process` `finish` `error` | string | `process` |  |
+| type | Type of steps, can be set to one of the following values: `default` `navigation` `inline` | string | `default` | inline: 5.0 |
+| onChange | Trigger when Step is changed | (current) => void | - |  |
+| items | StepItem content | [StepItem](#stepitem) | [] | 4.24.0 |
+
+### `type="inline"`
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| className | Additional class to Steps | string | - |  |
+| current | To set the current step, counting from 0. You can overwrite this state by using `status` of `Step` | number | 0 |  |
+| initial | Set the initial step, counting from 0 | number | 0 |  |
+| status | To specify the status of current step, can be set to one of the following values: `wait` `process` `finish` `error` | string | `process` |  |
+| onChange | Trigger when Step is changed | (current) => void | - |  |
+| items | StepItem content. not supported: `icon` `subtitle` | [StepItem](#stepitem) | [] | 4.24.0 |
+
+### StepItem
+
+A single step in the step bar.
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| description | Description of the step, optional property | ReactNode | - |  |
+| disabled | Disable click | boolean | false |  |
+| icon | Icon of the step, optional property | ReactNode | - |  |
+| status | To specify the status. It will be automatically set by `current` of `Steps` if not configured. Optional values are: `wait` `process` `finish` `error` | string | `wait` |  |
+| subTitle | Subtitle of the step | ReactNode | - |  |
+| title | Title of the step | ReactNode | - |  |
+
+## Design Token
+
+<ComponentTokenTable component="Steps"></ComponentTokenTable>
+
+---
 Title: Spin
 URL: https://ant.design/components/spin
 ---
@@ -16356,6 +16356,171 @@ Common props ref：[Common props](/docs/react/common-props)
 ## Design Token
 
 <ComponentTokenTable component="Spin"></ComponentTokenTable>
+
+---
+Title: Slider
+URL: https://ant.design/components/slider
+---
+
+## When To Use
+
+Used to input a value within a specified range.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/input-number.tsx">Slider with InputNumber</code>
+<code src="./demo/icon-slider.tsx">Slider with icon</code>
+<code src="./demo/tip-formatter.tsx">Customize tooltip</code>
+<code src="./demo/event.tsx">Event</code>
+<code src="./demo/mark.tsx">Graduated slider</code>
+<code src="./demo/vertical.tsx">Vertical</code>
+<code src="./demo/show-tooltip.tsx">Control visibility of Tooltip</code>
+<code src="./demo/reverse.tsx">Reverse</code>
+<code src="./demo/draggableTrack.tsx">Draggable track</code>
+<code src="./demo/multiple.tsx">Multiple handles</code>
+<code src="./demo/editable.tsx" version="5.20.0">Dynamic edit nodes</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| autoFocus | Whether to get focus when component is mounted | boolean | false |  |
+| classNames | Semantic structure className | [Record<SemanticDOM, string>](#semantic-dom) | - | 5.10.0 |
+| defaultValue | The default value of the slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | 0 \| \[0, 0] |  |
+| disabled | If true, the slider will not be interactive | boolean | false |  |
+| keyboard | Support using keyboard to move handlers | boolean | true | 5.2.0+ |
+| dots | Whether the thumb can only be dragged to tick marks | boolean | false |  |
+| included | Takes effect when `marks` is not null. True means containment and false means coordinative | boolean | true |  |
+| marks | Tick marks of Slider. The type of key must be `number`, and must be in closed interval \[min, max]. Each mark can declare its own style | object | { number: ReactNode } \| { number: { style: CSSProperties, label: ReactNode } } |  |
+| max | The maximum value the slider can slide to | number | 100 |  |
+| min | The minimum value the slider can slide to | number | 0 |  |
+| range | Enable dual thumb mode for range selection | boolean | false |  |
+| reverse | Reverse the component | boolean | false |  |
+| step | The granularity the slider can step through values. Must be greater than 0, and be divisible by (max - min). When `step` is `null` and `marks` exist, valid points will only be marks, `min` and `max` | number \| null | 1 |  |
+| styles | Semantic structure style | [Record<SemanticDOM, React.CSSProperties>](#semantic-dom) | - | 5.10.0 |
+| tooltip | The tooltip related props | [tooltip](#tooltip) | - | 4.23.0 |
+| value | The value of slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | - |  |
+| vertical | If true, the slider will be vertical | boolean | false |  |
+| onChangeComplete | Fire when `mouseup` or `keyup` is fired | (value) => void | - |  |
+| onChange | Callback function that is fired when the user changes the slider's value | (value) => void | - |  |
+
+### range
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| draggableTrack | Whether range track can be dragged | boolean | false | - |
+| editable | Dynamic edit nodes. Cannot be used with `draggableTrack` | boolean | false | 5.20.0 |
+| minCount | The minimum count of nodes | number | 0 | 5.20.0 |
+| maxCount | The maximum count of nodes | number | - | 5.20.0 |
+
+### tooltip
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| autoAdjustOverflow | Whether to automatically adjust the popup position | boolean | true | 5.8.0 |
+| open | If true, Tooltip will always be visible; if false, it will never be visible, even when dragging or hovering | boolean | - | 4.23.0 |
+| placement | Set Tooltip display position. Ref [Tooltip](/components/tooltip/) | string | - | 4.23.0 |
+| getPopupContainer | The DOM container of the Tooltip. The default behavior is to create a div element in the body | (triggerNode) => HTMLElement | () => document.body | 4.23.0 |
+| formatter | Slider will pass its value to `formatter`, display its value in Tooltip, and hide the Tooltip when the returned value is null | value => ReactNode \| null | IDENTITY | 4.23.0 |
+
+## Methods
+
+| Name    | Description  | Version |
+| ------- | ------------ | ------- |
+| blur()  | Remove focus |         |
+| focus() | Get focus    |         |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify="true"></code>
+
+## Design Token
+
+<ComponentTokenTable component="Slider"></ComponentTokenTable>
+
+---
+Title: Skeleton
+URL: https://ant.design/components/skeleton
+---
+
+## When To Use
+
+- When a resource needs long time to load.
+- When the component contains lots of information, such as List or Card.
+- Only works when loading data for the first time.
+- Could be replaced by Spin in any situation, but can provide a better user experience.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/complex.tsx">Complex combination</code>
+<code src="./demo/active.tsx">Active Animation</code>
+<code src="./demo/element.tsx">Button/Avatar/Input/Image/Node</code>
+<code src="./demo/children.tsx">Contains sub component</code>
+<code src="./demo/list.tsx">List</code>
+<code src="./demo/componentToken.tsx" debug>Custom component token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Skeleton
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| active | Show animation effect | boolean | false |
+| avatar | Show avatar placeholder | boolean \| [SkeletonAvatarProps](#skeletonavatarprops) | false |
+| loading | Display the skeleton when true | boolean | - |
+| paragraph | Show paragraph placeholder | boolean \| [SkeletonParagraphProps](#skeletonparagraphprops) | true |
+| round | Show paragraph and title radius when true | boolean | false |
+| title | Show title placeholder | boolean \| [SkeletonTitleProps](#skeletontitleprops) | true |
+
+### SkeletonAvatarProps
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| active | Show animation effect, only valid when used avatar independently | boolean | false |
+| shape | Set the shape of avatar | `circle` \| `square` | - |
+| size | Set the size of avatar | number \| `large` \| `small` \| `default` | - |
+
+### SkeletonTitleProps
+
+| Property | Description            | Type             | Default |
+| -------- | ---------------------- | ---------------- | ------- |
+| width    | Set the width of title | number \| string | -       |
+
+### SkeletonParagraphProps
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| rows | Set the row count of paragraph | number | - |
+| width | Set the width of paragraph. When width is an Array, it can set the width of each row. Otherwise only set the last row width | number \| string \| Array&lt;number \| string> | - |
+
+### SkeletonButtonProps
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| active | Show animation effect | boolean | false |  |
+| block | Option to fit button width to its parent width | boolean | false | 4.17.0 |
+| shape | Set the shape of button | `circle` \| `round` \| `square` \| `default` | - |  |
+| size | Set the size of button | `large` \| `small` \| `default` | - |  |
+
+### SkeletonInputProps
+
+| Property | Description           | Type                            | Default |
+| -------- | --------------------- | ------------------------------- | ------- |
+| active   | Show animation effect | boolean                         | false   |
+| size     | Set the size of input | `large` \| `small` \| `default` | -       |
+
+## Design Token
+
+<ComponentTokenTable component="Skeleton"></ComponentTokenTable>
 
 ---
 Title: Space
@@ -16444,85 +16609,6 @@ Used to create custom cells in compact layouts.
 ## Design Token
 
 <ComponentTokenTable component="Space"></ComponentTokenTable>
-
----
-Title: Skeleton
-URL: https://ant.design/components/skeleton
----
-
-## When To Use
-
-- When a resource needs long time to load.
-- When the component contains lots of information, such as List or Card.
-- Only works when loading data for the first time.
-- Could be replaced by Spin in any situation, but can provide a better user experience.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/complex.tsx">Complex combination</code>
-<code src="./demo/active.tsx">Active Animation</code>
-<code src="./demo/element.tsx">Button/Avatar/Input/Image/Node</code>
-<code src="./demo/children.tsx">Contains sub component</code>
-<code src="./demo/list.tsx">List</code>
-<code src="./demo/componentToken.tsx" debug>Custom component token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-### Skeleton
-
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| active | Show animation effect | boolean | false |
-| avatar | Show avatar placeholder | boolean \| [SkeletonAvatarProps](#skeletonavatarprops) | false |
-| loading | Display the skeleton when true | boolean | - |
-| paragraph | Show paragraph placeholder | boolean \| [SkeletonParagraphProps](#skeletonparagraphprops) | true |
-| round | Show paragraph and title radius when true | boolean | false |
-| title | Show title placeholder | boolean \| [SkeletonTitleProps](#skeletontitleprops) | true |
-
-### SkeletonAvatarProps
-
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| active | Show animation effect, only valid when used avatar independently | boolean | false |
-| shape | Set the shape of avatar | `circle` \| `square` | - |
-| size | Set the size of avatar | number \| `large` \| `small` \| `default` | - |
-
-### SkeletonTitleProps
-
-| Property | Description            | Type             | Default |
-| -------- | ---------------------- | ---------------- | ------- |
-| width    | Set the width of title | number \| string | -       |
-
-### SkeletonParagraphProps
-
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| rows | Set the row count of paragraph | number | - |
-| width | Set the width of paragraph. When width is an Array, it can set the width of each row. Otherwise only set the last row width | number \| string \| Array&lt;number \| string> | - |
-
-### SkeletonButtonProps
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| active | Show animation effect | boolean | false |  |
-| block | Option to fit button width to its parent width | boolean | false | 4.17.0 |
-| shape | Set the shape of button | `circle` \| `round` \| `square` \| `default` | - |  |
-| size | Set the size of button | `large` \| `small` \| `default` | - |  |
-
-### SkeletonInputProps
-
-| Property | Description           | Type                            | Default |
-| -------- | --------------------- | ------------------------------- | ------- |
-| active   | Show animation effect | boolean                         | false   |
-| size     | Set the size of input | `large` \| `small` \| `default` | -       |
-
-## Design Token
-
-<ComponentTokenTable component="Skeleton"></ComponentTokenTable>
 
 ---
 Title: Select
@@ -16775,92 +16861,6 @@ If you don't want a drop-down menu to appear automatically after clicking on an 
 ```
 
 ---
-Title: Slider
-URL: https://ant.design/components/slider
----
-
-## When To Use
-
-Used to input a value within a specified range.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/input-number.tsx">Slider with InputNumber</code>
-<code src="./demo/icon-slider.tsx">Slider with icon</code>
-<code src="./demo/tip-formatter.tsx">Customize tooltip</code>
-<code src="./demo/event.tsx">Event</code>
-<code src="./demo/mark.tsx">Graduated slider</code>
-<code src="./demo/vertical.tsx">Vertical</code>
-<code src="./demo/show-tooltip.tsx">Control visibility of Tooltip</code>
-<code src="./demo/reverse.tsx">Reverse</code>
-<code src="./demo/draggableTrack.tsx">Draggable track</code>
-<code src="./demo/multiple.tsx">Multiple handles</code>
-<code src="./demo/editable.tsx" version="5.20.0">Dynamic edit nodes</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| autoFocus | Whether to get focus when component is mounted | boolean | false |  |
-| classNames | Semantic structure className | [Record<SemanticDOM, string>](#semantic-dom) | - | 5.10.0 |
-| defaultValue | The default value of the slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | 0 \| \[0, 0] |  |
-| disabled | If true, the slider will not be interactive | boolean | false |  |
-| keyboard | Support using keyboard to move handlers | boolean | true | 5.2.0+ |
-| dots | Whether the thumb can only be dragged to tick marks | boolean | false |  |
-| included | Takes effect when `marks` is not null. True means containment and false means coordinative | boolean | true |  |
-| marks | Tick marks of Slider. The type of key must be `number`, and must be in closed interval \[min, max]. Each mark can declare its own style | object | { number: ReactNode } \| { number: { style: CSSProperties, label: ReactNode } } |  |
-| max | The maximum value the slider can slide to | number | 100 |  |
-| min | The minimum value the slider can slide to | number | 0 |  |
-| range | Enable dual thumb mode for range selection | boolean | false |  |
-| reverse | Reverse the component | boolean | false |  |
-| step | The granularity the slider can step through values. Must be greater than 0, and be divisible by (max - min). When `step` is `null` and `marks` exist, valid points will only be marks, `min` and `max` | number \| null | 1 |  |
-| styles | Semantic structure style | [Record<SemanticDOM, React.CSSProperties>](#semantic-dom) | - | 5.10.0 |
-| tooltip | The tooltip related props | [tooltip](#tooltip) | - | 4.23.0 |
-| value | The value of slider. When `range` is false, use number, otherwise, use \[number, number] | number \| \[number, number] | - |  |
-| vertical | If true, the slider will be vertical | boolean | false |  |
-| onChangeComplete | Fire when `mouseup` or `keyup` is fired | (value) => void | - |  |
-| onChange | Callback function that is fired when the user changes the slider's value | (value) => void | - |  |
-
-### range
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| draggableTrack | Whether range track can be dragged | boolean | false | - |
-| editable | Dynamic edit nodes. Cannot be used with `draggableTrack` | boolean | false | 5.20.0 |
-| minCount | The minimum count of nodes | number | 0 | 5.20.0 |
-| maxCount | The maximum count of nodes | number | - | 5.20.0 |
-
-### tooltip
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| autoAdjustOverflow | Whether to automatically adjust the popup position | boolean | true | 5.8.0 |
-| open | If true, Tooltip will always be visible; if false, it will never be visible, even when dragging or hovering | boolean | - | 4.23.0 |
-| placement | Set Tooltip display position. Ref [Tooltip](/components/tooltip/) | string | - | 4.23.0 |
-| getPopupContainer | The DOM container of the Tooltip. The default behavior is to create a div element in the body | (triggerNode) => HTMLElement | () => document.body | 4.23.0 |
-| formatter | Slider will pass its value to `formatter`, display its value in Tooltip, and hide the Tooltip when the returned value is null | value => ReactNode \| null | IDENTITY | 4.23.0 |
-
-## Methods
-
-| Name    | Description  | Version |
-| ------- | ------------ | ------- |
-| blur()  | Remove focus |         |
-| focus() | Get focus    |         |
-
-## Semantic DOM
-
-<code src="./demo/_semantic.tsx" simplify="true"></code>
-
-## Design Token
-
-<ComponentTokenTable component="Slider"></ComponentTokenTable>
-
----
 Title: Segmented
 URL: https://ant.design/components/segmented
 ---
@@ -16923,6 +16923,63 @@ Common props ref：[Common props](/docs/react/common-props)
 ## Design Token
 
 <ComponentTokenTable component="Segmented"></ComponentTokenTable>
+
+---
+Title: Rate
+URL: https://ant.design/components/rate
+---
+
+## When To Use
+
+- Show evaluation.
+- A quick rating operation on something.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/half.tsx">Half star</code>
+<code src="./demo/text.tsx">Show copywriting</code>
+<code src="./demo/disabled.tsx">Read only</code>
+<code src="./demo/clear.tsx">Clear star</code>
+<code src="./demo/character.tsx">Other Character</code>
+<code src="./demo/character-function.tsx">Customize character</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | type | Default | Version |
+| --- | --- | --- | --- | --- |
+| allowClear | Whether to allow clear when click again | boolean | true |  |
+| allowHalf | Whether to allow semi selection | boolean | false |  |
+| autoFocus | If get focus when component mounted | boolean | false |  |
+| character | The custom character of rate | ReactNode \| (RateProps) => ReactNode | &lt;StarFilled /> | function(): 4.4.0 |
+| className | The custom class name of rate | string | - |  |
+| count | Star count | number | 5 |  |
+| defaultValue | The default value | number | 0 |  |
+| disabled | If read only, unable to interact | boolean | false |  |
+| keyboard | Support keyboard operation | boolean | true | 5.18.0 |
+| style | The custom style object of rate | CSSProperties | - |  |
+| tooltips | Customize tooltip by each character | string\[] | - |  |
+| value | The current value | number | - |  |
+| onBlur | Callback when component lose focus | function() | - |  |
+| onChange | Callback when select value | function(value: number) | - |  |
+| onFocus | Callback when component get focus | function() | - |  |
+| onHoverChange | Callback when hover item | function(value: number) | - |  |
+| onKeyDown | Callback when keydown on component | function(event) | - |  |
+
+## Methods
+
+| Name    | Description  |
+| ------- | ------------ |
+| blur()  | Remove focus |
+| focus() | Get focus    |
+
+## Design Token
+
+<ComponentTokenTable component="Rate"></ComponentTokenTable>
 
 ---
 Title: Result
@@ -17073,63 +17130,6 @@ Radio group can wrap a group of `Radio`.
 <ComponentTokenTable component="Radio"></ComponentTokenTable>
 
 ---
-Title: Rate
-URL: https://ant.design/components/rate
----
-
-## When To Use
-
-- Show evaluation.
-- A quick rating operation on something.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/half.tsx">Half star</code>
-<code src="./demo/text.tsx">Show copywriting</code>
-<code src="./demo/disabled.tsx">Read only</code>
-<code src="./demo/clear.tsx">Clear star</code>
-<code src="./demo/character.tsx">Other Character</code>
-<code src="./demo/character-function.tsx">Customize character</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | type | Default | Version |
-| --- | --- | --- | --- | --- |
-| allowClear | Whether to allow clear when click again | boolean | true |  |
-| allowHalf | Whether to allow semi selection | boolean | false |  |
-| autoFocus | If get focus when component mounted | boolean | false |  |
-| character | The custom character of rate | ReactNode \| (RateProps) => ReactNode | &lt;StarFilled /> | function(): 4.4.0 |
-| className | The custom class name of rate | string | - |  |
-| count | Star count | number | 5 |  |
-| defaultValue | The default value | number | 0 |  |
-| disabled | If read only, unable to interact | boolean | false |  |
-| keyboard | Support keyboard operation | boolean | true | 5.18.0 |
-| style | The custom style object of rate | CSSProperties | - |  |
-| tooltips | Customize tooltip by each character | string\[] | - |  |
-| value | The current value | number | - |  |
-| onBlur | Callback when component lose focus | function() | - |  |
-| onChange | Callback when select value | function(value: number) | - |  |
-| onFocus | Callback when component get focus | function() | - |  |
-| onHoverChange | Callback when hover item | function(value: number) | - |  |
-| onKeyDown | Callback when keydown on component | function(event) | - |  |
-
-## Methods
-
-| Name    | Description  |
-| ------- | ------------ |
-| blur()  | Remove focus |
-| focus() | Get focus    |
-
-## Design Token
-
-<ComponentTokenTable component="Rate"></ComponentTokenTable>
-
----
 Title: QRCode
 URL: https://ant.design/components/qr-code
 ---
@@ -17203,6 +17203,69 @@ Generally, the QR code is divided into 4 error correction levels: Level `L` can 
 If the QR code cannot be scanned for identification, it may be because the link address is too long, which leads to too dense pixels.
 
 You can configure the QR code to be larger through size, or shorten the link through short link services.
+
+---
+Title: Popconfirm
+URL: https://ant.design/components/popconfirm
+---
+
+## When To Use
+
+A simple and compact dialog used for asking for user confirmation.
+
+The difference with the `confirm` modal dialog is that it's more lightweight than the static popped full-screen confirm modal.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/locale.tsx">Locale text</code>
+<code src="./demo/placement.tsx">Placement</code>
+<code src="./demo/shift.tsx" iframe="300">Auto Shift</code>
+<code src="./demo/dynamic-trigger.tsx">Conditional trigger</code>
+<code src="./demo/icon.tsx">Customize icon</code>
+<code src="./demo/async.tsx">Asynchronously close</code>
+<code src="./demo/promise.tsx">Asynchronously close on Promise</code>
+<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
+<code src="./demo/wireframe.tsx" debug>Wireframe</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Param | Description | Type | Default value | Version |
+| --- | --- | --- | --- | --- |
+| cancelButtonProps | The cancel button props | [ButtonProps](/components/button/#api) | - |  |
+| cancelText | The text of the Cancel button | string | `Cancel` |  |
+| disabled | Whether show popconfirm when click its childrenNode | boolean | false |  |
+| icon | Customize icon of confirmation | ReactNode | &lt;ExclamationCircle /> |  |
+| okButtonProps | The ok button props | [ButtonProps](/components/button/#api) | - |  |
+| okText | The text of the Confirm button | string | `OK` |  |
+| okType | Button `type` of the Confirm button | string | `primary` |  |
+| showCancel | Show cancel button | boolean | true | 4.18.0 |
+| title | The title of the confirmation box | ReactNode \| () => ReactNode | - |  |
+| description | The description of the confirmation box title | ReactNode \| () => ReactNode | - | 5.1.0 |
+| onCancel | A callback of cancel | function(e) | - |  |
+| onConfirm | A callback of confirmation | function(e) | - |  |
+| onPopupClick | A callback of popup click | function(e) | - | 5.5.0 |
+
+<!-- Common API -->
+
+<embed src="../tooltip/shared/sharedProps.en-US.md"></embed>
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify="true"></code>
+
+## Design Token
+
+<ComponentTokenTable component="Popconfirm"></ComponentTokenTable>
+
+## FAQ
+
+<embed src="../tooltip/shared/sharedFAQ.en-US.md"></embed>
+
+For more questions, please refer to [Tooltip FAQ](/components/tooltip#faq).
 
 ---
 Title: Popover
@@ -17402,226 +17465,6 @@ Common props ref：[Common props](/docs/react/common-props)
 ## Design Token
 
 <ComponentTokenTable component="Pagination"></ComponentTokenTable>
-
----
-Title: Popconfirm
-URL: https://ant.design/components/popconfirm
----
-
-## When To Use
-
-A simple and compact dialog used for asking for user confirmation.
-
-The difference with the `confirm` modal dialog is that it's more lightweight than the static popped full-screen confirm modal.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/locale.tsx">Locale text</code>
-<code src="./demo/placement.tsx">Placement</code>
-<code src="./demo/shift.tsx" iframe="300">Auto Shift</code>
-<code src="./demo/dynamic-trigger.tsx">Conditional trigger</code>
-<code src="./demo/icon.tsx">Customize icon</code>
-<code src="./demo/async.tsx">Asynchronously close</code>
-<code src="./demo/promise.tsx">Asynchronously close on Promise</code>
-<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
-<code src="./demo/wireframe.tsx" debug>Wireframe</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Param | Description | Type | Default value | Version |
-| --- | --- | --- | --- | --- |
-| cancelButtonProps | The cancel button props | [ButtonProps](/components/button/#api) | - |  |
-| cancelText | The text of the Cancel button | string | `Cancel` |  |
-| disabled | Whether show popconfirm when click its childrenNode | boolean | false |  |
-| icon | Customize icon of confirmation | ReactNode | &lt;ExclamationCircle /> |  |
-| okButtonProps | The ok button props | [ButtonProps](/components/button/#api) | - |  |
-| okText | The text of the Confirm button | string | `OK` |  |
-| okType | Button `type` of the Confirm button | string | `primary` |  |
-| showCancel | Show cancel button | boolean | true | 4.18.0 |
-| title | The title of the confirmation box | ReactNode \| () => ReactNode | - |  |
-| description | The description of the confirmation box title | ReactNode \| () => ReactNode | - | 5.1.0 |
-| onCancel | A callback of cancel | function(e) | - |  |
-| onConfirm | A callback of confirmation | function(e) | - |  |
-| onPopupClick | A callback of popup click | function(e) | - | 5.5.0 |
-
-<!-- Common API -->
-
-<embed src="../tooltip/shared/sharedProps.en-US.md"></embed>
-
-## Semantic DOM
-
-<code src="./demo/_semantic.tsx" simplify="true"></code>
-
-## Design Token
-
-<ComponentTokenTable component="Popconfirm"></ComponentTokenTable>
-
-## FAQ
-
-<embed src="../tooltip/shared/sharedFAQ.en-US.md"></embed>
-
-For more questions, please refer to [Tooltip FAQ](/components/tooltip#faq).
-
----
-Title: Components Overview
-URL: https://ant.design/components/overview
----
-
-`antd` provides plenty of UI components to enrich your web applications, and we will improve components experience consistently. We also recommend some great [Third-Party Libraries](/docs/react/recommendation) additionally.
-
-<ComponentOverview></ComponentOverview>
-
----
-Title: Notification
-URL: https://ant.design/components/notification
----
-
-## When To Use
-
-To display a notification message at any of the four corners of the viewport. Typically it can be used in the following cases:
-
-- A notification with complex content.
-- A notification providing a feedback based on the user interaction. Or it may show some details about upcoming steps the user may have to follow.
-- A notification that is pushed by the application.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/hooks.tsx">Hooks usage (recommended)</code>
-<code src="./demo/duration.tsx">Duration after which the notification box is closed</code>
-<code src="./demo/with-icon.tsx">Notification with icon</code>
-<code src="./demo/with-btn.tsx">Custom close button</code>
-<code src="./demo/custom-icon.tsx">Customized Icon</code>
-<code src="./demo/placement.tsx">Placement</code>
-<code src="./demo/custom-style.tsx">Customized style</code>
-<code src="./demo/update.tsx">Update Message Content</code>
-<code src="./demo/stack.tsx" version="5.10.0">Stack</code>
-<code src="./demo/show-with-progress.tsx" version="5.18.0">Show with progress</code>
-<code src="./demo/basic.tsx">Static Method (deprecated)</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-- `notification.success(config)`
-- `notification.error(config)`
-- `notification.info(config)`
-- `notification.warning(config)`
-- `notification.open(config)`
-- `notification.destroy(key?: String)`
-
-The properties of config are as follows:
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| actions | Customized button group | ReactNode | - | 5.24.0 |
-| ~~btn~~ | Customized close button group, please use `actions` instead | ReactNode | - | - |
-| className | Customized CSS class | string | - | - |
-| closeIcon | Custom close icon | ReactNode | true | 5.7.0: close button will be hidden when setting to null or false |
-| description | The content of notification box (required) | ReactNode | - | - |
-| duration | Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically | number | 4.5 | - |
-| showProgress | Show progress bar for auto-closing notification | boolean |  | 5.18.0 |
-| pauseOnHover | keep the timer running or not on hover | boolean | true | 5.18.0 |
-| icon | Customized icon | ReactNode | - | - |
-| key | The unique identifier of the Notification | string | - | - |
-| message | The title of notification box (required) | ReactNode | - | - |
-| placement | Position of Notification, can be one of `top` \| `topLeft` \| `topRight` \| `bottom` \| `bottomLeft` \| `bottomRight` | string | `topRight` | - |
-| style | Customized inline style | [CSSProperties](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/e434515761b36830c3e58a970abf5186f005adac/types/react/index.d.ts#L794) | - | - |
-| role | The semantics of notification content recognized by screen readers. The default value is `alert`. When set as the default value, the screen reader will promptly interrupt any ongoing content reading and prioritize the notification content for immediate attention. | `alert \| status` | `alert` | 5.6.0 |
-| onClick | Specify a function that will be called when the notification is clicked | function | - | - |
-| onClose | Trigger when notification closed | function | - | - |
-| props | An object that can contain `data-*`, `aria-*`, or `role` props, to be put on the notification `div`. This currently only allows `data-testid` instead of `data-*` in TypeScript. See https://github.com/microsoft/TypeScript/issues/28960. | Object | - | - |
-
-- `notification.useNotification(config)`
-
-The properties of config are as follows:
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| bottom | Distance from the bottom of the viewport, when `placement` is `bottom` `bottomRight` or `bottomLeft` (unit: pixels) | number | 24 |  |
-| closeIcon | Custom close icon | ReactNode | true | 5.7.0: close button will be hidden when setting to null or false |
-| getContainer | Return the mount node for Notification | () => HTMLNode | () => document.body |  |
-| placement | Position of Notification, can be one of `top` \| `topLeft` \| `topRight` \| `bottom` \| `bottomLeft` \| `bottomRight` | string | `topRight` |  |
-| showProgress | Show progress bar for auto-closing notification | boolean |  | 5.18.0 |
-| pauseOnHover | keep the timer running or not on hover | boolean | true | 5.18.0 |
-| rtl | Whether to enable RTL mode | boolean | false |  |
-| stack | Notifications will be stacked when amount is over threshold | boolean \| `{ threshold: number }` | `{ threshold: 3 }` | 5.10.0 |
-| top | Distance from the top of the viewport, when `placement` is `top` `topRight` or `topLeft` (unit: pixels) | number | 24 |  |
-| maxCount | Max Notification show, drop oldest if exceed limit | number | - | 4.17.0 |
-
-`notification` also provides a global `config()` method that can be used for specifying the default options. Once this method is used, all the notification boxes will take into account these globally defined options when displaying.
-
-### Global configuration
-
-`notification.config(options)`
-
-> When you use `ConfigProvider` for global configuration, the system will automatically start RTL mode by default.(4.3.0+)
->
-> When you want to use it alone, you can start the RTL mode through the following settings.
-
-#### notification.config
-
-```js
-notification.config({
-  placement: 'bottomRight',
-  bottom: 50,
-  duration: 3,
-  rtl: true,
-});
-```
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| bottom | Distance from the bottom of the viewport, when `placement` is `bottom` `bottomRight` or `bottomLeft` (unit: pixels) | number | 24 |  |
-| closeIcon | Custom close icon | ReactNode | true | 5.7.0: close button will be hidden when setting to null or false |
-| duration | Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically | number | 4.5 |  |
-| getContainer | Return the mount node for Notification, but still display at fullScreen | () => HTMLNode | () => document.body |  |
-| placement | Position of Notification, can be one of `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | string | `topRight` |  |
-| showProgress | Show progress bar for auto-closing notification | boolean |  | 5.18.0 |
-| pauseOnHover | keep the timer running or not on hover | boolean | true | 5.18.0 |
-| rtl | Whether to enable RTL mode | boolean | false |  |
-| top | Distance from the top of the viewport, when `placement` is `top` `topRight` or `topLeft` (unit: pixels) | number | 24 |  |
-| maxCount | Max Notification show, drop oldest if exceed limit | number | - | 4.17.0 |
-
-## Design Token
-
-<ComponentTokenTable component="Notification"></ComponentTokenTable>
-
-## FAQ
-
-### Why I can not access context, redux, ConfigProvider `locale/prefixCls/theme` in notification?
-
-antd will dynamic create React instance by `ReactDOM.render` when call notification methods. Whose context is different with origin code located context.
-
-When you need context info (like ConfigProvider context), you can use `notification.useNotification` to get `api` instance and `contextHolder` node. And put it in your children:
-
-```tsx
-const [api, contextHolder] = notification.useNotification();
-
-return (
-  <Context1.Provider value="Ant">
-    {/* contextHolder is inside Context1 which means api will get value of Context1 */}
-    {contextHolder}
-    <Context2.Provider value="Design">
-      {/* contextHolder is outside Context2 which means api will **not** get value of Context2 */}
-    </Context2.Provider>
-  </Context1.Provider>
-);
-```
-
-**Note:** You must insert `contextHolder` into your children with hooks. You can use origin method if you do not need context connection.
-
-> [App Package Component](/components/app) can be used to simplify the problem of `useNotification` and other methods that need to manually implant contextHolder.
-
-### How to set static methods prefixCls ？
-
-You can config with [`ConfigProvider.config`](/components/config-provider#configproviderconfig-4130)
 
 ---
 Title: Modal
@@ -17849,6 +17692,154 @@ return (
 You can config with [`ConfigProvider.config`](/components/config-provider#configproviderconfig-4130)
 
 ---
+Title: Notification
+URL: https://ant.design/components/notification
+---
+
+## When To Use
+
+To display a notification message at any of the four corners of the viewport. Typically it can be used in the following cases:
+
+- A notification with complex content.
+- A notification providing a feedback based on the user interaction. Or it may show some details about upcoming steps the user may have to follow.
+- A notification that is pushed by the application.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/hooks.tsx">Hooks usage (recommended)</code>
+<code src="./demo/duration.tsx">Duration after which the notification box is closed</code>
+<code src="./demo/with-icon.tsx">Notification with icon</code>
+<code src="./demo/with-btn.tsx">Custom close button</code>
+<code src="./demo/custom-icon.tsx">Customized Icon</code>
+<code src="./demo/placement.tsx">Placement</code>
+<code src="./demo/custom-style.tsx">Customized style</code>
+<code src="./demo/update.tsx">Update Message Content</code>
+<code src="./demo/stack.tsx" version="5.10.0">Stack</code>
+<code src="./demo/show-with-progress.tsx" version="5.18.0">Show with progress</code>
+<code src="./demo/basic.tsx">Static Method (deprecated)</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+- `notification.success(config)`
+- `notification.error(config)`
+- `notification.info(config)`
+- `notification.warning(config)`
+- `notification.open(config)`
+- `notification.destroy(key?: String)`
+
+The properties of config are as follows:
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| actions | Customized button group | ReactNode | - | 5.24.0 |
+| ~~btn~~ | Customized close button group, please use `actions` instead | ReactNode | - | - |
+| className | Customized CSS class | string | - | - |
+| closeIcon | Custom close icon | ReactNode | true | 5.7.0: close button will be hidden when setting to null or false |
+| description | The content of notification box (required) | ReactNode | - | - |
+| duration | Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically | number | 4.5 | - |
+| showProgress | Show progress bar for auto-closing notification | boolean |  | 5.18.0 |
+| pauseOnHover | keep the timer running or not on hover | boolean | true | 5.18.0 |
+| icon | Customized icon | ReactNode | - | - |
+| key | The unique identifier of the Notification | string | - | - |
+| message | The title of notification box (required) | ReactNode | - | - |
+| placement | Position of Notification, can be one of `top` \| `topLeft` \| `topRight` \| `bottom` \| `bottomLeft` \| `bottomRight` | string | `topRight` | - |
+| style | Customized inline style | [CSSProperties](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/e434515761b36830c3e58a970abf5186f005adac/types/react/index.d.ts#L794) | - | - |
+| role | The semantics of notification content recognized by screen readers. The default value is `alert`. When set as the default value, the screen reader will promptly interrupt any ongoing content reading and prioritize the notification content for immediate attention. | `alert \| status` | `alert` | 5.6.0 |
+| onClick | Specify a function that will be called when the notification is clicked | function | - | - |
+| onClose | Trigger when notification closed | function | - | - |
+| props | An object that can contain `data-*`, `aria-*`, or `role` props, to be put on the notification `div`. This currently only allows `data-testid` instead of `data-*` in TypeScript. See https://github.com/microsoft/TypeScript/issues/28960. | Object | - | - |
+
+- `notification.useNotification(config)`
+
+The properties of config are as follows:
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| bottom | Distance from the bottom of the viewport, when `placement` is `bottom` `bottomRight` or `bottomLeft` (unit: pixels) | number | 24 |  |
+| closeIcon | Custom close icon | ReactNode | true | 5.7.0: close button will be hidden when setting to null or false |
+| getContainer | Return the mount node for Notification | () => HTMLNode | () => document.body |  |
+| placement | Position of Notification, can be one of `top` \| `topLeft` \| `topRight` \| `bottom` \| `bottomLeft` \| `bottomRight` | string | `topRight` |  |
+| showProgress | Show progress bar for auto-closing notification | boolean |  | 5.18.0 |
+| pauseOnHover | keep the timer running or not on hover | boolean | true | 5.18.0 |
+| rtl | Whether to enable RTL mode | boolean | false |  |
+| stack | Notifications will be stacked when amount is over threshold | boolean \| `{ threshold: number }` | `{ threshold: 3 }` | 5.10.0 |
+| top | Distance from the top of the viewport, when `placement` is `top` `topRight` or `topLeft` (unit: pixels) | number | 24 |  |
+| maxCount | Max Notification show, drop oldest if exceed limit | number | - | 4.17.0 |
+
+`notification` also provides a global `config()` method that can be used for specifying the default options. Once this method is used, all the notification boxes will take into account these globally defined options when displaying.
+
+### Global configuration
+
+`notification.config(options)`
+
+> When you use `ConfigProvider` for global configuration, the system will automatically start RTL mode by default.(4.3.0+)
+>
+> When you want to use it alone, you can start the RTL mode through the following settings.
+
+#### notification.config
+
+```js
+notification.config({
+  placement: 'bottomRight',
+  bottom: 50,
+  duration: 3,
+  rtl: true,
+});
+```
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| bottom | Distance from the bottom of the viewport, when `placement` is `bottom` `bottomRight` or `bottomLeft` (unit: pixels) | number | 24 |  |
+| closeIcon | Custom close icon | ReactNode | true | 5.7.0: close button will be hidden when setting to null or false |
+| duration | Time in seconds before Notification is closed. When set to 0 or null, it will never be closed automatically | number | 4.5 |  |
+| getContainer | Return the mount node for Notification, but still display at fullScreen | () => HTMLNode | () => document.body |  |
+| placement | Position of Notification, can be one of `top` `topLeft` `topRight` `bottom` `bottomLeft` `bottomRight` | string | `topRight` |  |
+| showProgress | Show progress bar for auto-closing notification | boolean |  | 5.18.0 |
+| pauseOnHover | keep the timer running or not on hover | boolean | true | 5.18.0 |
+| rtl | Whether to enable RTL mode | boolean | false |  |
+| top | Distance from the top of the viewport, when `placement` is `top` `topRight` or `topLeft` (unit: pixels) | number | 24 |  |
+| maxCount | Max Notification show, drop oldest if exceed limit | number | - | 4.17.0 |
+
+## Design Token
+
+<ComponentTokenTable component="Notification"></ComponentTokenTable>
+
+## FAQ
+
+### Why I can not access context, redux, ConfigProvider `locale/prefixCls/theme` in notification?
+
+antd will dynamic create React instance by `ReactDOM.render` when call notification methods. Whose context is different with origin code located context.
+
+When you need context info (like ConfigProvider context), you can use `notification.useNotification` to get `api` instance and `contextHolder` node. And put it in your children:
+
+```tsx
+const [api, contextHolder] = notification.useNotification();
+
+return (
+  <Context1.Provider value="Ant">
+    {/* contextHolder is inside Context1 which means api will get value of Context1 */}
+    {contextHolder}
+    <Context2.Provider value="Design">
+      {/* contextHolder is outside Context2 which means api will **not** get value of Context2 */}
+    </Context2.Provider>
+  </Context1.Provider>
+);
+```
+
+**Note:** You must insert `contextHolder` into your children with hooks. You can use origin method if you do not need context connection.
+
+> [App Package Component](/components/app) can be used to simplify the problem of `useNotification` and other methods that need to manually implant contextHolder.
+
+### How to set static methods prefixCls ？
+
+You can config with [`ConfigProvider.config`](/components/config-provider#configproviderconfig-4130)
+
+---
 Title: Message
 URL: https://ant.design/components/message
 ---
@@ -17986,6 +17977,115 @@ return (
 ### How to set static methods prefixCls ？
 
 You can config with [`ConfigProvider.config`](/components/config-provider#configproviderconfig-4130)
+
+---
+Title: Components Overview
+URL: https://ant.design/components/overview
+---
+
+`antd` provides plenty of UI components to enrich your web applications, and we will improve components experience consistently. We also recommend some great [Third-Party Libraries](/docs/react/recommendation) additionally.
+
+<ComponentOverview></ComponentOverview>
+
+---
+Title: Mentions
+URL: https://ant.design/components/mentions
+---
+
+## When To Use
+
+When you need to mention someone or something.
+
+### Usage upgrade <Badge>5.1.0+</Badge>
+
+<!-- prettier-ignore -->
+:::warning{title="Upgrade Tip"}
+After version 5.1.0, we provide a simpler usage `<Mentions options={[...]} />` with better performance and potential of writing simpler code style in your applications.
+Meanwhile, we deprecated the old usage in browser console, we will remove it in antd 6.0.
+:::
+
+```jsx
+// works when >=5.1.0, recommended ✅
+const options = [{ value: 'sample', label: 'sample' }];
+return <Mentions options={options} />;
+
+// works when <5.1.0, deprecated when >=5.1.0 🙅🏻‍♀️
+return (
+  <Mentions onChange={onChange}>
+    <Mentions.Option value="sample">Sample</Mentions.Option>
+  </Mentions>
+);
+```
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/variant.tsx" version="5.13.0">Variants</code>
+<code src="./demo/async.tsx">Asynchronous loading</code>
+<code src="./demo/form.tsx">With Form</code>
+<code src="./demo/prefix.tsx">Customize Trigger Token</code>
+<code src="./demo/readonly.tsx">disabled or readOnly</code>
+<code src="./demo/placement.tsx">Placement</code>
+<code src="./demo/allowClear.tsx">With clear icon</code>
+<code src="./demo/autoSize.tsx">autoSize</code>
+<code src="./demo/status.tsx">Status</code>
+<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Mention
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| allowClear | If allow to remove mentions content with clear icon | boolean \| { clearIcon?: ReactNode } | false | 5.13.0 |
+| autoFocus | Auto get focus when component mounted | boolean | false |  |
+| autoSize | Textarea height autosize feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
+| defaultValue | Default value | string | - |  |
+| filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |  |
+| getPopupContainer | Set the mount HTML node for suggestions | () => HTMLElement | - |  |
+| notFoundContent | Set mentions content when not match | ReactNode | `Not Found` |  |
+| placement | Set popup placement | `top` \| `bottom` | `bottom` |  |
+| prefix | Set trigger prefix keyword | string \| string\[] | `@` |  |
+| split | Set split string before and after selected mention | string | ` ` |  |
+| status | Set validation status | 'error' \| 'warning' \| 'success' \| 'validating' | - | 4.19.0 |
+| validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |  |
+| value | Set value of mentions | string | - |  |
+| variant | Variants of Input | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | 5.13.0 \| `underlined`: 5.24.0 |
+| onBlur | Trigger when mentions lose focus | () => void | - |  |
+| onChange | Trigger when value changed | (text: string) => void | - |  |
+| onClear | Callback when click the clear button | () => void | - | 5.20.0 |
+| onFocus | Trigger when mentions get focus | () => void | - |  |
+| onResize | The callback function that is triggered when textarea resize | function({ width, height }) | - |  |
+| onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |  |
+| onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |  |
+| onPopupScroll | Trigger when mentions scroll | (e: Event) => void | - | 5.23.0 |
+| options | Option Configuration | [Options](#option) | \[] | 5.1.0 |
+
+### Mention methods
+
+| Name    | Description  |
+| ------- | ------------ |
+| blur()  | Remove focus |
+| focus() | Get focus    |
+
+### Option
+
+<!-- prettier-ignore -->
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| label | Title of the option | React.ReactNode | - |
+| key | The key value of the option | string | - |
+| disabled | Optional | boolean | - |
+| className | className | string | - |
+| style | The style of the option | React.CSSProperties | - |
+
+## Design Token
+
+<ComponentTokenTable component="Mentions"></ComponentTokenTable>
 
 ---
 Title: Menu
@@ -18135,106 +18235,6 @@ Menu will render fully item in flex layout and then collapse it. You need tell f
 ## Design Token
 
 <ComponentTokenTable component="Menu"></ComponentTokenTable>
-
----
-Title: Mentions
-URL: https://ant.design/components/mentions
----
-
-## When To Use
-
-When you need to mention someone or something.
-
-### Usage upgrade <Badge>5.1.0+</Badge>
-
-<!-- prettier-ignore -->
-:::warning{title="Upgrade Tip"}
-After version 5.1.0, we provide a simpler usage `<Mentions options={[...]} />` with better performance and potential of writing simpler code style in your applications.
-Meanwhile, we deprecated the old usage in browser console, we will remove it in antd 6.0.
-:::
-
-```jsx
-// works when >=5.1.0, recommended ✅
-const options = [{ value: 'sample', label: 'sample' }];
-return <Mentions options={options} />;
-
-// works when <5.1.0, deprecated when >=5.1.0 🙅🏻‍♀️
-return (
-  <Mentions onChange={onChange}>
-    <Mentions.Option value="sample">Sample</Mentions.Option>
-  </Mentions>
-);
-```
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/variant.tsx" version="5.13.0">Variants</code>
-<code src="./demo/async.tsx">Asynchronous loading</code>
-<code src="./demo/form.tsx">With Form</code>
-<code src="./demo/prefix.tsx">Customize Trigger Token</code>
-<code src="./demo/readonly.tsx">disabled or readOnly</code>
-<code src="./demo/placement.tsx">Placement</code>
-<code src="./demo/allowClear.tsx">With clear icon</code>
-<code src="./demo/autoSize.tsx">autoSize</code>
-<code src="./demo/status.tsx">Status</code>
-<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-### Mention
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| allowClear | If allow to remove mentions content with clear icon | boolean \| { clearIcon?: ReactNode } | false | 5.13.0 |
-| autoFocus | Auto get focus when component mounted | boolean | false |  |
-| autoSize | Textarea height autosize feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
-| defaultValue | Default value | string | - |  |
-| filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |  |
-| getPopupContainer | Set the mount HTML node for suggestions | () => HTMLElement | - |  |
-| notFoundContent | Set mentions content when not match | ReactNode | `Not Found` |  |
-| placement | Set popup placement | `top` \| `bottom` | `bottom` |  |
-| prefix | Set trigger prefix keyword | string \| string\[] | `@` |  |
-| split | Set split string before and after selected mention | string | ` ` |  |
-| status | Set validation status | 'error' \| 'warning' \| 'success' \| 'validating' | - | 4.19.0 |
-| validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |  |
-| value | Set value of mentions | string | - |  |
-| variant | Variants of Input | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | 5.13.0 \| `underlined`: 5.24.0 |
-| onBlur | Trigger when mentions lose focus | () => void | - |  |
-| onChange | Trigger when value changed | (text: string) => void | - |  |
-| onClear | Callback when click the clear button | () => void | - | 5.20.0 |
-| onFocus | Trigger when mentions get focus | () => void | - |  |
-| onResize | The callback function that is triggered when textarea resize | function({ width, height }) | - |  |
-| onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |  |
-| onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |  |
-| onPopupScroll | Trigger when mentions scroll | (e: Event) => void | - | 5.23.0 |
-| options | Option Configuration | [Options](#option) | \[] | 5.1.0 |
-
-### Mention methods
-
-| Name    | Description  |
-| ------- | ------------ |
-| blur()  | Remove focus |
-| focus() | Get focus    |
-
-### Option
-
-<!-- prettier-ignore -->
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| label | Title of the option | React.ReactNode | - |
-| key | The key value of the option | string | - |
-| disabled | Optional | boolean | - |
-| className | className | string | - |
-| style | The style of the option | React.CSSProperties | - |
-
-## Design Token
-
-<ComponentTokenTable component="Mentions"></ComponentTokenTable>
 
 ---
 Title: List
@@ -19973,6 +19973,51 @@ Form label use [HTML label](https://developer.mozilla.org/en-US/docs/Web/HTML/El
 ```
 
 ---
+Title: Flex
+URL: https://ant.design/components/flex
+---
+
+## When To Use
+
+- Good for setting spacing between elements.
+- Suitable for setting various horizontal and vertical alignments.
+
+### Difference with Space component
+
+- Space is used to set the spacing between inline elements. It will add a wrapper element for each child element for inline alignment. Suitable for equidistant arrangement of multiple child elements in rows and columns.
+- Flex is used to set the layout of block-level elements. It does not add a wrapper element. Suitable for layout of child elements in vertical or horizontal direction, and provides more flexibility and control.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/align.tsx">align</code>
+<code src="./demo/gap.tsx">gap</code>
+<code src="./demo/wrap.tsx">Wrap</code>
+<code src="./demo/combination.tsx">combination</code>
+<code src="./demo/debug.tsx" debug>debug</code>
+
+## API
+
+> This component is available since `antd@5.10.0`. The default behavior of Flex in horizontal mode is to align upward, In vertical mode, aligns the stretch, You can adjust this via properties.
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | type | Default | Version |
+| --- | --- | --- | --- | --- |
+| vertical | Is direction of the flex vertical, use `flex-direction: column` | boolean | `false` |  |
+| wrap | Set whether the element is displayed in a single line or in multiple lines | [flex-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap) \| boolean | nowrap | boolean: 5.17.0 |
+| justify | Sets the alignment of elements in the direction of the main axis | [justify-content](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content) | normal |  |
+| align | Sets the alignment of elements in the direction of the cross axis | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | normal |  |
+| flex | flex CSS shorthand properties | [flex](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) | normal |  |
+| gap | Sets the gap between grids | `small` \| `middle` \| `large` \| string \| number | - |  |
+| component | custom element type | React.ComponentType | `div` |  |
+
+## Design Token
+
+<ComponentTokenTable component="Flex"></ComponentTokenTable>
+
+---
 Title: FloatButton
 URL: https://ant.design/components/float-button
 ---
@@ -20044,51 +20089,6 @@ Common props ref：[Common props](/docs/react/common-props)
 ## Design Token
 
 <ComponentTokenTable component="FloatButton"></ComponentTokenTable>
-
----
-Title: Flex
-URL: https://ant.design/components/flex
----
-
-## When To Use
-
-- Good for setting spacing between elements.
-- Suitable for setting various horizontal and vertical alignments.
-
-### Difference with Space component
-
-- Space is used to set the spacing between inline elements. It will add a wrapper element for each child element for inline alignment. Suitable for equidistant arrangement of multiple child elements in rows and columns.
-- Flex is used to set the layout of block-level elements. It does not add a wrapper element. Suitable for layout of child elements in vertical or horizontal direction, and provides more flexibility and control.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/align.tsx">align</code>
-<code src="./demo/gap.tsx">gap</code>
-<code src="./demo/wrap.tsx">Wrap</code>
-<code src="./demo/combination.tsx">combination</code>
-<code src="./demo/debug.tsx" debug>debug</code>
-
-## API
-
-> This component is available since `antd@5.10.0`. The default behavior of Flex in horizontal mode is to align upward, In vertical mode, aligns the stretch, You can adjust this via properties.
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | type | Default | Version |
-| --- | --- | --- | --- | --- |
-| vertical | Is direction of the flex vertical, use `flex-direction: column` | boolean | `false` |  |
-| wrap | Set whether the element is displayed in a single line or in multiple lines | [flex-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap) \| boolean | nowrap | boolean: 5.17.0 |
-| justify | Sets the alignment of elements in the direction of the main axis | [justify-content](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content) | normal |  |
-| align | Sets the alignment of elements in the direction of the cross axis | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | normal |  |
-| flex | flex CSS shorthand properties | [flex](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) | normal |  |
-| gap | Sets the gap between grids | `small` \| `middle` \| `large` \| string \| number | - |  |
-| component | custom element type | React.ComponentType | `div` |  |
-
-## Design Token
-
-<ComponentTokenTable component="Flex"></ComponentTokenTable>
 
 ---
 Title: Empty
@@ -20246,6 +20246,49 @@ Please ensure that the child node of `Dropdown` accepts `onMouseEnter`, `onMouse
 You can use `width: max-content` style to handle this. ref [#43025](https://github.com/ant-design/ant-design/issues/43025#issuecomment-1594394135).
 
 ---
+Title: Divider
+URL: https://ant.design/components/divider
+---
+
+## When To Use
+
+- Divide sections of an article.
+- Divide inline text and links such as the operation column of table.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/horizontal.tsx">Horizontal</code>
+<code src="./demo/with-text.tsx">Divider with title</code>
+<code src="./demo/size.tsx" version="5.25.0">Set the spacing size of the divider</code>
+<code src="./demo/plain.tsx">Text without heading style</code>
+<code src="./demo/vertical.tsx">Vertical</code>
+<code src="./demo/customize-style.tsx" debug>Style Customization</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+<code src="./demo/variant.tsx">Variant</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| children | The wrapped title | ReactNode | - |  |
+| className | The className of container | string | - |  |
+| dashed | Whether line is dashed | boolean | false |  |
+| variant | Whether line is dashed, dotted or solid | `dashed` \| `dotted` \| `solid` | solid | 5.20.0 |
+| orientation | The position of title inside divider | `start` \| `end` \| `center` | `center` | `start` `end`: 5.24.0 |
+| orientationMargin | The margin-left/right between the title and its closest border, while the `orientation` should not be `center`, If a numeric value of type `string` is provided without a unit, it is assumed to be in pixels (px) by default. | string \| number | - |  |
+| plain | Divider text show as plain style | boolean | true | 4.2.0 |
+| style | The style object of container | CSSProperties | - |  |
+| size | The size of divider. Only valid for horizontal layout | `small` \| `middle` \| `large` | - | 5.25.0 |
+| type | The direction type of divider | `horizontal` \| `vertical` | `horizontal` |  |
+
+## Design Token
+
+<ComponentTokenTable component="Divider"></ComponentTokenTable>
+
+---
 Title: Drawer
 URL: https://ant.design/components/drawer
 ---
@@ -20331,49 +20374,6 @@ v5 uses `rootClassName` & `rootStyle` to configure the outermost element style, 
 ## Design Token
 
 <ComponentTokenTable component="Drawer"></ComponentTokenTable>
-
----
-Title: Divider
-URL: https://ant.design/components/divider
----
-
-## When To Use
-
-- Divide sections of an article.
-- Divide inline text and links such as the operation column of table.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/horizontal.tsx">Horizontal</code>
-<code src="./demo/with-text.tsx">Divider with title</code>
-<code src="./demo/size.tsx" version="5.25.0">Set the spacing size of the divider</code>
-<code src="./demo/plain.tsx">Text without heading style</code>
-<code src="./demo/vertical.tsx">Vertical</code>
-<code src="./demo/customize-style.tsx" debug>Style Customization</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-<code src="./demo/variant.tsx">Variant</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| children | The wrapped title | ReactNode | - |  |
-| className | The className of container | string | - |  |
-| dashed | Whether line is dashed | boolean | false |  |
-| variant | Whether line is dashed, dotted or solid | `dashed` \| `dotted` \| `solid` | solid | 5.20.0 |
-| orientation | The position of title inside divider | `start` \| `end` \| `center` | `center` | `start` `end`: 5.24.0 |
-| orientationMargin | The margin-left/right between the title and its closest border, while the `orientation` should not be `center`, If a numeric value of type `string` is provided without a unit, it is assumed to be in pixels (px) by default. | string \| number | - |  |
-| plain | Divider text show as plain style | boolean | true | 4.2.0 |
-| style | The style object of container | CSSProperties | - |  |
-| size | The size of divider. Only valid for horizontal layout | `small` \| `middle` \| `large` | - | 5.25.0 |
-| type | The direction type of divider | `horizontal` \| `vertical` | `horizontal` |  |
-
-## Design Token
-
-<ComponentTokenTable component="Divider"></ComponentTokenTable>
 
 ---
 Title: Descriptions
@@ -21220,96 +21220,6 @@ When using version >= 5.6.0, we prefer to configuring the panel by `items`.
 <ComponentTokenTable component="Collapse"></ComponentTokenTable>
 
 ---
-Title: Checkbox
-URL: https://ant.design/components/checkbox
----
-
-## When To Use
-
-- Used for selecting multiple values from several options.
-- If you use only one checkbox, it is the same as using Switch to toggle between two states. The difference is that Switch will trigger the state change directly, but Checkbox just marks the state as changed and this needs to be submitted.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/disabled.tsx">Disabled</code>
-<code src="./demo/controller.tsx">Controlled Checkbox</code>
-<code src="./demo/group.tsx">Checkbox Group</code>
-<code src="./demo/check-all.tsx">Check all</code>
-<code src="./demo/layout.tsx">Use with Grid</code>
-<code src="./demo/debug-line.tsx" debug>Same line</code>
-<code src="./demo/debug-disable-popover.tsx" debug>Disabled to show Tooltip</code>
-<code src="./demo/custom-line-width.tsx" debug>customize lineWidth</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-#### Checkbox
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| autoFocus | If get focus when component mounted | boolean | false |  |
-| checked | Specifies whether the checkbox is selected | boolean | false |  |
-| defaultChecked | Specifies the initial state: whether or not the checkbox is selected | boolean | false |  |
-| disabled | If disable checkbox | boolean | false |  |
-| indeterminate | The indeterminate checked state of checkbox | boolean | false |  |
-| onChange | The callback function that is triggered when the state changes | (e: CheckboxChangeEvent) => void | - |  |
-| onBlur | Called when leaving the component | function() | - |  |
-| onFocus | Called when entering the component | function() | - |  |
-
-#### Checkbox.Group
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| defaultValue | Default selected value | (string \| number)\[] | \[] |  |
-| disabled | If disable all checkboxes | boolean | false |  |
-| name | The `name` property of all `input[type="checkbox"]` children | string | - |  |
-| options | Specifies options | string\[] \| number\[] \| Option\[] | \[] |  |
-| value | Used for setting the currently selected value | (string \| number \| boolean)\[] | \[] |  |
-| title | title of the option | `string` | - |  |
-| className | className of the option | `string` | - | 5.25.0 |
-| style | styles of the option | `React.CSSProperties` | - |  |
-| onChange | The callback function that is triggered when the state changes | (checkedValue: T[]) => void | - |  |
-
-##### Option
-
-```typescript
-interface Option {
-  label: string;
-  value: string;
-  disabled?: boolean;
-}
-```
-
-### Methods
-
-#### Checkbox
-
-| Name          | Description                          | Version |
-| ------------- | ------------------------------------ | ------- |
-| blur()        | Remove focus                         |         |
-| focus()       | Get focus                            |         |
-| nativeElement | Returns the DOM node of the Checkbox | 5.17.3  |
-
-## Design Token
-
-<ComponentTokenTable component="Checkbox"></ComponentTokenTable>
-
-## FAQ
-
-### Why not work in Form.Item?
-
-Form.Item default bind value to `value` property, but Checkbox value property is `checked`. You can use `valuePropName` to change bind property.
-
-```tsx | pure
-<Form.Item name="fieldA" valuePropName="checked">
-  <Checkbox />
-</Form.Item>
-```
-
----
 Title: Cascader
 URL: https://ant.design/components/cascader
 ---
@@ -21445,6 +21355,96 @@ interface Option {
 <ComponentTokenTable component="Cascader"></ComponentTokenTable>
 
 ---
+Title: Checkbox
+URL: https://ant.design/components/checkbox
+---
+
+## When To Use
+
+- Used for selecting multiple values from several options.
+- If you use only one checkbox, it is the same as using Switch to toggle between two states. The difference is that Switch will trigger the state change directly, but Checkbox just marks the state as changed and this needs to be submitted.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/disabled.tsx">Disabled</code>
+<code src="./demo/controller.tsx">Controlled Checkbox</code>
+<code src="./demo/group.tsx">Checkbox Group</code>
+<code src="./demo/check-all.tsx">Check all</code>
+<code src="./demo/layout.tsx">Use with Grid</code>
+<code src="./demo/debug-line.tsx" debug>Same line</code>
+<code src="./demo/debug-disable-popover.tsx" debug>Disabled to show Tooltip</code>
+<code src="./demo/custom-line-width.tsx" debug>customize lineWidth</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+#### Checkbox
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| autoFocus | If get focus when component mounted | boolean | false |  |
+| checked | Specifies whether the checkbox is selected | boolean | false |  |
+| defaultChecked | Specifies the initial state: whether or not the checkbox is selected | boolean | false |  |
+| disabled | If disable checkbox | boolean | false |  |
+| indeterminate | The indeterminate checked state of checkbox | boolean | false |  |
+| onChange | The callback function that is triggered when the state changes | (e: CheckboxChangeEvent) => void | - |  |
+| onBlur | Called when leaving the component | function() | - |  |
+| onFocus | Called when entering the component | function() | - |  |
+
+#### Checkbox.Group
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| defaultValue | Default selected value | (string \| number)\[] | \[] |  |
+| disabled | If disable all checkboxes | boolean | false |  |
+| name | The `name` property of all `input[type="checkbox"]` children | string | - |  |
+| options | Specifies options | string\[] \| number\[] \| Option\[] | \[] |  |
+| value | Used for setting the currently selected value | (string \| number \| boolean)\[] | \[] |  |
+| title | title of the option | `string` | - |  |
+| className | className of the option | `string` | - | 5.25.0 |
+| style | styles of the option | `React.CSSProperties` | - |  |
+| onChange | The callback function that is triggered when the state changes | (checkedValue: T[]) => void | - |  |
+
+##### Option
+
+```typescript
+interface Option {
+  label: string;
+  value: string;
+  disabled?: boolean;
+}
+```
+
+### Methods
+
+#### Checkbox
+
+| Name          | Description                          | Version |
+| ------------- | ------------------------------------ | ------- |
+| blur()        | Remove focus                         |         |
+| focus()       | Get focus                            |         |
+| nativeElement | Returns the DOM node of the Checkbox | 5.17.3  |
+
+## Design Token
+
+<ComponentTokenTable component="Checkbox"></ComponentTokenTable>
+
+## FAQ
+
+### Why not work in Form.Item?
+
+Form.Item default bind value to `value` property, but Checkbox value property is `checked`. You can use `valuePropName` to change bind property.
+
+```tsx | pure
+<Form.Item name="fieldA" valuePropName="checked">
+  <Checkbox />
+</Form.Item>
+```
+
+---
 Title: Carousel
 URL: https://ant.design/components/carousel
 ---
@@ -21507,92 +21507,6 @@ Find more APIs in react-slick [documentation](https://react-slick.neostack.com/d
 ### How to add custom arrows?
 
 See [#12479](https://github.com/ant-design/ant-design/issues/12479).
-
----
-Title: Calendar
-URL: https://ant.design/components/calendar
----
-
-## When To Use
-
-When data is in the form of dates, such as schedules, timetables, prices calendar, lunar calendar. This component also supports Year/Month switch.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx" clientOnly>Basic</code>
-<code src="./demo/notice-calendar.tsx" clientOnly>Notice Calendar</code>
-<code src="./demo/card.tsx" clientOnly>Card</code>
-<code src="./demo/select.tsx" clientOnly>Selectable Calendar</code>
-<code src="./demo/lunar.tsx" clientOnly>Lunar Calendar</code>
-<code src="./demo/week.tsx" clientOnly version="5.23.0">Show Week</code>
-<code src="./demo/customize-header.tsx" clientOnly>Customize Header</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-**Note:** Part of the Calendar's locale is read from `value`. So, please set the locale of `dayjs` correctly.
-
-```jsx
-// The default locale is en-US, if you want to use other locale, just set locale in entry file globally.
-// import dayjs from 'dayjs';
-// import 'dayjs/locale/zh-cn';
-// dayjs.locale('zh-cn');
-
-<Calendar cellRender={cellRender} onPanelChange={onPanelChange} onSelect={onSelect} />
-```
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| cellRender | Customize cell content | function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - | 5.4.0 |
-| dateFullCellRender | Customize the display of the date cell, the returned content will override the cell | function(date: Dayjs): ReactNode | - |  |
-| fullCellRender | Customize cell content | function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - | 5.4.0 |
-| defaultValue | The date selected by default | [dayjs](https://day.js.org/) | - |  |
-| disabledDate | Function that specifies the dates that cannot be selected, `currentDate` is same dayjs object as `value` prop which you shouldn't mutate it](https://github.com/ant-design/ant-design/issues/30987) | (currentDate: Dayjs) => boolean | - |  |
-| fullscreen | Whether to display in full-screen | boolean | true |  |
-| showWeek | Whether to display week number | boolean | false | 5.23.0 |
-| headerRender | Render custom header in panel | function(object:{value: Dayjs, type: 'year' \| 'month', onChange: f(), onTypeChange: f()}) | - |  |
-| locale | The calendar's locale | object | [(default)](https://github.com/ant-design/ant-design/blob/master/components/date-picker/locale/example.json) |  |
-| mode | The display mode of the calendar | `month` \| `year` | `month` |  |
-| validRange | To set valid range | \[[dayjs](https://day.js.org/), [dayjs](https://day.js.org/)] | - |  |
-| value | The current selected date | [dayjs](https://day.js.org/) | - |  |
-| onChange | Callback for when date changes | function(date: Dayjs) | - |  |
-| onPanelChange | Callback for when panel changes | function(date: Dayjs, mode: string) | - |  |
-| onSelect | Callback for when a date is selected, include source info | function(date: Dayjs, info: { source: 'year' \| 'month' \| 'date' \| 'customize' }) | - | `info`: 5.6.0 |
-
-## Design Token
-
-<ComponentTokenTable component="Calendar"></ComponentTokenTable>
-
-## FAQ
-
-### How to use Calendar with customize date library?
-
-See [Use custom date library](/docs/react/use-custom-date-library#calendar)
-
-### How to set locale for date-related components?
-
-See [How to set locale for date-related components](/components/date-picker/#localization)
-
-### Date-related components locale is not working?
-
-See FAQ [Date-related-components-locale-is-not-working?](/docs/react/faq#date-related-components-locale-is-not-working)
-
-### How to get date from panel click?
-
-`onSelect` provide `info.source` to help on this:
-
-```tsx
-<Calendar
-  onSelect={(date, { source }) => {
-    if (source === 'date') {
-      console.log('Panel Select:', source);
-    }
-  }}
-/>
-```
 
 ---
 Title: Card
@@ -21797,6 +21711,158 @@ If you don't need this feature, you can set `disabled` of `wave` in [ConfigProvi
 </style>
 
 ---
+Title: Calendar
+URL: https://ant.design/components/calendar
+---
+
+## When To Use
+
+When data is in the form of dates, such as schedules, timetables, prices calendar, lunar calendar. This component also supports Year/Month switch.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx" clientOnly>Basic</code>
+<code src="./demo/notice-calendar.tsx" clientOnly>Notice Calendar</code>
+<code src="./demo/card.tsx" clientOnly>Card</code>
+<code src="./demo/select.tsx" clientOnly>Selectable Calendar</code>
+<code src="./demo/lunar.tsx" clientOnly>Lunar Calendar</code>
+<code src="./demo/week.tsx" clientOnly version="5.23.0">Show Week</code>
+<code src="./demo/customize-header.tsx" clientOnly>Customize Header</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+**Note:** Part of the Calendar's locale is read from `value`. So, please set the locale of `dayjs` correctly.
+
+```jsx
+// The default locale is en-US, if you want to use other locale, just set locale in entry file globally.
+// import dayjs from 'dayjs';
+// import 'dayjs/locale/zh-cn';
+// dayjs.locale('zh-cn');
+
+<Calendar cellRender={cellRender} onPanelChange={onPanelChange} onSelect={onSelect} />
+```
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| cellRender | Customize cell content | function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - | 5.4.0 |
+| dateFullCellRender | Customize the display of the date cell, the returned content will override the cell | function(date: Dayjs): ReactNode | - |  |
+| fullCellRender | Customize cell content | function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - | 5.4.0 |
+| defaultValue | The date selected by default | [dayjs](https://day.js.org/) | - |  |
+| disabledDate | Function that specifies the dates that cannot be selected, `currentDate` is same dayjs object as `value` prop which you shouldn't mutate it](https://github.com/ant-design/ant-design/issues/30987) | (currentDate: Dayjs) => boolean | - |  |
+| fullscreen | Whether to display in full-screen | boolean | true |  |
+| showWeek | Whether to display week number | boolean | false | 5.23.0 |
+| headerRender | Render custom header in panel | function(object:{value: Dayjs, type: 'year' \| 'month', onChange: f(), onTypeChange: f()}) | - |  |
+| locale | The calendar's locale | object | [(default)](https://github.com/ant-design/ant-design/blob/master/components/date-picker/locale/example.json) |  |
+| mode | The display mode of the calendar | `month` \| `year` | `month` |  |
+| validRange | To set valid range | \[[dayjs](https://day.js.org/), [dayjs](https://day.js.org/)] | - |  |
+| value | The current selected date | [dayjs](https://day.js.org/) | - |  |
+| onChange | Callback for when date changes | function(date: Dayjs) | - |  |
+| onPanelChange | Callback for when panel changes | function(date: Dayjs, mode: string) | - |  |
+| onSelect | Callback for when a date is selected, include source info | function(date: Dayjs, info: { source: 'year' \| 'month' \| 'date' \| 'customize' }) | - | `info`: 5.6.0 |
+
+## Design Token
+
+<ComponentTokenTable component="Calendar"></ComponentTokenTable>
+
+## FAQ
+
+### How to use Calendar with customize date library?
+
+See [Use custom date library](/docs/react/use-custom-date-library#calendar)
+
+### How to set locale for date-related components?
+
+See [How to set locale for date-related components](/components/date-picker/#localization)
+
+### Date-related components locale is not working?
+
+See FAQ [Date-related-components-locale-is-not-working?](/docs/react/faq#date-related-components-locale-is-not-working)
+
+### How to get date from panel click?
+
+`onSelect` provide `info.source` to help on this:
+
+```tsx
+<Calendar
+  onSelect={(date, { source }) => {
+    if (source === 'date') {
+      console.log('Panel Select:', source);
+    }
+  }}
+/>
+```
+
+---
+Title: Badge
+URL: https://ant.design/components/badge
+---
+
+## When To Use
+
+Badge normally appears in proximity to notifications or user avatars with eye-catching appeal, typically displaying unread messages count.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/no-wrapper.tsx">Standalone</code>
+<code src="./demo/overflow.tsx">Overflow Count</code>
+<code src="./demo/dot.tsx">Red badge</code>
+<code src="./demo/change.tsx">Dynamic</code>
+<code src="./demo/link.tsx">Clickable</code>
+<code src="./demo/offset.tsx">Offset</code>
+<code src="./demo/size.tsx">Size</code>
+<code src="./demo/status.tsx">Status</code>
+<code src="./demo/colorful.tsx">Colorful Badge</code>
+<code src="./demo/ribbon.tsx">Ribbon</code>
+<code src="./demo/ribbon-debug.tsx" debug>Ribbon Debug</code>
+<code src="./demo/mix.tsx" debug>Mixed usage</code>
+<code src="./demo/title.tsx" debug>Title</code>
+<code src="./demo/colorful-with-count-debug.tsx" debug>Colorful Badge support count Debug</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Badge
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| color | Customize Badge dot color | string | - |  |
+| count | Number to show in badge | ReactNode | - |  |
+| classNames | Semantic DOM class | [Record<SemanticDOM, string>](#semantic-dom) | - | 5.7.0 |
+| dot | Whether to display a red dot instead of `count` | boolean | false |  |
+| offset | Set offset of the badge dot | \[number, number] | - |  |
+| overflowCount | Max count to show | number | 99 |  |
+| showZero | Whether to show badge when `count` is zero | boolean | false |  |
+| size | If `count` is set, `size` sets the size of badge | `default` \| `small` | - | - |
+| status | Set Badge as a status dot | `success` \| `processing` \| `default` \| `error` \| `warning` | - |  |
+| styles | Semantic DOM style | [Record<SemanticDOM, CSSProperties>](#semantic-dom) | - | 5.7.0 |
+| text | If `status` is set, `text` sets the display text of the status `dot` | ReactNode | - |  |
+| title | Text to show when hovering over the badge | string | - |  |
+
+### Badge.Ribbon
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| color | Customize Ribbon color | string | - |  |
+| placement | The placement of the Ribbon, `start` and `end` follow text direction (RTL or LTR) | `start` \| `end` | `end` |  |
+| text | Content inside the Ribbon | ReactNode | - |  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify="true"></code>
+
+## Design Token
+
+<ComponentTokenTable component="Badge"></ComponentTokenTable>
+
+---
 Title: Breadcrumb
 URL: https://ant.design/components/breadcrumb
 ---
@@ -21932,70 +21998,55 @@ return <Breadcrumb itemRender={itemRender} items={items} />;
 <ComponentTokenTable component="Breadcrumb"></ComponentTokenTable>
 
 ---
-Title: Badge
-URL: https://ant.design/components/badge
+Title: Avatar
+URL: https://ant.design/components/avatar
 ---
-
-## When To Use
-
-Badge normally appears in proximity to notifications or user avatars with eye-catching appeal, typically displaying unread messages count.
 
 ## Examples
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/no-wrapper.tsx">Standalone</code>
-<code src="./demo/overflow.tsx">Overflow Count</code>
-<code src="./demo/dot.tsx">Red badge</code>
-<code src="./demo/change.tsx">Dynamic</code>
-<code src="./demo/link.tsx">Clickable</code>
-<code src="./demo/offset.tsx">Offset</code>
-<code src="./demo/size.tsx">Size</code>
-<code src="./demo/status.tsx">Status</code>
-<code src="./demo/colorful.tsx">Colorful Badge</code>
-<code src="./demo/ribbon.tsx">Ribbon</code>
-<code src="./demo/ribbon-debug.tsx" debug>Ribbon Debug</code>
-<code src="./demo/mix.tsx" debug>Mixed usage</code>
-<code src="./demo/title.tsx" debug>Title</code>
-<code src="./demo/colorful-with-count-debug.tsx" debug>Colorful Badge support count Debug</code>
+<code src="./demo/type.tsx">Type</code>
+<code src="./demo/dynamic.tsx">Autoset Font Size</code>
+<code src="./demo/badge.tsx">With Badge</code>
+<code src="./demo/group.tsx">Avatar.Group</code>
+<code src="./demo/toggle-debug.tsx" debug>Calculate text style when hiding</code>
+<code src="./demo/responsive.tsx">Responsive Size</code>
+<code src="./demo/fallback.tsx" debug>Fallback</code>
 <code src="./demo/component-token.tsx" debug>Component Token</code>
 
 ## API
 
 Common props ref：[Common props](/docs/react/common-props)
 
-### Badge
+### Avatar
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| color | Customize Badge dot color | string | - |  |
-| count | Number to show in badge | ReactNode | - |  |
-| classNames | Semantic DOM class | [Record<SemanticDOM, string>](#semantic-dom) | - | 5.7.0 |
-| dot | Whether to display a red dot instead of `count` | boolean | false |  |
-| offset | Set offset of the badge dot | \[number, number] | - |  |
-| overflowCount | Max count to show | number | 99 |  |
-| showZero | Whether to show badge when `count` is zero | boolean | false |  |
-| size | If `count` is set, `size` sets the size of badge | `default` \| `small` | - | - |
-| status | Set Badge as a status dot | `success` \| `processing` \| `default` \| `error` \| `warning` | - |  |
-| styles | Semantic DOM style | [Record<SemanticDOM, CSSProperties>](#semantic-dom) | - | 5.7.0 |
-| text | If `status` is set, `text` sets the display text of the status `dot` | ReactNode | - |  |
-| title | Text to show when hovering over the badge | string | - |  |
+| alt | This attribute defines the alternative text describing the image | string | - |  |
+| gap | Letter type unit distance between left and right sides | number | 4 | 4.3.0 |
+| icon | Custom icon type for an icon avatar | ReactNode | - |  |
+| shape | The shape of avatar | `circle` \| `square` | `circle` |  |
+| size | The size of the avatar | number \| `large` \| `small` \| `default` \| { xs: number, sm: number, ...} | `default` | 4.7.0 |
+| src | The address of the image for an image avatar or image element | string \| ReactNode | - | ReactNode: 4.8.0 |
+| srcSet | A list of sources to use for different screen resolutions | string | - |  |
+| draggable | Whether the picture is allowed to be dragged | boolean \| `'true'` \| `'false'` | true |  |
+| crossOrigin | CORS settings attributes | `'anonymous'` \| `'use-credentials'` \| `''` | - | 4.17.0 |
+| onError | Handler when img load error, return false to prevent default fallback behavior | () => boolean | - |  |
 
-### Badge.Ribbon
+> Tip: You can set `icon` or `children` as the fallback for image load error, with the priority of `icon` > `children`
+
+### Avatar.Group <Badge>4.5.0+</Badge>
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| color | Customize Ribbon color | string | - |  |
-| placement | The placement of the Ribbon, `start` and `end` follow text direction (RTL or LTR) | `start` \| `end` | `end` |  |
-| text | Content inside the Ribbon | ReactNode | - |  |
-
-## Semantic DOM
-
-<code src="./demo/_semantic.tsx" simplify="true"></code>
+| max | Set maximum display related configurations, Before `5.18.0` you can use [parameters](https://github.com/ant-design/ant-design/blob/9d134859becbdae5b9ce276f6d9af4264691d81f/components/avatar/group.tsx#L35-L38) | `{ count?: number; style?: CSSProperties; popover?: PopoverProps }` | - | 5.18.0 |
+| size | The size of the avatar | number \| `large` \| `small` \| `default` \| { xs: number, sm: number, ...} | `default` | 4.8.0 |
+| shape | The shape of the avatar | `circle` \| `square` | `circle` | 5.8.0 |
 
 ## Design Token
 
-<ComponentTokenTable component="Badge"></ComponentTokenTable>
+<ComponentTokenTable component="Avatar"></ComponentTokenTable>
 
 ---
 Title: AutoComplete
@@ -22239,57 +22290,6 @@ Common props ref：[Common props](/docs/react/common-props)
 Make sure the App `component` is a valid html tag, so when you're turning on CSS variables, there's a container to hold the CSS class name. If not set, it defaults to the `div` tag. If set to `false`, no additional DOM nodes will be created, and no default styles will be provided.
 
 ---
-Title: Avatar
-URL: https://ant.design/components/avatar
----
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/type.tsx">Type</code>
-<code src="./demo/dynamic.tsx">Autoset Font Size</code>
-<code src="./demo/badge.tsx">With Badge</code>
-<code src="./demo/group.tsx">Avatar.Group</code>
-<code src="./demo/toggle-debug.tsx" debug>Calculate text style when hiding</code>
-<code src="./demo/responsive.tsx">Responsive Size</code>
-<code src="./demo/fallback.tsx" debug>Fallback</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-### Avatar
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| alt | This attribute defines the alternative text describing the image | string | - |  |
-| gap | Letter type unit distance between left and right sides | number | 4 | 4.3.0 |
-| icon | Custom icon type for an icon avatar | ReactNode | - |  |
-| shape | The shape of avatar | `circle` \| `square` | `circle` |  |
-| size | The size of the avatar | number \| `large` \| `small` \| `default` \| { xs: number, sm: number, ...} | `default` | 4.7.0 |
-| src | The address of the image for an image avatar or image element | string \| ReactNode | - | ReactNode: 4.8.0 |
-| srcSet | A list of sources to use for different screen resolutions | string | - |  |
-| draggable | Whether the picture is allowed to be dragged | boolean \| `'true'` \| `'false'` | true |  |
-| crossOrigin | CORS settings attributes | `'anonymous'` \| `'use-credentials'` \| `''` | - | 4.17.0 |
-| onError | Handler when img load error, return false to prevent default fallback behavior | () => boolean | - |  |
-
-> Tip: You can set `icon` or `children` as the fallback for image load error, with the priority of `icon` > `children`
-
-### Avatar.Group <Badge>4.5.0+</Badge>
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| max | Set maximum display related configurations, Before `5.18.0` you can use [parameters](https://github.com/ant-design/ant-design/blob/9d134859becbdae5b9ce276f6d9af4264691d81f/components/avatar/group.tsx#L35-L38) | `{ count?: number; style?: CSSProperties; popover?: PopoverProps }` | - | 5.18.0 |
-| size | The size of the avatar | number \| `large` \| `small` \| `default` \| { xs: number, sm: number, ...} | `default` | 4.8.0 |
-| shape | The shape of the avatar | `circle` \| `square` | `circle` | 5.8.0 |
-
-## Design Token
-
-<ComponentTokenTable component="Avatar"></ComponentTokenTable>
-
----
 Title: Anchor
 URL: https://ant.design/components/anchor
 ---
@@ -22369,6 +22369,60 @@ We recommend using the items form instead.
 For the purpose of page performance optimization, the implementation of anchor navigation has been changed from `window.location.href` to `window.history.pushState/replaceState`. Since `pushState/replaceState` does not trigger a page reload, the browser will not automatically update the matching state of the `:target` pseudo-class. To resolve this issue, you can manually construct the full URL: `href = window.location.origin + window.location.pathname + '#xxx'`.
 
 Related issues: [#53143](https://github.com/ant-design/ant-design/issues/53143) [#54255](https://github.com/ant-design/ant-design/issues/54255)
+
+---
+Title: Alert
+URL: https://ant.design/components/alert
+---
+
+## When To Use
+
+- When you need to show alert messages to users.
+- When you need a persistent static container which is closable by user actions.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/style.tsx">More types</code>
+<code src="./demo/closable.tsx">Closable</code>
+<code src="./demo/description.tsx">Description</code>
+<code src="./demo/icon.tsx">Icon</code>
+<code src="./demo/banner.tsx" iframe="250">Banner</code>
+<code src="./demo/loop-banner.tsx">Loop Banner</code>
+<code src="./demo/smooth-closed.tsx">Smoothly Unmount</code>
+<code src="./demo/error-boundary.tsx">ErrorBoundary</code>
+<code src="./demo/custom-icon.tsx" debug>Custom Icon</code>
+<code src="./demo/action.tsx">Custom action</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| action | The action of Alert | ReactNode | - | 4.9.0 |
+| afterClose | Called when close animation is finished | () => void | - |  |
+| banner | Whether to show as banner | boolean | false |  |
+| closable | The config of closable, >=5.15.0: support `aria-*` | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
+| description | Additional content of Alert | ReactNode | - |  |
+| icon | Custom icon, effective when `showIcon` is true | ReactNode | - |  |
+| message | Content of Alert | ReactNode | - |  |
+| showIcon | Whether to show icon | boolean | false, in `banner` mode default is true |  |
+| type | Type of Alert styles, options: `success`, `info`, `warning`, `error` | string | `info`, in `banner` mode default is `warning` |  |
+| onClose | Callback when Alert is closed | (e: MouseEvent) => void | - |  |
+
+### Alert.ErrorBoundary
+
+| Property    | Description                      | Type      | Default           | Version |
+| ----------- | -------------------------------- | --------- | ----------------- | ------- |
+| description | Custom error description to show | ReactNode | {{ error stack }} |         |
+| message     | Custom error message to show     | ReactNode | {{ error }}       |         |
+
+## Design Token
+
+<ComponentTokenTable component="Alert"></ComponentTokenTable>
 
 ---
 Title: Affix
@@ -22465,57 +22519,3 @@ import type { GetProp, SelectProps } from 'antd';
 type SelectOptionType1 = GetProp<SelectProps, 'options'>[number];
 type SelectOptionType2 = GetProp<typeof Select, 'options'>[number];
 ```
-
----
-Title: Alert
-URL: https://ant.design/components/alert
----
-
-## When To Use
-
-- When you need to show alert messages to users.
-- When you need a persistent static container which is closable by user actions.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/style.tsx">More types</code>
-<code src="./demo/closable.tsx">Closable</code>
-<code src="./demo/description.tsx">Description</code>
-<code src="./demo/icon.tsx">Icon</code>
-<code src="./demo/banner.tsx" iframe="250">Banner</code>
-<code src="./demo/loop-banner.tsx">Loop Banner</code>
-<code src="./demo/smooth-closed.tsx">Smoothly Unmount</code>
-<code src="./demo/error-boundary.tsx">ErrorBoundary</code>
-<code src="./demo/custom-icon.tsx" debug>Custom Icon</code>
-<code src="./demo/action.tsx">Custom action</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| action | The action of Alert | ReactNode | - | 4.9.0 |
-| afterClose | Called when close animation is finished | () => void | - |  |
-| banner | Whether to show as banner | boolean | false |  |
-| closable | The config of closable, >=5.15.0: support `aria-*` | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
-| description | Additional content of Alert | ReactNode | - |  |
-| icon | Custom icon, effective when `showIcon` is true | ReactNode | - |  |
-| message | Content of Alert | ReactNode | - |  |
-| showIcon | Whether to show icon | boolean | false, in `banner` mode default is true |  |
-| type | Type of Alert styles, options: `success`, `info`, `warning`, `error` | string | `info`, in `banner` mode default is `warning` |  |
-| onClose | Callback when Alert is closed | (e: MouseEvent) => void | - |  |
-
-### Alert.ErrorBoundary
-
-| Property    | Description                      | Type      | Default           | Version |
-| ----------- | -------------------------------- | --------- | ----------------- | ------- |
-| description | Custom error description to show | ReactNode | {{ error stack }} |         |
-| message     | Custom error message to show     | ReactNode | {{ error }}       |         |
-
-## Design Token
-
-<ComponentTokenTable component="Alert"></ComponentTokenTable>
