@@ -14541,6 +14541,107 @@ accept: `.${'n'.repeat(100)}`;
 ```
 
 ---
+Title: Transfer
+URL: https://ant.design/components/transfer
+---
+
+## When To Use
+
+- It is a select control essentially which can be use for selecting multiple items.
+- Transfer can display more information for items and take up more space.
+
+Transfer the elements between two columns in an intuitive and efficient way.
+
+One or more elements can be selected from either column, one click on the proper `direction` button, and the transfer is done. The left column is considered the `source` and the right column is considered the `target`. As you can see in the API description, these names are reflected in.
+
+> notice: Transfer is a controlled component, uncontrolled mode is not supported.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/oneWay.tsx">One Way</code>
+<code src="./demo/search.tsx">Search</code>
+<code src="./demo/advanced.tsx">Advanced</code>
+<code src="./demo/custom-item.tsx">Custom datasource</code>
+<code src="./demo/large-data.tsx">Pagination</code>
+<code src="./demo/table-transfer.tsx">Table Transfer</code>
+<code src="./demo/tree-transfer.tsx">Tree Transfer</code>
+<code src="./demo/status.tsx">Status</code>
+<code src="./demo/custom-select-all-labels.tsx" debug>Custom Select All Labels</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| dataSource | Used for setting the source data. The elements that are part of this array will be present the left column. Except the elements whose keys are included in `targetKeys` prop | [RecordType extends TransferItem = TransferItem](https://github.com/ant-design/ant-design/blob/1bf0bab2a7bc0a774119f501806e3e0e3a6ba283/components/transfer/index.tsx#L12)\[] | \[] |  |
+| disabled | Whether disabled transfer | boolean | false |  |
+| selectionsIcon | custom dropdown icon | React.ReactNode |  | 5.8.0 |
+| filterOption | A function to determine whether an item should show in search result list, only works when searching, (add `direction` support since 5.9.0+) | (inputValue, option, direction: `left` \| `right`): boolean | - |  |
+| footer | A function used for rendering the footer | (props, { direction }) => ReactNode | - | direction: 4.17.0 |
+| listStyle | A custom CSS style used for rendering the transfer columns | object \| ({direction: `left` \| `right`}) => object | - |  |
+| locale | The i18n text including filter, empty text, item unit, etc | { itemUnit: string; itemsUnit: string; searchPlaceholder: string; notFoundContent: ReactNode \| ReactNode[]; } | { itemUnit: `item`, itemsUnit: `items`, notFoundContent: `The list is empty`, searchPlaceholder: `Search here` } |  |
+| oneWay | Display as single direction style | boolean | false | 4.3.0 |
+| operations | A set of operations that are sorted from top to bottom | string\[] | \[`>`, `<`] |  |
+| operationStyle | A custom CSS style used for rendering the operations column | object | - |  |
+| pagination | Use pagination. Not work in render props | boolean \| { pageSize: number, simple: boolean, showSizeChanger?: boolean, showLessItems?: boolean } | false | 4.3.0 |
+| render | The function to generate the item shown on a column. Based on an record (element of the dataSource array), this function should return a React element which is generated from that record. Also, it can return a plain object with `value` and `label`, `label` is a React element and `value` is for title | (record) => ReactNode | - |  |
+| selectAllLabels | A set of customized labels for select all checkboxes on the header | (ReactNode \| (info: { selectedCount: number, totalCount: number }) => ReactNode)\[] | - |  |
+| selectedKeys | A set of keys of selected items | string\[] \| number\[] | \[] |  |
+| showSearch | If included, a search box is shown on each column | boolean \| { placeholder:string,defaultValue:string } | false |  |
+| showSelectAll | Show select all checkbox on the header | boolean | true |  |
+| status | Set validation status | 'error' \| 'warning' | - | 4.19.0 |
+| targetKeys | A set of keys of elements that are listed on the right column | string\[] \| number\[] | \[] |  |
+| titles | A set of titles that are sorted from left to right | ReactNode\[] | - |  |
+| onChange | A callback function that is executed when the transfer between columns is complete | (targetKeys, direction, moveKeys): void | - |  |
+| onScroll | A callback function which is executed when scroll options list | (direction, event): void | - |  |
+| onSearch | A callback function which is executed when search field are changed | (direction: `left` \| `right`, value: string): void | - |  |
+| onSelectChange | A callback function which is executed when selected items are changed | (sourceSelectedKeys, targetSelectedKeys): void | - |  |
+
+### Render Props
+
+Transfer accept `children` to customize render list, using follow props:
+
+| Property | Description | Type | Version |
+| --- | --- | --- | --- |
+| direction | List render direction | `left` \| `right` |  |
+| disabled | Disable list or not | boolean |  |
+| filteredItems | Filtered items | RecordType\[] |  |
+| selectedKeys | Selected items | string\[] \| number\[] |  |
+| onItemSelect | Select item | (key: string \| number, selected: boolean) |  |
+| onItemSelectAll | Select a group of items | (keys: string\[] \| number\[], selected: boolean) |  |
+
+#### example
+
+```jsx
+<Transfer {...props}>{(listProps) => <YourComponent {...listProps} />}</Transfer>
+```
+
+## Warning
+
+According the [standard](https://react.dev/learn/rendering-lists#why-does-react-need-keys) of React, the key should always be supplied directly to the elements in the array. In Transfer, the keys should be set on the elements included in `dataSource` array. By default, `key` property is used as an unique identifier.
+
+If there's no `key` in your data, you should use `rowKey` to specify the key that will be used for uniquely identify each element.
+
+```jsx
+// eg. your primary key is `uid`
+return <Transfer rowKey={(record) => record.uid} />;
+```
+
+## Design Token
+
+<ComponentTokenTable component="Transfer"></ComponentTokenTable>
+
+## FAQ
+
+### How to support fetch and present data from a remote server in Transfer column.
+
+In order to keep the page number synchronized, you can disable columns you checked without removing the option: <https://codesandbox.io/s/objective-wing-6iqbx>
+
+---
 Title: Typography
 URL: https://ant.design/components/typography
 ---
@@ -14726,152 +14827,6 @@ interface EllipsisConfig {
 **Note：** This is not equivalent to the execution logic of react-router's Link [reference](https://github.com/ant-design/ant-design/pull/26737/files#r488769888)
 
 ---
-Title: Tree
-URL: https://ant.design/components/tree
----
-
-## When To Use
-
-Almost anything can be represented in a tree structure. Examples include directories, organization hierarchies, biological classifications, countries, etc. The `Tree` component is a way of representing the hierarchical relationship between these things. You can also expand, collapse, and select a treeNode within a `Tree`.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/basic-controlled.tsx">Controlled Tree</code>
-<code src="./demo/draggable.tsx">draggable</code>
-<code src="./demo/dynamic.tsx">load data asynchronously</code>
-<code src="./demo/search.tsx">Searchable</code>
-<code src="./demo/line.tsx">Tree with line</code>
-<code src="./demo/customized-icon.tsx">Customize Icon</code>
-<code src="./demo/directory.tsx">directory</code>
-<code src="./demo/directory-debug.tsx" debug>Directory Debug</code>
-<code src="./demo/switcher-icon.tsx">Customize collapse/expand icon</code>
-<code src="./demo/virtual-scroll.tsx">Virtual scroll</code>
-<code src="./demo/drag-debug.tsx" debug>Drag Debug</code>
-<code src="./demo/big-data.tsx" debug>Big data</code>
-<code src="./demo/block-node.tsx">Block Node</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-<code src="./demo/multiple-line.tsx" debug>Multiple lines</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-### Tree props
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| allowDrop | Whether to allow dropping on the node | ({ dropNode, dropPosition }) => boolean | - |  |
-| autoExpandParent | Whether to automatically expand a parent treeNode | boolean | false |  |
-| blockNode | Whether treeNode fill remaining horizontal space | boolean | false |  |
-| checkable | Add a Checkbox before the treeNodes | boolean | false |  |
-| checkedKeys | (Controlled) Specifies the keys of the checked treeNodes (PS: When this specifies the key of a treeNode which is also a parent treeNode, all the children treeNodes of will be checked; and vice versa, when it specifies the key of a treeNode which is a child treeNode, its parent treeNode will also be checked. When `checkable` and `checkStrictly` is true, its object has `checked` and `halfChecked` property. Regardless of whether the child or parent treeNode is checked, they won't impact each other | string\[] \| {checked: string\[], halfChecked: string\[]} | \[] |  |
-| checkStrictly | Check treeNode precisely; parent treeNode and children treeNodes are not associated | boolean | false |  |
-| className | Additional class to Tree | string | - |  |
-| defaultCheckedKeys | Specifies the keys of the default checked treeNodes | string\[] | \[] |  |
-| defaultExpandAll | Whether to expand all treeNodes by default | boolean | false |  |
-| defaultExpandedKeys | Specify the keys of the default expanded treeNodes | string\[] | \[] |  |
-| defaultExpandParent | If auto expand parent treeNodes when init | boolean | true |  |
-| defaultSelectedKeys | Specifies the keys of the default selected treeNodes | string\[] | \[] |  |
-| disabled | Whether the tree is disabled | boolean | false |  |
-| draggable | Specifies whether this Tree or the node is draggable. Use `icon: false` to disable drag handler icon | boolean \| ((node: DataNode) => boolean) \| { icon?: React.ReactNode \| false, nodeDraggable?: (node: DataNode) => boolean } | false | `config`: 4.17.0 |
-| expandedKeys | (Controlled) Specifies the keys of the expanded treeNodes | string\[] | \[] |  |
-| fieldNames | Customize node title, key, children field name | object | { title: `title`, key: `key`, children: `children` } | 4.17.0 |
-| filterTreeNode | Defines a function to filter (highlight) treeNodes. When the function returns `true`, the corresponding treeNode will be highlighted | function(node) | - |  |
-| height | Config virtual scroll height. Will not support horizontal scroll when enabled | number | - |  |
-| icon | Insert a custom icon before the title. Need to set `showIcon` to true | ReactNode \| (props) => ReactNode | - |  |
-| loadData | Load data asynchronously | function(node) | - |  |
-| loadedKeys | (Controlled) Set loaded tree nodes. Need to work with `loadData` | string\[] | \[] |  |
-| motion | Custom motion config for the tree | CSSMotionProps | - |  |
-| multiple | Allows selecting multiple treeNodes | boolean | false |  |
-| rootStyle | Style on the root element | CSSProperties | - | 4.20.0 |
-| selectable | Whether it can be selected | boolean | true |  |
-| selectedKeys | (Controlled) Specifies the keys of the selected treeNodes, multiple selection needs to set `multiple` to true | string\[] | - |  |
-| showIcon | Controls whether to display the `icon` node (no default style) | boolean | false |  |
-| showLine | Shows a connecting line | boolean \| {showLeafIcon: ReactNode \| ((props: AntTreeNodeProps) => ReactNode)} | false |  |
-| style | Style of Tree component | CSSProperties | - |  |
-| switcherIcon | Customize expand/collapse icons for tree nodes (With default rotate angular style) | ReactNode \| ((props: AntTreeNodeProps) => ReactNode) | - | renderProps: 4.20.0 |
-| switcherLoadingIcon | Customize loading icons for tree nodes | ReactNode | - | 5.20.0 |
-| titleRender | Customize tree node title render | (nodeData) => ReactNode | - | 4.5.0 |
-| treeData | The treeNodes data Array, if set it then you need not to construct children TreeNode. (key should be unique across the whole array) | array&lt;{ key, title, children, \[disabled, selectable] }> | - |  |
-| virtual | Disable virtual scroll when set to false | boolean | true | 4.1.0 |
-| onCheck | Callback function for when the onCheck event occurs | function(checkedKeys, e:{checked: boolean, checkedNodes, node, event, halfCheckedKeys}) | - |  |
-| onDragEnd | Callback function for when the onDragEnd event occurs | function({event, node}) | - |  |
-| onDragEnter | Callback function for when the onDragEnter event occurs | function({event, node, expandedKeys}) | - |  |
-| onDragLeave | Callback function for when the onDragLeave event occurs | function({event, node}) | - |  |
-| onDragOver | Callback function for when the onDragOver event occurs | function({event, node}) | - |  |
-| onDragStart | Callback function for when the onDragStart event occurs | function({event, node}) | - |  |
-| onDrop | Callback function for when the onDrop event occurs | function({event, node, dragNode, dragNodesKeys}) | - |  |
-| onExpand | Callback function for when a treeNode is expanded or collapsed | function(expandedKeys, {expanded: boolean, node}) | - |  |
-| onLoad | Callback function for when a treeNode is loaded | function(loadedKeys, {event, node}) | - |  |
-| onRightClick | Callback function for when the user right clicks a treeNode | function({event, node}) | - |  |
-| onSelect | Callback function for when the user clicks a treeNode | function(selectedKeys, e:{selected: boolean, selectedNodes, node, event}) | - |  |
-
-### TreeNode props
-
-| Property | Description | Type | Default |  |
-| --- | --- | --- | --- | --- |
-| checkable | When Tree is checkable, set TreeNode display Checkbox or not | boolean | - |  |
-| disableCheckbox | Disables the checkbox of the treeNode | boolean | false |  |
-| disabled | Disables the treeNode | boolean | false |  |
-| icon | Customize icon. When you pass component, whose render will receive full TreeNode props as component props | ReactNode \| (props) => ReactNode | - |  |
-| isLeaf | Determines if this is a leaf node (effective when `loadData` is specified). `false` will force the TreeNode to be treated as a parent node | boolean | - |  |
-| key | Used with (default)ExpandedKeys / (default)CheckedKeys / (default)SelectedKeys. P.S.: It must be unique in all of treeNodes of the tree | string | (internal calculated position of treeNode) |  |
-| selectable | Set whether the treeNode can be selected | boolean | true |  |
-| title | Title | ReactNode | `---` |  |
-
-### DirectoryTree props
-
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| expandAction | Directory opening logic, options: false \| `click` \| `doubleClick` | string \| boolean | `click` |
-
-## Note
-
-Before `3.4.0`: The number of treeNodes can be very large, but when `checkable=true`, it will increase the compute time. So, we cache some calculations (e.g. `this.treeNodesStates`) to avoid double computing. But, this brings some restrictions. **When you load treeNodes asynchronously, you should render tree like this**:
-
-```jsx
-{
-  this.state.treeData.length ? (
-    <Tree>
-      {this.state.treeData.map((data) => (
-        <TreeNode />
-      ))}
-    </Tree>
-  ) : (
-    'loading tree'
-  );
-}
-```
-
-### Tree Methods
-
-| Name | Description |
-| --- | --- |
-| scrollTo({ key: string \| number; align?: 'top' \| 'bottom' \| 'auto'; offset?: number }) | Scroll to key item in virtual scroll |
-
-## Design Token
-
-<ComponentTokenTable component="Tree"></ComponentTokenTable>
-
-## FAQ
-
-### Why defaultExpandAll not working on ajax data?
-
-`default` prefix props only work when initializing. So `defaultExpandAll` has already been executed when ajax loads data. You can control `expandedKeys` or render the Tree when data is loaded to realize expanding all nodes.
-
-### Virtual scroll limitation
-
-Virtual scroll only render items in visible region. Thus not support auto width (like long `title` with horizontal scroll).
-
-### What does `disabled` node work logic in the tree?
-
-Tree change its data by conduction. Includes checked or auto expanded, it will conduction state to parent / children node until current node is `disabled`. So if a controlled node is `disabled`, it will only modify self state and not affect other nodes. For example, a parent node contains 3 child nodes and one of them is `disabled`. When check the parent node, it will only check rest 2 child nodes. As the same, when check these 2 child node, parent will be checked whatever checked state the `disabled` one is.
-
-This conduction logic prevents modifying `disabled` parent checked state by checking children nodes, and users cannot modify directly with click which avoids interactive conflicts. If you want to modify this conduction logic, you can customize it with the `checkStrictly` prop.
-
----
 Title: TreeSelect
 URL: https://ant.design/components/tree-select
 ---
@@ -15028,6 +14983,152 @@ In earlier version, `loadData` will be triggered when searching. But we got feed
 Just turn off virtual scrolling, because the `scrollWidth` of the complete list cannot be accurately measured when virtual scrolling is turned on.
 
 ---
+Title: Tree
+URL: https://ant.design/components/tree
+---
+
+## When To Use
+
+Almost anything can be represented in a tree structure. Examples include directories, organization hierarchies, biological classifications, countries, etc. The `Tree` component is a way of representing the hierarchical relationship between these things. You can also expand, collapse, and select a treeNode within a `Tree`.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/basic-controlled.tsx">Controlled Tree</code>
+<code src="./demo/draggable.tsx">draggable</code>
+<code src="./demo/dynamic.tsx">load data asynchronously</code>
+<code src="./demo/search.tsx">Searchable</code>
+<code src="./demo/line.tsx">Tree with line</code>
+<code src="./demo/customized-icon.tsx">Customize Icon</code>
+<code src="./demo/directory.tsx">directory</code>
+<code src="./demo/directory-debug.tsx" debug>Directory Debug</code>
+<code src="./demo/switcher-icon.tsx">Customize collapse/expand icon</code>
+<code src="./demo/virtual-scroll.tsx">Virtual scroll</code>
+<code src="./demo/drag-debug.tsx" debug>Drag Debug</code>
+<code src="./demo/big-data.tsx" debug>Big data</code>
+<code src="./demo/block-node.tsx">Block Node</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+<code src="./demo/multiple-line.tsx" debug>Multiple lines</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Tree props
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| allowDrop | Whether to allow dropping on the node | ({ dropNode, dropPosition }) => boolean | - |  |
+| autoExpandParent | Whether to automatically expand a parent treeNode | boolean | false |  |
+| blockNode | Whether treeNode fill remaining horizontal space | boolean | false |  |
+| checkable | Add a Checkbox before the treeNodes | boolean | false |  |
+| checkedKeys | (Controlled) Specifies the keys of the checked treeNodes (PS: When this specifies the key of a treeNode which is also a parent treeNode, all the children treeNodes of will be checked; and vice versa, when it specifies the key of a treeNode which is a child treeNode, its parent treeNode will also be checked. When `checkable` and `checkStrictly` is true, its object has `checked` and `halfChecked` property. Regardless of whether the child or parent treeNode is checked, they won't impact each other | string\[] \| {checked: string\[], halfChecked: string\[]} | \[] |  |
+| checkStrictly | Check treeNode precisely; parent treeNode and children treeNodes are not associated | boolean | false |  |
+| className | Additional class to Tree | string | - |  |
+| defaultCheckedKeys | Specifies the keys of the default checked treeNodes | string\[] | \[] |  |
+| defaultExpandAll | Whether to expand all treeNodes by default | boolean | false |  |
+| defaultExpandedKeys | Specify the keys of the default expanded treeNodes | string\[] | \[] |  |
+| defaultExpandParent | If auto expand parent treeNodes when init | boolean | true |  |
+| defaultSelectedKeys | Specifies the keys of the default selected treeNodes | string\[] | \[] |  |
+| disabled | Whether the tree is disabled | boolean | false |  |
+| draggable | Specifies whether this Tree or the node is draggable. Use `icon: false` to disable drag handler icon | boolean \| ((node: DataNode) => boolean) \| { icon?: React.ReactNode \| false, nodeDraggable?: (node: DataNode) => boolean } | false | `config`: 4.17.0 |
+| expandedKeys | (Controlled) Specifies the keys of the expanded treeNodes | string\[] | \[] |  |
+| fieldNames | Customize node title, key, children field name | object | { title: `title`, key: `key`, children: `children` } | 4.17.0 |
+| filterTreeNode | Defines a function to filter (highlight) treeNodes. When the function returns `true`, the corresponding treeNode will be highlighted | function(node) | - |  |
+| height | Config virtual scroll height. Will not support horizontal scroll when enabled | number | - |  |
+| icon | Insert a custom icon before the title. Need to set `showIcon` to true | ReactNode \| (props) => ReactNode | - |  |
+| loadData | Load data asynchronously | function(node) | - |  |
+| loadedKeys | (Controlled) Set loaded tree nodes. Need to work with `loadData` | string\[] | \[] |  |
+| motion | Custom motion config for the tree | CSSMotionProps | - |  |
+| multiple | Allows selecting multiple treeNodes | boolean | false |  |
+| rootStyle | Style on the root element | CSSProperties | - | 4.20.0 |
+| selectable | Whether it can be selected | boolean | true |  |
+| selectedKeys | (Controlled) Specifies the keys of the selected treeNodes, multiple selection needs to set `multiple` to true | string\[] | - |  |
+| showIcon | Controls whether to display the `icon` node (no default style) | boolean | false |  |
+| showLine | Shows a connecting line | boolean \| {showLeafIcon: ReactNode \| ((props: AntTreeNodeProps) => ReactNode)} | false |  |
+| style | Style of Tree component | CSSProperties | - |  |
+| switcherIcon | Customize expand/collapse icons for tree nodes (With default rotate angular style) | ReactNode \| ((props: AntTreeNodeProps) => ReactNode) | - | renderProps: 4.20.0 |
+| switcherLoadingIcon | Customize loading icons for tree nodes | ReactNode | - | 5.20.0 |
+| titleRender | Customize tree node title render | (nodeData) => ReactNode | - | 4.5.0 |
+| treeData | The treeNodes data Array, if set it then you need not to construct children TreeNode. (key should be unique across the whole array) | array&lt;{ key, title, children, \[disabled, selectable] }> | - |  |
+| virtual | Disable virtual scroll when set to false | boolean | true | 4.1.0 |
+| onCheck | Callback function for when the onCheck event occurs | function(checkedKeys, e:{checked: boolean, checkedNodes, node, event, halfCheckedKeys}) | - |  |
+| onDragEnd | Callback function for when the onDragEnd event occurs | function({event, node}) | - |  |
+| onDragEnter | Callback function for when the onDragEnter event occurs | function({event, node, expandedKeys}) | - |  |
+| onDragLeave | Callback function for when the onDragLeave event occurs | function({event, node}) | - |  |
+| onDragOver | Callback function for when the onDragOver event occurs | function({event, node}) | - |  |
+| onDragStart | Callback function for when the onDragStart event occurs | function({event, node}) | - |  |
+| onDrop | Callback function for when the onDrop event occurs | function({event, node, dragNode, dragNodesKeys}) | - |  |
+| onExpand | Callback function for when a treeNode is expanded or collapsed | function(expandedKeys, {expanded: boolean, node}) | - |  |
+| onLoad | Callback function for when a treeNode is loaded | function(loadedKeys, {event, node}) | - |  |
+| onRightClick | Callback function for when the user right clicks a treeNode | function({event, node}) | - |  |
+| onSelect | Callback function for when the user clicks a treeNode | function(selectedKeys, e:{selected: boolean, selectedNodes, node, event}) | - |  |
+
+### TreeNode props
+
+| Property | Description | Type | Default |  |
+| --- | --- | --- | --- | --- |
+| checkable | When Tree is checkable, set TreeNode display Checkbox or not | boolean | - |  |
+| disableCheckbox | Disables the checkbox of the treeNode | boolean | false |  |
+| disabled | Disables the treeNode | boolean | false |  |
+| icon | Customize icon. When you pass component, whose render will receive full TreeNode props as component props | ReactNode \| (props) => ReactNode | - |  |
+| isLeaf | Determines if this is a leaf node (effective when `loadData` is specified). `false` will force the TreeNode to be treated as a parent node | boolean | - |  |
+| key | Used with (default)ExpandedKeys / (default)CheckedKeys / (default)SelectedKeys. P.S.: It must be unique in all of treeNodes of the tree | string | (internal calculated position of treeNode) |  |
+| selectable | Set whether the treeNode can be selected | boolean | true |  |
+| title | Title | ReactNode | `---` |  |
+
+### DirectoryTree props
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| expandAction | Directory opening logic, options: false \| `click` \| `doubleClick` | string \| boolean | `click` |
+
+## Note
+
+Before `3.4.0`: The number of treeNodes can be very large, but when `checkable=true`, it will increase the compute time. So, we cache some calculations (e.g. `this.treeNodesStates`) to avoid double computing. But, this brings some restrictions. **When you load treeNodes asynchronously, you should render tree like this**:
+
+```jsx
+{
+  this.state.treeData.length ? (
+    <Tree>
+      {this.state.treeData.map((data) => (
+        <TreeNode />
+      ))}
+    </Tree>
+  ) : (
+    'loading tree'
+  );
+}
+```
+
+### Tree Methods
+
+| Name | Description |
+| --- | --- |
+| scrollTo({ key: string \| number; align?: 'top' \| 'bottom' \| 'auto'; offset?: number }) | Scroll to key item in virtual scroll |
+
+## Design Token
+
+<ComponentTokenTable component="Tree"></ComponentTokenTable>
+
+## FAQ
+
+### Why defaultExpandAll not working on ajax data?
+
+`default` prefix props only work when initializing. So `defaultExpandAll` has already been executed when ajax loads data. You can control `expandedKeys` or render the Tree when data is loaded to realize expanding all nodes.
+
+### Virtual scroll limitation
+
+Virtual scroll only render items in visible region. Thus not support auto width (like long `title` with horizontal scroll).
+
+### What does `disabled` node work logic in the tree?
+
+Tree change its data by conduction. Includes checked or auto expanded, it will conduction state to parent / children node until current node is `disabled`. So if a controlled node is `disabled`, it will only modify self state and not affect other nodes. For example, a parent node contains 3 child nodes and one of them is `disabled`. When check the parent node, it will only check rest 2 child nodes. As the same, when check these 2 child node, parent will be checked whatever checked state the `disabled` one is.
+
+This conduction logic prevents modifying `disabled` parent checked state by checking children nodes, and users cannot modify directly with click which avoids interactive conflicts. If you want to modify this conduction logic, you can customize it with the `checkStrictly` prop.
+
+---
 Title: Tour
 URL: https://ant.design/components/tour
 ---
@@ -15094,6 +15195,84 @@ Common props ref：[Common props](/docs/react/common-props)
 ## Design Token
 
 <ComponentTokenTable component="Tour"></ComponentTokenTable>
+
+---
+Title: Tooltip
+URL: https://ant.design/components/tooltip
+---
+
+## When To Use
+
+- The tip is shown on mouse enter, and is hidden on mouse leave. The Tooltip doesn't support complex text or operations.
+- To provide an explanation of a `button/text/operation`. It's often used instead of the html `title` attribute.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/placement.tsx">Placement</code>
+<code src="./demo/arrow.tsx">Arrow</code>
+<code src="./demo/shift.tsx" iframe="300">Auto Shift</code>
+<code src="./demo/auto-adjust-overflow.tsx" debug>Adjust placement automatically</code>
+<code src="./demo/destroy-on-close.tsx" debug>Destroy tooltip when hidden</code>
+<code src="./demo/colorful.tsx">Colorful Tooltip</code>
+<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
+<code src="./demo/debug.tsx" debug>Debug</code>
+<code src="./demo/disabled.tsx">Disabled</code>
+<code src="./demo/disabled-children.tsx" debug>Disabled children</code>
+<code src="./demo/wrap-custom-component.tsx">Wrap custom component</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| title | The text shown in the tooltip | ReactNode \| () => ReactNode | - | - |
+| color | The background color. After using this attribute, the internal text color will adapt automatically | string | - | 5.27.0 |
+
+### Common API
+
+<embed src="./shared/sharedProps.en-US.md"></embed>
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify="true"></code>
+
+## Design Token
+
+<ComponentTokenTable component="Tooltip"></ComponentTokenTable>
+
+## FAQ
+
+### Why Tooltip not update content when close?
+
+Tooltip will cache content when it is closed to avoid flicker when content is updated:
+
+```jsx
+// `title` will not blink when `user` is empty
+<Tooltip open={user} title={user?.name} />
+```
+
+<div>
+<img alt="no blink" height="50" src="https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*KVx7QLOYwVsAAAAAAAAAAAAADrJ8AQ/original" />
+</div>
+
+If need update content when close, you can set `fresh` property ([#44830](https://github.com/ant-design/ant-design/issues/44830)):
+
+```jsx
+<Tooltip open={user} title={user?.name} fresh />
+```
+
+<div>
+<img alt="no blink" height="50" src="https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*rUbsR4xWpMsAAAAAAAAAAAAADrJ8AQ/original" />
+</div>
+
+---
+
+<!-- 请确保在 FAQ 最后 -->
+
+<embed src="./shared/sharedFAQ.en-US.md"></embed>
 
 ---
 Title: Timeline
@@ -15304,107 +15483,6 @@ type RangeDisabledTime = (
 ## FAQ
 
 - [How to use TimePicker with customize date library like dayjs](/docs/react/use-custom-date-library#timepicker)
-
----
-Title: Transfer
-URL: https://ant.design/components/transfer
----
-
-## When To Use
-
-- It is a select control essentially which can be use for selecting multiple items.
-- Transfer can display more information for items and take up more space.
-
-Transfer the elements between two columns in an intuitive and efficient way.
-
-One or more elements can be selected from either column, one click on the proper `direction` button, and the transfer is done. The left column is considered the `source` and the right column is considered the `target`. As you can see in the API description, these names are reflected in.
-
-> notice: Transfer is a controlled component, uncontrolled mode is not supported.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/oneWay.tsx">One Way</code>
-<code src="./demo/search.tsx">Search</code>
-<code src="./demo/advanced.tsx">Advanced</code>
-<code src="./demo/custom-item.tsx">Custom datasource</code>
-<code src="./demo/large-data.tsx">Pagination</code>
-<code src="./demo/table-transfer.tsx">Table Transfer</code>
-<code src="./demo/tree-transfer.tsx">Tree Transfer</code>
-<code src="./demo/status.tsx">Status</code>
-<code src="./demo/custom-select-all-labels.tsx" debug>Custom Select All Labels</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| dataSource | Used for setting the source data. The elements that are part of this array will be present the left column. Except the elements whose keys are included in `targetKeys` prop | [RecordType extends TransferItem = TransferItem](https://github.com/ant-design/ant-design/blob/1bf0bab2a7bc0a774119f501806e3e0e3a6ba283/components/transfer/index.tsx#L12)\[] | \[] |  |
-| disabled | Whether disabled transfer | boolean | false |  |
-| selectionsIcon | custom dropdown icon | React.ReactNode |  | 5.8.0 |
-| filterOption | A function to determine whether an item should show in search result list, only works when searching, (add `direction` support since 5.9.0+) | (inputValue, option, direction: `left` \| `right`): boolean | - |  |
-| footer | A function used for rendering the footer | (props, { direction }) => ReactNode | - | direction: 4.17.0 |
-| listStyle | A custom CSS style used for rendering the transfer columns | object \| ({direction: `left` \| `right`}) => object | - |  |
-| locale | The i18n text including filter, empty text, item unit, etc | { itemUnit: string; itemsUnit: string; searchPlaceholder: string; notFoundContent: ReactNode \| ReactNode[]; } | { itemUnit: `item`, itemsUnit: `items`, notFoundContent: `The list is empty`, searchPlaceholder: `Search here` } |  |
-| oneWay | Display as single direction style | boolean | false | 4.3.0 |
-| operations | A set of operations that are sorted from top to bottom | string\[] | \[`>`, `<`] |  |
-| operationStyle | A custom CSS style used for rendering the operations column | object | - |  |
-| pagination | Use pagination. Not work in render props | boolean \| { pageSize: number, simple: boolean, showSizeChanger?: boolean, showLessItems?: boolean } | false | 4.3.0 |
-| render | The function to generate the item shown on a column. Based on an record (element of the dataSource array), this function should return a React element which is generated from that record. Also, it can return a plain object with `value` and `label`, `label` is a React element and `value` is for title | (record) => ReactNode | - |  |
-| selectAllLabels | A set of customized labels for select all checkboxes on the header | (ReactNode \| (info: { selectedCount: number, totalCount: number }) => ReactNode)\[] | - |  |
-| selectedKeys | A set of keys of selected items | string\[] \| number\[] | \[] |  |
-| showSearch | If included, a search box is shown on each column | boolean \| { placeholder:string,defaultValue:string } | false |  |
-| showSelectAll | Show select all checkbox on the header | boolean | true |  |
-| status | Set validation status | 'error' \| 'warning' | - | 4.19.0 |
-| targetKeys | A set of keys of elements that are listed on the right column | string\[] \| number\[] | \[] |  |
-| titles | A set of titles that are sorted from left to right | ReactNode\[] | - |  |
-| onChange | A callback function that is executed when the transfer between columns is complete | (targetKeys, direction, moveKeys): void | - |  |
-| onScroll | A callback function which is executed when scroll options list | (direction, event): void | - |  |
-| onSearch | A callback function which is executed when search field are changed | (direction: `left` \| `right`, value: string): void | - |  |
-| onSelectChange | A callback function which is executed when selected items are changed | (sourceSelectedKeys, targetSelectedKeys): void | - |  |
-
-### Render Props
-
-Transfer accept `children` to customize render list, using follow props:
-
-| Property | Description | Type | Version |
-| --- | --- | --- | --- |
-| direction | List render direction | `left` \| `right` |  |
-| disabled | Disable list or not | boolean |  |
-| filteredItems | Filtered items | RecordType\[] |  |
-| selectedKeys | Selected items | string\[] \| number\[] |  |
-| onItemSelect | Select item | (key: string \| number, selected: boolean) |  |
-| onItemSelectAll | Select a group of items | (keys: string\[] \| number\[], selected: boolean) |  |
-
-#### example
-
-```jsx
-<Transfer {...props}>{(listProps) => <YourComponent {...listProps} />}</Transfer>
-```
-
-## Warning
-
-According the [standard](https://react.dev/learn/rendering-lists#why-does-react-need-keys) of React, the key should always be supplied directly to the elements in the array. In Transfer, the keys should be set on the elements included in `dataSource` array. By default, `key` property is used as an unique identifier.
-
-If there's no `key` in your data, you should use `rowKey` to specify the key that will be used for uniquely identify each element.
-
-```jsx
-// eg. your primary key is `uid`
-return <Transfer rowKey={(record) => record.uid} />;
-```
-
-## Design Token
-
-<ComponentTokenTable component="Transfer"></ComponentTokenTable>
-
-## FAQ
-
-### How to support fetch and present data from a remote server in Transfer column.
-
-In order to keep the page number synchronized, you can disable columns you checked without removing the option: <https://codesandbox.io/s/objective-wing-6iqbx>
 
 ---
 Title: Tag
@@ -15956,30 +16034,24 @@ Since `4.1.0`, You can use [`rowSelection.renderCell`](https://ant.design/compon
 Because virtual table needs to get its ref to do some calculations, so you need to use `React.forwardRef` wrapper and pass the ref to the dom
 
 ---
-Title: Tooltip
-URL: https://ant.design/components/tooltip
+Title: Switch
+URL: https://ant.design/components/switch
 ---
 
 ## When To Use
 
-- The tip is shown on mouse enter, and is hidden on mouse leave. The Tooltip doesn't support complex text or operations.
-- To provide an explanation of a `button/text/operation`. It's often used instead of the html `title` attribute.
+- If you need to represent the switching between two states or on-off state.
+- The difference between `Switch` and `Checkbox` is that `Switch` will trigger a state change directly when you toggle it, while `Checkbox` is generally used for state marking, which should work in conjunction with submit operation.
 
 ## Examples
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/placement.tsx">Placement</code>
-<code src="./demo/arrow.tsx">Arrow</code>
-<code src="./demo/shift.tsx" iframe="300">Auto Shift</code>
-<code src="./demo/auto-adjust-overflow.tsx" debug>Adjust placement automatically</code>
-<code src="./demo/destroy-on-close.tsx" debug>Destroy tooltip when hidden</code>
-<code src="./demo/colorful.tsx">Colorful Tooltip</code>
-<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
-<code src="./demo/debug.tsx" debug>Debug</code>
 <code src="./demo/disabled.tsx">Disabled</code>
-<code src="./demo/disabled-children.tsx" debug>Disabled children</code>
-<code src="./demo/wrap-custom-component.tsx">Wrap custom component</code>
+<code src="./demo/text.tsx">Text & icon</code>
+<code src="./demo/size.tsx">Two sizes</code>
+<code src="./demo/loading.tsx">Loading</code>
+<code src="./demo/component-token.tsx" debug>Custom component token</code>
 
 ## API
 
@@ -15987,51 +16059,42 @@ Common props ref：[Common props](/docs/react/common-props)
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| title | The text shown in the tooltip | ReactNode \| () => ReactNode | - | - |
-| color | The background color. After using this attribute, the internal text color will adapt automatically | string | - | 5.27.0 |
+| autoFocus | Whether get focus when component mounted | boolean | false |  |
+| checked | Determine whether the Switch is checked | boolean | false |  |
+| checkedChildren | The content to be shown when the state is checked | ReactNode | - |  |
+| className | The additional class to Switch | string | - |  |
+| defaultChecked | Whether to set the initial state | boolean | false |  |
+| defaultValue | Alias for `defaultChecked` | boolean | - | 5.12.0 |
+| disabled | Disable switch | boolean | false |  |
+| loading | Loading state of switch | boolean | false |  |
+| size | The size of the Switch, options: `default` `small` | string | `default` |  |
+| unCheckedChildren | The content to be shown when the state is unchecked | ReactNode | - |  |
+| value | Alias for `checked` | boolean | - | 5.12.0 |
+| onChange | Trigger when the checked state is changing | function(checked: boolean, event: Event) | - |  |
+| onClick | Trigger when clicked | function(checked: boolean, event: Event) | - |  |
 
-### Common API
+## Methods
 
-<embed src="./shared/sharedProps.en-US.md"></embed>
-
-## Semantic DOM
-
-<code src="./demo/_semantic.tsx" simplify="true"></code>
+| Name    | Description  |
+| ------- | ------------ |
+| blur()  | Remove focus |
+| focus() | Get focus    |
 
 ## Design Token
 
-<ComponentTokenTable component="Tooltip"></ComponentTokenTable>
+<ComponentTokenTable component="Switch"></ComponentTokenTable>
 
 ## FAQ
 
-### Why Tooltip not update content when close?
+### Why not work in Form.Item?
 
-Tooltip will cache content when it is closed to avoid flicker when content is updated:
+Form.Item default bind value to `value` property, but Switch value property is `checked`. You can use `valuePropName` to change bind property.
 
-```jsx
-// `title` will not blink when `user` is empty
-<Tooltip open={user} title={user?.name} />
+```tsx | pure
+<Form.Item name="fieldA" valuePropName="checked">
+  <Switch />
+</Form.Item>
 ```
-
-<div>
-<img alt="no blink" height="50" src="https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*KVx7QLOYwVsAAAAAAAAAAAAADrJ8AQ/original" />
-</div>
-
-If need update content when close, you can set `fresh` property ([#44830](https://github.com/ant-design/ant-design/issues/44830)):
-
-```jsx
-<Tooltip open={user} title={user?.name} fresh />
-```
-
-<div>
-<img alt="no blink" height="50" src="https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*rUbsR4xWpMsAAAAAAAAAAAAADrJ8AQ/original" />
-</div>
-
----
-
-<!-- 请确保在 FAQ 最后 -->
-
-<embed src="./shared/sharedFAQ.en-US.md"></embed>
 
 ---
 Title: Steps
@@ -16249,24 +16312,25 @@ Common props ref：[Common props](/docs/react/common-props)
 <ComponentTokenTable component='Splitter'></ComponentTokenTable>
 
 ---
-Title: Switch
-URL: https://ant.design/components/switch
+Title: Spin
+URL: https://ant.design/components/spin
 ---
 
 ## When To Use
 
-- If you need to represent the switching between two states or on-off state.
-- The difference between `Switch` and `Checkbox` is that `Switch` will trigger a state change directly when you toggle it, while `Checkbox` is generally used for state marking, which should work in conjunction with submit operation.
+When part of the page is waiting for asynchronous data or during a rendering process, an appropriate loading animation can effectively alleviate users' inquietude.
 
 ## Examples
 
 <!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/disabled.tsx">Disabled</code>
-<code src="./demo/text.tsx">Text & icon</code>
-<code src="./demo/size.tsx">Two sizes</code>
-<code src="./demo/loading.tsx">Loading</code>
-<code src="./demo/component-token.tsx" debug>Custom component token</code>
+<code src="./demo/basic.tsx">Basic Usage</code>
+<code src="./demo/size.tsx">Size</code>
+<code src="./demo/nested.tsx">Embedded mode</code>
+<code src="./demo/tip.tsx">Customized description</code>
+<code src="./demo/delayAndDebounce.tsx">Delay</code>
+<code src="./demo/custom-indicator.tsx">Custom spinning indicator</code>
+<code src="./demo/percent.tsx" version="5.18.0">Progress</code>
+<code src="./demo/fullscreen.tsx">Fullscreen</code>
 
 ## API
 
@@ -16274,130 +16338,24 @@ Common props ref：[Common props](/docs/react/common-props)
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| autoFocus | Whether get focus when component mounted | boolean | false |  |
-| checked | Determine whether the Switch is checked | boolean | false |  |
-| checkedChildren | The content to be shown when the state is checked | ReactNode | - |  |
-| className | The additional class to Switch | string | - |  |
-| defaultChecked | Whether to set the initial state | boolean | false |  |
-| defaultValue | Alias for `defaultChecked` | boolean | - | 5.12.0 |
-| disabled | Disable switch | boolean | false |  |
-| loading | Loading state of switch | boolean | false |  |
-| size | The size of the Switch, options: `default` `small` | string | `default` |  |
-| unCheckedChildren | The content to be shown when the state is unchecked | ReactNode | - |  |
-| value | Alias for `checked` | boolean | - | 5.12.0 |
-| onChange | Trigger when the checked state is changing | function(checked: boolean, event: Event) | - |  |
-| onClick | Trigger when clicked | function(checked: boolean, event: Event) | - |  |
+| delay | Specifies a delay in milliseconds for loading state (prevent flush) | number (milliseconds) | - |
+| fullscreen | Display a backdrop with the `Spin` component | boolean | false | 5.11.0 |
+| indicator | React node of the spinning indicator | ReactNode | - |  |
+| percent | The progress percentage, when set to `auto`, it will be an indeterminate progress | number \| 'auto' | - | 5.18.0 |
+| size | The size of Spin, options: `small`, `default` and `large` | string | `default` |  |
+| spinning | Whether Spin is visible | boolean | true |  |
+| tip | Customize description content when Spin has children | ReactNode | - |  |
+| wrapperClassName | The className of wrapper when Spin has children | string | - |  |
 
-## Methods
+### Static Method
 
-| Name    | Description  |
-| ------- | ------------ |
-| blur()  | Remove focus |
-| focus() | Get focus    |
+- `Spin.setDefaultIndicator(indicator: ReactNode)`
+
+  You can define default spin element globally.
 
 ## Design Token
 
-<ComponentTokenTable component="Switch"></ComponentTokenTable>
-
-## FAQ
-
-### Why not work in Form.Item?
-
-Form.Item default bind value to `value` property, but Switch value property is `checked`. You can use `valuePropName` to change bind property.
-
-```tsx | pure
-<Form.Item name="fieldA" valuePropName="checked">
-  <Switch />
-</Form.Item>
-```
-
----
-Title: Space
-URL: https://ant.design/components/space
----
-
-## When To Use
-
-- Avoid components clinging together and set a unified space.
-- Use Space.Compact when child form components are compactly connected and the border is collapsed (After version `antd@4.24.0` Supported).
-
-### Difference with Flex component
-
-- Space is used to set the spacing between inline elements. It will add a wrapper element for each child element for inline alignment. Suitable for equidistant arrangement of multiple child elements in rows and columns.
-- Flex is used to set the layout of block-level elements. It does not add a wrapper element. Suitable for layout of child elements in vertical or horizontal direction, and provides more flexibility and control.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/base.tsx">Basic Usage</code>
-<code src="./demo/vertical.tsx">Vertical Space</code>
-<code src="./demo/size.tsx">Space Size</code>
-<code src="./demo/align.tsx">Align</code>
-<code src="./demo/wrap.tsx">Wrap</code>
-<code src="./demo/split.tsx">Split</code>
-<code src="./demo/compact.tsx">Compact Mode for form component</code>
-<code src="./demo/compact-buttons.tsx">Button Compact Mode</code>
-<code src="./demo/compact-button-vertical.tsx">Vertical Compact Mode</code>
-<code src="./demo/compact-debug.tsx" debug>Input addon debug</code>
-<code src="./demo/compact-nested.tsx" debug>Nested Space Compact</code>
-<code src="./demo/debug.tsx" debug>Diverse Child</code>
-<code src="./demo/gap-in-line.tsx" debug>Flex gap style</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| align | Align items | `start` \| `end` \|`center` \|`baseline` | - | 4.2.0 |
-| classNames | Semantic className | [Record<SemanticDOM, string>](#semantic-dom) | - |  |
-| direction | The space direction | `vertical` \| `horizontal` | `horizontal` | 4.1.0 |
-| size | The space size | [Size](#size) \| [Size\[\]](#size) | `small` | 4.1.0 \| Array: 4.9.0 |
-| split | Set split | ReactNode | - | 4.7.0 |
-| styles | Semantic style | [Record<SemanticDOM, CSSProperties>](#semantic-dom) | - |  |
-| wrap | Auto wrap line, when `horizontal` effective | boolean | false | 4.9.0 |
-
-### Size
-
-`'small' | 'middle' | 'large' | number`
-
-### Space.Compact
-
-Use Space.Compact when child form components are compactly connected and the border is collapsed. The supported components are：
-
-- Button
-- AutoComplete
-- Cascader
-- DatePicker
-- Input/Input.Search
-- InputNumber
-- Select
-- TimePicker
-- TreeSelect
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| block | Option to fit width to its parent\'s width | boolean | false | 4.24.0 |
-| direction | Set direction of layout | `vertical` \| `horizontal` | `horizontal` | 4.24.0 |
-| size | Set child component size | `large` \| `middle` \| `small` | `middle` | 4.24.0 |
-
-### Space.Addon
-
-> This component is available since `antd@5.29.0`.
-
-Used to create custom cells in compact layouts.
-
-| Property | Description    | Type      | Default | Version |
-| -------- | -------------- | --------- | ------- | ------- |
-| children | Custom content | ReactNode | -       | 5.29.0  |
-
-## Semantic DOM
-
-<code src="./demo/_semantic.tsx" simplify="true"></code>
-
-## Design Token
-
-<ComponentTokenTable component="Space"></ComponentTokenTable>
+<ComponentTokenTable component="Spin"></ComponentTokenTable>
 
 ---
 Title: Slider
@@ -16565,25 +16523,36 @@ Common props ref：[Common props](/docs/react/common-props)
 <ComponentTokenTable component="Skeleton"></ComponentTokenTable>
 
 ---
-Title: Spin
-URL: https://ant.design/components/spin
+Title: Space
+URL: https://ant.design/components/space
 ---
 
 ## When To Use
 
-When part of the page is waiting for asynchronous data or during a rendering process, an appropriate loading animation can effectively alleviate users' inquietude.
+- Avoid components clinging together and set a unified space.
+- Use Space.Compact when child form components are compactly connected and the border is collapsed (After version `antd@4.24.0` Supported).
+
+### Difference with Flex component
+
+- Space is used to set the spacing between inline elements. It will add a wrapper element for each child element for inline alignment. Suitable for equidistant arrangement of multiple child elements in rows and columns.
+- Flex is used to set the layout of block-level elements. It does not add a wrapper element. Suitable for layout of child elements in vertical or horizontal direction, and provides more flexibility and control.
 
 ## Examples
 
 <!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic Usage</code>
-<code src="./demo/size.tsx">Size</code>
-<code src="./demo/nested.tsx">Embedded mode</code>
-<code src="./demo/tip.tsx">Customized description</code>
-<code src="./demo/delayAndDebounce.tsx">Delay</code>
-<code src="./demo/custom-indicator.tsx">Custom spinning indicator</code>
-<code src="./demo/percent.tsx" version="5.18.0">Progress</code>
-<code src="./demo/fullscreen.tsx">Fullscreen</code>
+<code src="./demo/base.tsx">Basic Usage</code>
+<code src="./demo/vertical.tsx">Vertical Space</code>
+<code src="./demo/size.tsx">Space Size</code>
+<code src="./demo/align.tsx">Align</code>
+<code src="./demo/wrap.tsx">Wrap</code>
+<code src="./demo/split.tsx">Split</code>
+<code src="./demo/compact.tsx">Compact Mode for form component</code>
+<code src="./demo/compact-buttons.tsx">Button Compact Mode</code>
+<code src="./demo/compact-button-vertical.tsx">Vertical Compact Mode</code>
+<code src="./demo/compact-debug.tsx" debug>Input addon debug</code>
+<code src="./demo/compact-nested.tsx" debug>Nested Space Compact</code>
+<code src="./demo/debug.tsx" debug>Diverse Child</code>
+<code src="./demo/gap-in-line.tsx" debug>Flex gap style</code>
 
 ## API
 
@@ -16591,24 +16560,119 @@ Common props ref：[Common props](/docs/react/common-props)
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| delay | Specifies a delay in milliseconds for loading state (prevent flush) | number (milliseconds) | - |
-| fullscreen | Display a backdrop with the `Spin` component | boolean | false | 5.11.0 |
-| indicator | React node of the spinning indicator | ReactNode | - |  |
-| percent | The progress percentage, when set to `auto`, it will be an indeterminate progress | number \| 'auto' | - | 5.18.0 |
-| size | The size of Spin, options: `small`, `default` and `large` | string | `default` |  |
-| spinning | Whether Spin is visible | boolean | true |  |
-| tip | Customize description content when Spin has children | ReactNode | - |  |
-| wrapperClassName | The className of wrapper when Spin has children | string | - |  |
+| align | Align items | `start` \| `end` \|`center` \|`baseline` | - | 4.2.0 |
+| classNames | Semantic className | [Record<SemanticDOM, string>](#semantic-dom) | - |  |
+| direction | The space direction | `vertical` \| `horizontal` | `horizontal` | 4.1.0 |
+| size | The space size | [Size](#size) \| [Size\[\]](#size) | `small` | 4.1.0 \| Array: 4.9.0 |
+| split | Set split | ReactNode | - | 4.7.0 |
+| styles | Semantic style | [Record<SemanticDOM, CSSProperties>](#semantic-dom) | - |  |
+| wrap | Auto wrap line, when `horizontal` effective | boolean | false | 4.9.0 |
 
-### Static Method
+### Size
 
-- `Spin.setDefaultIndicator(indicator: ReactNode)`
+`'small' | 'middle' | 'large' | number`
 
-  You can define default spin element globally.
+### Space.Compact
+
+Use Space.Compact when child form components are compactly connected and the border is collapsed. The supported components are：
+
+- Button
+- AutoComplete
+- Cascader
+- DatePicker
+- Input/Input.Search
+- InputNumber
+- Select
+- TimePicker
+- TreeSelect
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| block | Option to fit width to its parent\'s width | boolean | false | 4.24.0 |
+| direction | Set direction of layout | `vertical` \| `horizontal` | `horizontal` | 4.24.0 |
+| size | Set child component size | `large` \| `middle` \| `small` | `middle` | 4.24.0 |
+
+### Space.Addon
+
+> This component is available since `antd@5.29.0`.
+
+Used to create custom cells in compact layouts.
+
+| Property | Description    | Type      | Default | Version |
+| -------- | -------------- | --------- | ------- | ------- |
+| children | Custom content | ReactNode | -       | 5.29.0  |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify="true"></code>
 
 ## Design Token
 
-<ComponentTokenTable component="Spin"></ComponentTokenTable>
+<ComponentTokenTable component="Space"></ComponentTokenTable>
+
+---
+Title: Segmented
+URL: https://ant.design/components/segmented
+---
+
+This component is available since `antd@4.20.0`.
+
+## When To Use
+
+- When displaying multiple options and user can select a single option;
+- When switching the selected option, the content of the associated area changes.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/vertical.tsx" version="5.21.0">Vertical Direction</code>
+<code src="./demo/block.tsx">Block Segmented</code>
+<code src="./demo/shape.tsx" version="5.24.0">Round shape</code>
+<code src="./demo/disabled.tsx">Disabled</code>
+<code src="./demo/controlled.tsx">Controlled mode</code>
+<code src="./demo/custom.tsx">Custom Render</code>
+<code src="./demo/dynamic.tsx">Dynamic</code>
+<code src="./demo/size.tsx">Three sizes of Segmented</code>
+<code src="./demo/with-icon.tsx">With Icon</code>
+<code src="./demo/icon-only.tsx">With Icon only</code>
+<code src="./demo/with-name.tsx" version="5.23.0">With name</code>
+<code src="./demo/controlled-two.tsx" debug>Controlled Synced mode</code>
+<code src="./demo/size-consistent.tsx" debug>Consistent height</code>
+<code src="./demo/componentToken.tsx" debug>Custom component token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+> This component is available since `antd@4.20.0`
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| block | Option to fit width to its parent\'s width | boolean | false |  |
+| defaultValue | Default selected value | string \| number |  |  |
+| disabled | Disable all segments | boolean | false |  |
+| onChange | The callback function that is triggered when the state changes | function(value: string \| number) |  |  |
+| options | Set children optional | string\[] \| number\[] \| SegmentedItemType\[] | [] |  |
+| size | The size of the Segmented. | `large` \| `middle` \| `small` | `middle` |  |
+| vertical | Orientation | boolean | `false` | 5.21.0 |
+| value | Currently selected value | string \| number |  |  |
+| shape | shape of Segmented | `default` \| `round` | `default` | 5.24.0 |
+| name | The `name` property of all `input[type="radio"]` children. if not set, it will fallback to a randomly generated name | string |  | 5.23.0 |
+
+### SegmentedItemType
+
+| Property  | Description                      | Type             | Default | Version |
+| --------- | -------------------------------- | ---------------- | ------- | ------- |
+| label     | Display text for Segmented item  | ReactNode        | -       |         |
+| value     | Value for Segmented item         | string \| number | -       |         |
+| icon      | Display icon for Segmented item  | ReactNode        | -       |         |
+| disabled  | Disabled state of segmented item | boolean          | false   |         |
+| className | The additional css class         | string           | -       |         |
+
+## Design Token
+
+<ComponentTokenTable component="Segmented"></ComponentTokenTable>
 
 ---
 Title: Select
@@ -16859,70 +16923,6 @@ If you don't want a drop-down menu to appear automatically after clicking on an 
   }}
 />
 ```
-
----
-Title: Segmented
-URL: https://ant.design/components/segmented
----
-
-This component is available since `antd@4.20.0`.
-
-## When To Use
-
-- When displaying multiple options and user can select a single option;
-- When switching the selected option, the content of the associated area changes.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/vertical.tsx" version="5.21.0">Vertical Direction</code>
-<code src="./demo/block.tsx">Block Segmented</code>
-<code src="./demo/shape.tsx" version="5.24.0">Round shape</code>
-<code src="./demo/disabled.tsx">Disabled</code>
-<code src="./demo/controlled.tsx">Controlled mode</code>
-<code src="./demo/custom.tsx">Custom Render</code>
-<code src="./demo/dynamic.tsx">Dynamic</code>
-<code src="./demo/size.tsx">Three sizes of Segmented</code>
-<code src="./demo/with-icon.tsx">With Icon</code>
-<code src="./demo/icon-only.tsx">With Icon only</code>
-<code src="./demo/with-name.tsx" version="5.23.0">With name</code>
-<code src="./demo/controlled-two.tsx" debug>Controlled Synced mode</code>
-<code src="./demo/size-consistent.tsx" debug>Consistent height</code>
-<code src="./demo/componentToken.tsx" debug>Custom component token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-> This component is available since `antd@4.20.0`
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| block | Option to fit width to its parent\'s width | boolean | false |  |
-| defaultValue | Default selected value | string \| number |  |  |
-| disabled | Disable all segments | boolean | false |  |
-| onChange | The callback function that is triggered when the state changes | function(value: string \| number) |  |  |
-| options | Set children optional | string\[] \| number\[] \| SegmentedItemType\[] | [] |  |
-| size | The size of the Segmented. | `large` \| `middle` \| `small` | `middle` |  |
-| vertical | Orientation | boolean | `false` | 5.21.0 |
-| value | Currently selected value | string \| number |  |  |
-| shape | shape of Segmented | `default` \| `round` | `default` | 5.24.0 |
-| name | The `name` property of all `input[type="radio"]` children. if not set, it will fallback to a randomly generated name | string |  | 5.23.0 |
-
-### SegmentedItemType
-
-| Property  | Description                      | Type             | Default | Version |
-| --------- | -------------------------------- | ---------------- | ------- | ------- |
-| label     | Display text for Segmented item  | ReactNode        | -       |         |
-| value     | Value for Segmented item         | string \| number | -       |         |
-| icon      | Display icon for Segmented item  | ReactNode        | -       |         |
-| disabled  | Disabled state of segmented item | boolean          | false   |         |
-| className | The additional css class         | string           | -       |         |
-
-## Design Token
-
-<ComponentTokenTable component="Segmented"></ComponentTokenTable>
 
 ---
 Title: Result
@@ -17210,63 +17210,6 @@ Properties that shared by all types.
 <ComponentTokenTable component="Progress"></ComponentTokenTable>
 
 ---
-Title: Popover
-URL: https://ant.design/components/popover
----
-
-## When To Use
-
-A simple popup menu to provide extra information or operations.
-
-Comparing with `Tooltip`, besides information `Popover` card can also provide action elements like links and buttons.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/triggerType.tsx">Three ways to trigger</code>
-<code src="./demo/placement.tsx">Placement</code>
-<code src="./demo/arrow.tsx">Arrow</code>
-<code src="./demo/arrow-point-at-center.tsx" debug>Arrow.pointAtCenter</code>
-<code src="./demo/shift.tsx" iframe="300">Auto Shift</code>
-<code src="./demo/control.tsx">Controlling the close of the dialog</code>
-<code src="./demo/hover-with-click.tsx">Hover with click popover</code>
-<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
-<code src="./demo/wireframe.tsx" debug>Wireframe</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Param   | Description         | Type                         | Default value | Version |
-| ------- | ------------------- | ---------------------------- | ------------- | ------- |
-| content | Content of the card | ReactNode \| () => ReactNode | -             |         |
-| title   | Title of the card   | ReactNode \| () => ReactNode | -             |         |
-
-<!-- Common API -->
-
-<embed src="../tooltip/shared/sharedProps.en-US.md"></embed>
-
-## Note
-
-Please ensure that the child node of `Popover` accepts `onMouseEnter`, `onMouseLeave`, `onFocus`, `onClick` events.
-
-## Semantic DOM
-
-<code src="./demo/_semantic.tsx" simplify="true"></code>
-
-## Design Token
-
-<ComponentTokenTable component="Popover"></ComponentTokenTable>
-
-## FAQ
-
-<embed src="../tooltip/shared/sharedFAQ.en-US.md"></embed>
-
-For more questions, please refer to [Tooltip FAQ](/components/tooltip#faq).
-
----
 Title: QRCode
 URL: https://ant.design/components/qr-code
 ---
@@ -17342,75 +17285,124 @@ If the QR code cannot be scanned for identification, it may be because the link 
 You can configure the QR code to be larger through size, or shorten the link through short link services.
 
 ---
-Title: Pagination
-URL: https://ant.design/components/pagination
+Title: Popover
+URL: https://ant.design/components/popover
 ---
 
 ## When To Use
 
-- When it will take a long time to load/render all items.
-- If you want to browse the data by navigating through pages.
+A simple popup menu to provide extra information or operations.
+
+Comparing with `Tooltip`, besides information `Popover` card can also provide action elements like links and buttons.
 
 ## Examples
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/align.tsx" version="5.19.0">Align</code>
-<code src="./demo/more.tsx">More</code>
-<code src="./demo/changer.tsx">Changer</code>
-<code src="./demo/jump.tsx">Jumper</code>
-<code src="./demo/mini.tsx">Mini size</code>
-<code src="./demo/simple.tsx">Simple mode</code>
-<code src="./demo/controlled.tsx">Controlled</code>
-<code src="./demo/total.tsx">Total number</code>
-<code src="./demo/all.tsx">Show All</code>
-<code src="./demo/itemRender.tsx">Prev and next</code>
+<code src="./demo/triggerType.tsx">Three ways to trigger</code>
+<code src="./demo/placement.tsx">Placement</code>
+<code src="./demo/arrow.tsx">Arrow</code>
+<code src="./demo/arrow-point-at-center.tsx" debug>Arrow.pointAtCenter</code>
+<code src="./demo/shift.tsx" iframe="300">Auto Shift</code>
+<code src="./demo/control.tsx">Controlling the close of the dialog</code>
+<code src="./demo/hover-with-click.tsx">Hover with click popover</code>
+<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
 <code src="./demo/wireframe.tsx" debug>Wireframe</code>
-<code src="./demo/component-token.tsx" debug>component Token</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
 
 ## API
 
 Common props ref：[Common props](/docs/react/common-props)
 
-```jsx
-<Pagination onChange={onChange} total={50} />
-```
+| Param   | Description         | Type                         | Default value | Version |
+| ------- | ------------------- | ---------------------------- | ------------- | ------- |
+| content | Content of the card | ReactNode \| () => ReactNode | -             |         |
+| title   | Title of the card   | ReactNode \| () => ReactNode | -             |         |
 
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| align | Align | start \| center \| end | - | 5.19.0 |
-| current | Current page number | number | - |  |
-| defaultCurrent | Default initial page number | number | 1 |  |
-| defaultPageSize | Default number of data items per page | number | 10 |  |
-| disabled | Disable pagination | boolean | - |  |
-| hideOnSinglePage | Whether to hide pager on single page | boolean | false |  |
-| itemRender | To customize item's innerHTML | (page, type: 'page' \| 'prev' \| 'next', originalElement) => React.ReactNode | - |  |
-| pageSize | Number of data items per page | number | - |  |
-| pageSizeOptions | Specify the sizeChanger options | number\[] | \[`10`, `20`, `50`, `100`] |  |
-| responsive | If `size` is not specified, `Pagination` would resize according to the width of the window | boolean | - |  |
-| showLessItems | Show less page items | boolean | false |  |
-| showQuickJumper | Determine whether you can jump to pages directly | boolean \| { goButton: ReactNode } | false |  |
-| showSizeChanger | Determine whether to show `pageSize` select, it will be true when `total > 50` | boolean \| [SelectProps](/components/select#api) | - | SelectProps: 5.21.0 |
-| showTitle | Show page item's title | boolean | true |  |
-| showTotal | To display the total number and range | function(total, range) | - |  |
-| simple | Whether to use simple mode | boolean \| { readOnly?: boolean } | - |  |
-| size | Specify the size of `Pagination`, can be set to `small` | `default` \| `small` | `default` |  |
-| total | Total number of data items | number | 0 |  |
-| onChange | Called when the page number or `pageSize` is changed, and it takes the resulting page number and pageSize as its arguments | function(page, pageSize) | - |  |
-| onShowSizeChange | Called when `pageSize` is changed | function(current, size) | - |  |
+<!-- Common API -->
+
+<embed src="../tooltip/shared/sharedProps.en-US.md"></embed>
+
+## Note
+
+Please ensure that the child node of `Popover` accepts `onMouseEnter`, `onMouseLeave`, `onFocus`, `onClick` events.
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify="true"></code>
 
 ## Design Token
 
-<ComponentTokenTable component="Pagination"></ComponentTokenTable>
+<ComponentTokenTable component="Popover"></ComponentTokenTable>
+
+## FAQ
+
+<embed src="../tooltip/shared/sharedFAQ.en-US.md"></embed>
+
+For more questions, please refer to [Tooltip FAQ](/components/tooltip#faq).
 
 ---
-Title: Components Overview
-URL: https://ant.design/components/overview
+Title: Popconfirm
+URL: https://ant.design/components/popconfirm
 ---
 
-`antd` provides plenty of UI components to enrich your web applications, and we will improve components experience consistently. We also recommend some great [Third-Party Libraries](/docs/react/recommendation) additionally.
+## When To Use
 
-<ComponentOverview></ComponentOverview>
+A simple and compact dialog used for asking for user confirmation.
+
+The difference with the `confirm` modal dialog is that it's more lightweight than the static popped full-screen confirm modal.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/locale.tsx">Locale text</code>
+<code src="./demo/placement.tsx">Placement</code>
+<code src="./demo/shift.tsx" iframe="300">Auto Shift</code>
+<code src="./demo/dynamic-trigger.tsx">Conditional trigger</code>
+<code src="./demo/icon.tsx">Customize icon</code>
+<code src="./demo/async.tsx">Asynchronously close</code>
+<code src="./demo/promise.tsx">Asynchronously close on Promise</code>
+<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
+<code src="./demo/wireframe.tsx" debug>Wireframe</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Param | Description | Type | Default value | Version |
+| --- | --- | --- | --- | --- |
+| cancelButtonProps | The cancel button props | [ButtonProps](/components/button/#api) | - |  |
+| cancelText | The text of the Cancel button | string | `Cancel` |  |
+| disabled | Whether show popconfirm when click its childrenNode | boolean | false |  |
+| icon | Customize icon of confirmation | ReactNode | &lt;ExclamationCircle /> |  |
+| okButtonProps | The ok button props | [ButtonProps](/components/button/#api) | - |  |
+| okText | The text of the Confirm button | string | `OK` |  |
+| okType | Button `type` of the Confirm button | string | `primary` |  |
+| showCancel | Show cancel button | boolean | true | 4.18.0 |
+| title | The title of the confirmation box | ReactNode \| () => ReactNode | - |  |
+| description | The description of the confirmation box title | ReactNode \| () => ReactNode | - | 5.1.0 |
+| onCancel | A callback of cancel | function(e) | - |  |
+| onConfirm | A callback of confirmation | function(e) | - |  |
+| onPopupClick | A callback of popup click | function(e) | - | 5.5.0 |
+
+<!-- Common API -->
+
+<embed src="../tooltip/shared/sharedProps.en-US.md"></embed>
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify="true"></code>
+
+## Design Token
+
+<ComponentTokenTable component="Popconfirm"></ComponentTokenTable>
+
+## FAQ
+
+<embed src="../tooltip/shared/sharedFAQ.en-US.md"></embed>
+
+For more questions, please refer to [Tooltip FAQ](/components/tooltip#faq).
 
 ---
 Title: Notification
@@ -17561,67 +17553,75 @@ return (
 You can config with [`ConfigProvider.config`](/components/config-provider#configproviderconfig-4130)
 
 ---
-Title: Popconfirm
-URL: https://ant.design/components/popconfirm
+Title: Components Overview
+URL: https://ant.design/components/overview
+---
+
+`antd` provides plenty of UI components to enrich your web applications, and we will improve components experience consistently. We also recommend some great [Third-Party Libraries](/docs/react/recommendation) additionally.
+
+<ComponentOverview></ComponentOverview>
+
+---
+Title: Pagination
+URL: https://ant.design/components/pagination
 ---
 
 ## When To Use
 
-A simple and compact dialog used for asking for user confirmation.
-
-The difference with the `confirm` modal dialog is that it's more lightweight than the static popped full-screen confirm modal.
+- When it will take a long time to load/render all items.
+- If you want to browse the data by navigating through pages.
 
 ## Examples
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/locale.tsx">Locale text</code>
-<code src="./demo/placement.tsx">Placement</code>
-<code src="./demo/shift.tsx" iframe="300">Auto Shift</code>
-<code src="./demo/dynamic-trigger.tsx">Conditional trigger</code>
-<code src="./demo/icon.tsx">Customize icon</code>
-<code src="./demo/async.tsx">Asynchronously close</code>
-<code src="./demo/promise.tsx">Asynchronously close on Promise</code>
-<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
+<code src="./demo/align.tsx" version="5.19.0">Align</code>
+<code src="./demo/more.tsx">More</code>
+<code src="./demo/changer.tsx">Changer</code>
+<code src="./demo/jump.tsx">Jumper</code>
+<code src="./demo/mini.tsx">Mini size</code>
+<code src="./demo/simple.tsx">Simple mode</code>
+<code src="./demo/controlled.tsx">Controlled</code>
+<code src="./demo/total.tsx">Total number</code>
+<code src="./demo/all.tsx">Show All</code>
+<code src="./demo/itemRender.tsx">Prev and next</code>
 <code src="./demo/wireframe.tsx" debug>Wireframe</code>
+<code src="./demo/component-token.tsx" debug>component Token</code>
 
 ## API
 
 Common props ref：[Common props](/docs/react/common-props)
 
-| Param | Description | Type | Default value | Version |
+```jsx
+<Pagination onChange={onChange} total={50} />
+```
+
+| Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| cancelButtonProps | The cancel button props | [ButtonProps](/components/button/#api) | - |  |
-| cancelText | The text of the Cancel button | string | `Cancel` |  |
-| disabled | Whether show popconfirm when click its childrenNode | boolean | false |  |
-| icon | Customize icon of confirmation | ReactNode | &lt;ExclamationCircle /> |  |
-| okButtonProps | The ok button props | [ButtonProps](/components/button/#api) | - |  |
-| okText | The text of the Confirm button | string | `OK` |  |
-| okType | Button `type` of the Confirm button | string | `primary` |  |
-| showCancel | Show cancel button | boolean | true | 4.18.0 |
-| title | The title of the confirmation box | ReactNode \| () => ReactNode | - |  |
-| description | The description of the confirmation box title | ReactNode \| () => ReactNode | - | 5.1.0 |
-| onCancel | A callback of cancel | function(e) | - |  |
-| onConfirm | A callback of confirmation | function(e) | - |  |
-| onPopupClick | A callback of popup click | function(e) | - | 5.5.0 |
-
-<!-- Common API -->
-
-<embed src="../tooltip/shared/sharedProps.en-US.md"></embed>
-
-## Semantic DOM
-
-<code src="./demo/_semantic.tsx" simplify="true"></code>
+| align | Align | start \| center \| end | - | 5.19.0 |
+| current | Current page number | number | - |  |
+| defaultCurrent | Default initial page number | number | 1 |  |
+| defaultPageSize | Default number of data items per page | number | 10 |  |
+| disabled | Disable pagination | boolean | - |  |
+| hideOnSinglePage | Whether to hide pager on single page | boolean | false |  |
+| itemRender | To customize item's innerHTML | (page, type: 'page' \| 'prev' \| 'next', originalElement) => React.ReactNode | - |  |
+| pageSize | Number of data items per page | number | - |  |
+| pageSizeOptions | Specify the sizeChanger options | number\[] | \[`10`, `20`, `50`, `100`] |  |
+| responsive | If `size` is not specified, `Pagination` would resize according to the width of the window | boolean | - |  |
+| showLessItems | Show less page items | boolean | false |  |
+| showQuickJumper | Determine whether you can jump to pages directly | boolean \| { goButton: ReactNode } | false |  |
+| showSizeChanger | Determine whether to show `pageSize` select, it will be true when `total > 50` | boolean \| [SelectProps](/components/select#api) | - | SelectProps: 5.21.0 |
+| showTitle | Show page item's title | boolean | true |  |
+| showTotal | To display the total number and range | function(total, range) | - |  |
+| simple | Whether to use simple mode | boolean \| { readOnly?: boolean } | - |  |
+| size | Specify the size of `Pagination`, can be set to `small` | `default` \| `small` | `default` |  |
+| total | Total number of data items | number | 0 |  |
+| onChange | Called when the page number or `pageSize` is changed, and it takes the resulting page number and pageSize as its arguments | function(page, pageSize) | - |  |
+| onShowSizeChange | Called when `pageSize` is changed | function(current, size) | - |  |
 
 ## Design Token
 
-<ComponentTokenTable component="Popconfirm"></ComponentTokenTable>
-
-## FAQ
-
-<embed src="../tooltip/shared/sharedFAQ.en-US.md"></embed>
-
-For more questions, please refer to [Tooltip FAQ](/components/tooltip#faq).
+<ComponentTokenTable component="Pagination"></ComponentTokenTable>
 
 ---
 Title: Modal
@@ -17849,6 +17849,245 @@ return (
 You can config with [`ConfigProvider.config`](/components/config-provider#configproviderconfig-4130)
 
 ---
+Title: Message
+URL: https://ant.design/components/message
+---
+
+## When To Use
+
+- To provide feedback such as success, warning, error etc.
+- A message is displayed at top and center and will be dismissed automatically, as a non-interrupting light-weighted prompt.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/hooks.tsx">Hooks usage (recommended)</code>
+<code src="./demo/other.tsx">Other types of message</code>
+<code src="./demo/duration.tsx">Customize duration</code>
+<code src="./demo/loading.tsx">Message with loading indicator</code>
+<code src="./demo/thenable.tsx">Promise interface</code>
+<code src="./demo/custom-style.tsx">Customized style</code>
+<code src="./demo/update.tsx">Update Message Content</code>
+<code src="./demo/info.tsx">Static method (deprecated)</code>
+<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+This component provides some static methods, with usage and arguments as following:
+
+- `message.success(content, [duration], onClose)`
+- `message.error(content, [duration], onClose)`
+- `message.info(content, [duration], onClose)`
+- `message.warning(content, [duration], onClose)`
+- `message.loading(content, [duration], onClose)`
+
+| Argument | Description | Type | Default |
+| --- | --- | --- | --- |
+| content | The content of the message | ReactNode \| config | - |
+| duration | Time(seconds) before auto-dismiss, don't dismiss if set to 0 | number | 1.5 |
+| onClose | Specify a function that will be called when the message is closed | function | - |
+
+`afterClose` can be called in thenable interface:
+
+- `message[level](content, [duration]).then(afterClose)`
+- `message[level](content, [duration], onClose).then(afterClose)`
+
+where `level` refers one static methods of `message`. The result of `then` method will be a Promise.
+
+Supports passing parameters wrapped in an object:
+
+- `message.open(config)`
+- `message.success(config)`
+- `message.error(config)`
+- `message.info(config)`
+- `message.warning(config)`
+- `message.loading(config)`
+
+The properties of config are as follows:
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| className | Customized CSS class | string | - |
+| content | The content of the message | ReactNode | - |
+| duration | Time(seconds) before auto-dismiss, don't dismiss if set to 0 | number | 3 |
+| icon | Customized Icon | ReactNode | - |
+| key | The unique identifier of the Message | string \| number | - |
+| style | Customized inline style | [CSSProperties](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/e434515761b36830c3e58a970abf5186f005adac/types/react/index.d.ts#L794) | - |
+| onClick | Specify a function that will be called when the message is clicked | function | - |
+| onClose | Specify a function that will be called when the message is closed | function | - |
+
+### Global static methods
+
+Methods for global configuration and destruction are also provided:
+
+- `message.config(options)`
+- `message.destroy()`
+
+> use `message.destroy(key)` to remove a message.
+
+#### message.config
+
+> When you use `ConfigProvider` for global configuration, the system will automatically start RTL mode by default.(4.3.0+)
+>
+> When you want to use it alone, you can start the RTL mode through the following settings.
+
+```js
+message.config({
+  top: 100,
+  duration: 2,
+  maxCount: 3,
+  rtl: true,
+  prefixCls: 'my-message',
+});
+```
+
+| Argument | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| duration | Time before auto-dismiss, in seconds | number | 3 |  |
+| getContainer | Return the mount node for Message, but still display at fullScreen | () => HTMLElement | () => document.body |  |
+| maxCount | Max message show, drop oldest if exceed limit | number | - |  |
+| prefixCls | The prefix className of message node | string | `ant-message` | 4.5.0 |
+| rtl | Whether to enable RTL mode | boolean | false |  |
+| top | Distance from top | string \| number | 8 |  |
+
+## Design Token
+
+<ComponentTokenTable component="Message"></ComponentTokenTable>
+
+## FAQ
+
+### Why I can not access context, redux, ConfigProvider `locale/prefixCls/theme` in message?
+
+antd will dynamic create React instance by `ReactDOM.render` when call message methods. Whose context is different with origin code located context.
+
+When you need context info (like ConfigProvider context), you can use `message.useMessage` to get `api` instance and `contextHolder` node. And put it in your children:
+
+```tsx
+const [api, contextHolder] = message.useMessage();
+
+return (
+  <Context1.Provider value="Ant">
+    {/* contextHolder is inside Context1 which means api will get value of Context1 */}
+    {contextHolder}
+    <Context2.Provider value="Design">
+      {/* contextHolder is outside Context2 which means api will **not** get value of Context2 */}
+    </Context2.Provider>
+  </Context1.Provider>
+);
+```
+
+**Note:** You must insert `contextHolder` into your children with hooks. You can use origin method if you do not need context connection.
+
+> [App Package Component](/components/app) can be used to simplify the problem of `useMessage` and other methods that need to manually implant contextHolder.
+
+### How to set static methods prefixCls ？
+
+You can config with [`ConfigProvider.config`](/components/config-provider#configproviderconfig-4130)
+
+---
+Title: Mentions
+URL: https://ant.design/components/mentions
+---
+
+## When To Use
+
+When you need to mention someone or something.
+
+### Usage upgrade <Badge>5.1.0+</Badge>
+
+<!-- prettier-ignore -->
+:::warning{title="Upgrade Tip"}
+After version 5.1.0, we provide a simpler usage `<Mentions options={[...]} />` with better performance and potential of writing simpler code style in your applications.
+Meanwhile, we deprecated the old usage in browser console, we will remove it in antd 6.0.
+:::
+
+```jsx
+// works when >=5.1.0, recommended ✅
+const options = [{ value: 'sample', label: 'sample' }];
+return <Mentions options={options} />;
+
+// works when <5.1.0, deprecated when >=5.1.0 🙅🏻‍♀️
+return (
+  <Mentions onChange={onChange}>
+    <Mentions.Option value="sample">Sample</Mentions.Option>
+  </Mentions>
+);
+```
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/variant.tsx" version="5.13.0">Variants</code>
+<code src="./demo/async.tsx">Asynchronous loading</code>
+<code src="./demo/form.tsx">With Form</code>
+<code src="./demo/prefix.tsx">Customize Trigger Token</code>
+<code src="./demo/readonly.tsx">disabled or readOnly</code>
+<code src="./demo/placement.tsx">Placement</code>
+<code src="./demo/allowClear.tsx">With clear icon</code>
+<code src="./demo/autoSize.tsx">autoSize</code>
+<code src="./demo/status.tsx">Status</code>
+<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Mention
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| allowClear | If allow to remove mentions content with clear icon | boolean \| { clearIcon?: ReactNode } | false | 5.13.0 |
+| autoFocus | Auto get focus when component mounted | boolean | false |  |
+| autoSize | Textarea height autosize feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
+| defaultValue | Default value | string | - |  |
+| filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |  |
+| getPopupContainer | Set the mount HTML node for suggestions | () => HTMLElement | - |  |
+| notFoundContent | Set mentions content when not match | ReactNode | `Not Found` |  |
+| placement | Set popup placement | `top` \| `bottom` | `bottom` |  |
+| prefix | Set trigger prefix keyword | string \| string\[] | `@` |  |
+| split | Set split string before and after selected mention | string | ` ` |  |
+| status | Set validation status | 'error' \| 'warning' \| 'success' \| 'validating' | - | 4.19.0 |
+| validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |  |
+| value | Set value of mentions | string | - |  |
+| variant | Variants of Input | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | 5.13.0 \| `underlined`: 5.24.0 |
+| onBlur | Trigger when mentions lose focus | () => void | - |  |
+| onChange | Trigger when value changed | (text: string) => void | - |  |
+| onClear | Callback when click the clear button | () => void | - | 5.20.0 |
+| onFocus | Trigger when mentions get focus | () => void | - |  |
+| onResize | The callback function that is triggered when textarea resize | function({ width, height }) | - |  |
+| onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |  |
+| onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |  |
+| onPopupScroll | Trigger when mentions scroll | (e: Event) => void | - | 5.23.0 |
+| options | Option Configuration | [Options](#option) | \[] | 5.1.0 |
+
+### Mention methods
+
+| Name    | Description  |
+| ------- | ------------ |
+| blur()  | Remove focus |
+| focus() | Get focus    |
+
+### Option
+
+<!-- prettier-ignore -->
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| label | Title of the option | React.ReactNode | - |
+| key | The key value of the option | string | - |
+| disabled | Optional | boolean | - |
+| className | className | string | - |
+| style | The style of the option | React.CSSProperties | - |
+
+## Design Token
+
+<ComponentTokenTable component="Mentions"></ComponentTokenTable>
+
+---
 Title: Menu
 URL: https://ant.design/components/menu
 ---
@@ -17998,243 +18237,104 @@ Menu will render fully item in flex layout and then collapse it. You need tell f
 <ComponentTokenTable component="Menu"></ComponentTokenTable>
 
 ---
-Title: Mentions
-URL: https://ant.design/components/mentions
+Title: List
+URL: https://ant.design/components/list
 ---
 
 ## When To Use
 
-When you need to mention someone or something.
-
-### Usage upgrade <Badge>5.1.0+</Badge>
-
-<!-- prettier-ignore -->
-:::warning{title="Upgrade Tip"}
-After version 5.1.0, we provide a simpler usage `<Mentions options={[...]} />` with better performance and potential of writing simpler code style in your applications.
-Meanwhile, we deprecated the old usage in browser console, we will remove it in antd 6.0.
-:::
-
-```jsx
-// works when >=5.1.0, recommended ✅
-const options = [{ value: 'sample', label: 'sample' }];
-return <Mentions options={options} />;
-
-// works when <5.1.0, deprecated when >=5.1.0 🙅🏻‍♀️
-return (
-  <Mentions onChange={onChange}>
-    <Mentions.Option value="sample">Sample</Mentions.Option>
-  </Mentions>
-);
-```
+A list can be used to display content related to a single subject. The content can consist of multiple elements of varying type and size.
 
 ## Examples
 
 <!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/variant.tsx" version="5.13.0">Variants</code>
-<code src="./demo/async.tsx">Asynchronous loading</code>
-<code src="./demo/form.tsx">With Form</code>
-<code src="./demo/prefix.tsx">Customize Trigger Token</code>
-<code src="./demo/readonly.tsx">disabled or readOnly</code>
-<code src="./demo/placement.tsx">Placement</code>
-<code src="./demo/allowClear.tsx">With clear icon</code>
-<code src="./demo/autoSize.tsx">autoSize</code>
-<code src="./demo/status.tsx">Status</code>
-<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
+<code src="./demo/simple.tsx">Simple list</code>
+<code src="./demo/basic.tsx">Basic list</code>
+<code src="./demo/loadmore.tsx">Load more</code>
+<code src="./demo/vertical.tsx">Vertical</code>
+<code src="./demo/pagination.tsx">Pagination Settings</code>
+<code src="./demo/grid.tsx">Grid</code>
+<code src="./demo/grid-test.tsx" debug>Test Grid</code>
+<code src="./demo/responsive.tsx">Responsive grid list</code>
+<code src="./demo/infinite-load.tsx">Scrolling loaded</code>
+<code src="./demo/drag-sorting.tsx">Drag sorting</code>
+<code src="./demo/drag-sorting-handler.tsx">Drag sorting with handler</code>
+<code src="./demo/grid-drag-sorting.tsx">Grid Drag sorting</code>
+<code src="./demo/grid-drag-sorting-handler.tsx">Grid Drag sorting with handler</code>
+<code src="./demo/virtual-list.tsx">virtual list</code>
+<code src="./demo/component-token.tsx" debug>custom component token</code>
 
 ## API
 
 Common props ref：[Common props](/docs/react/common-props)
 
-### Mention
+### List
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| allowClear | If allow to remove mentions content with clear icon | boolean \| { clearIcon?: ReactNode } | false | 5.13.0 |
-| autoFocus | Auto get focus when component mounted | boolean | false |  |
-| autoSize | Textarea height autosize feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
-| defaultValue | Default value | string | - |  |
-| filterOption | Customize filter option logic | false \| (input: string, option: OptionProps) => boolean | - |  |
-| getPopupContainer | Set the mount HTML node for suggestions | () => HTMLElement | - |  |
-| notFoundContent | Set mentions content when not match | ReactNode | `Not Found` |  |
-| placement | Set popup placement | `top` \| `bottom` | `bottom` |  |
-| prefix | Set trigger prefix keyword | string \| string\[] | `@` |  |
-| split | Set split string before and after selected mention | string | ` ` |  |
-| status | Set validation status | 'error' \| 'warning' \| 'success' \| 'validating' | - | 4.19.0 |
-| validateSearch | Customize trigger search logic | (text: string, props: MentionsProps) => void | - |  |
-| value | Set value of mentions | string | - |  |
-| variant | Variants of Input | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | 5.13.0 \| `underlined`: 5.24.0 |
-| onBlur | Trigger when mentions lose focus | () => void | - |  |
-| onChange | Trigger when value changed | (text: string) => void | - |  |
-| onClear | Callback when click the clear button | () => void | - | 5.20.0 |
-| onFocus | Trigger when mentions get focus | () => void | - |  |
-| onResize | The callback function that is triggered when textarea resize | function({ width, height }) | - |  |
-| onSearch | Trigger when prefix hit | (text: string, prefix: string) => void | - |  |
-| onSelect | Trigger when user select the option | (option: OptionProps, prefix: string) => void | - |  |
-| onPopupScroll | Trigger when mentions scroll | (e: Event) => void | - | 5.23.0 |
-| options | Option Configuration | [Options](#option) | \[] | 5.1.0 |
+| bordered | Toggles rendering of the border around the list | boolean | false |  |
+| dataSource | DataSource array for list | any\[] | - |  |
+| footer | List footer renderer | ReactNode | - |  |
+| grid | The grid type of list. You can set grid to something like {gutter: 16, column: 4} | [object](#list-grid-props) | - |  |
+| header | List header renderer | ReactNode | - |  |
+| itemLayout | The layout of list | `horizontal` \| `vertical` | `horizontal` |  |
+| loading | Shows a loading indicator while the contents of the list are being fetched | boolean \| [SpinProps](/components/spin/#api) ([more](https://github.com/ant-design/ant-design/issues/8659)) | false |  |
+| loadMore | Shows a load more content | ReactNode | - |  |
+| locale | The i18n text including empty text | object | {emptyText: `No Data`} |  |
+| pagination | Pagination [config](/components/pagination/), hide it by setting it to false | boolean \| object | false |  |
+| renderItem | Customize list item when using `dataSource` | (item: T, index: number) => ReactNode | - |  |
+| rowKey | Item's unique value, could be an Item's key which holds a unique value of type `React.Key` or function that receives Item and returns a `React.Key` | `keyof` T \| (item: T) => `React.Key` | `"key"` |  |
+| size | Size of list | `default` \| `large` \| `small` | `default` |  |
+| split | Toggles rendering of the split under the list item | boolean | true |  |
 
-### Mention methods
+### pagination
 
-| Name    | Description  |
-| ------- | ------------ |
-| blur()  | Remove focus |
-| focus() | Get focus    |
+Properties for pagination.
 
-### Option
+| Property | Description                               | Type                         | Default  |
+| -------- | ----------------------------------------- | ---------------------------- | -------- |
+| position | The specify the position of `Pagination`  | `top` \| `bottom` \| `both`  | `bottom` |
+| align    | The specify the alignment of `Pagination` | `start` \| `center` \| `end` | `end`    |
 
-<!-- prettier-ignore -->
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| label | Title of the option | React.ReactNode | - |
-| key | The key value of the option | string | - |
-| disabled | Optional | boolean | - |
-| className | className | string | - |
-| style | The style of the option | React.CSSProperties | - |
+More about pagination, please check [`Pagination`](/components/pagination/).
 
-## Design Token
+### List grid props
 
-<ComponentTokenTable component="Mentions"></ComponentTokenTable>
+| Property | Description              | Type   | Default | Version |
+| -------- | ------------------------ | ------ | ------- | ------- |
+| column   | The column of grid       | number | -       |         |
+| gutter   | The spacing between grid | number | 0       |         |
+| xs       | `<576px` column of grid  | number | -       |         |
+| sm       | `≥576px` column of grid  | number | -       |         |
+| md       | `≥768px` column of grid  | number | -       |         |
+| lg       | `≥992px` column of grid  | number | -       |         |
+| xl       | `≥1200px` column of grid | number | -       |         |
+| xxl      | `≥1600px` column of grid | number | -       |         |
 
----
-Title: Message
-URL: https://ant.design/components/message
----
+### List.Item
 
-## When To Use
-
-- To provide feedback such as success, warning, error etc.
-- A message is displayed at top and center and will be dismissed automatically, as a non-interrupting light-weighted prompt.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/hooks.tsx">Hooks usage (recommended)</code>
-<code src="./demo/other.tsx">Other types of message</code>
-<code src="./demo/duration.tsx">Customize duration</code>
-<code src="./demo/loading.tsx">Message with loading indicator</code>
-<code src="./demo/thenable.tsx">Promise interface</code>
-<code src="./demo/custom-style.tsx">Customized style</code>
-<code src="./demo/update.tsx">Update Message Content</code>
-<code src="./demo/info.tsx">Static method (deprecated)</code>
-<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-This component provides some static methods, with usage and arguments as following:
-
-- `message.success(content, [duration], onClose)`
-- `message.error(content, [duration], onClose)`
-- `message.info(content, [duration], onClose)`
-- `message.warning(content, [duration], onClose)`
-- `message.loading(content, [duration], onClose)`
-
-| Argument | Description | Type | Default |
-| --- | --- | --- | --- |
-| content | The content of the message | ReactNode \| config | - |
-| duration | Time(seconds) before auto-dismiss, don't dismiss if set to 0 | number | 1.5 |
-| onClose | Specify a function that will be called when the message is closed | function | - |
-
-`afterClose` can be called in thenable interface:
-
-- `message[level](content, [duration]).then(afterClose)`
-- `message[level](content, [duration], onClose).then(afterClose)`
-
-where `level` refers one static methods of `message`. The result of `then` method will be a Promise.
-
-Supports passing parameters wrapped in an object:
-
-- `message.open(config)`
-- `message.success(config)`
-- `message.error(config)`
-- `message.info(config)`
-- `message.warning(config)`
-- `message.loading(config)`
-
-The properties of config are as follows:
-
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| className | Customized CSS class | string | - |
-| content | The content of the message | ReactNode | - |
-| duration | Time(seconds) before auto-dismiss, don't dismiss if set to 0 | number | 3 |
-| icon | Customized Icon | ReactNode | - |
-| key | The unique identifier of the Message | string \| number | - |
-| style | Customized inline style | [CSSProperties](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/e434515761b36830c3e58a970abf5186f005adac/types/react/index.d.ts#L794) | - |
-| onClick | Specify a function that will be called when the message is clicked | function | - |
-| onClose | Specify a function that will be called when the message is closed | function | - |
-
-### Global static methods
-
-Methods for global configuration and destruction are also provided:
-
-- `message.config(options)`
-- `message.destroy()`
-
-> use `message.destroy(key)` to remove a message.
-
-#### message.config
-
-> When you use `ConfigProvider` for global configuration, the system will automatically start RTL mode by default.(4.3.0+)
->
-> When you want to use it alone, you can start the RTL mode through the following settings.
-
-```js
-message.config({
-  top: 100,
-  duration: 2,
-  maxCount: 3,
-  rtl: true,
-  prefixCls: 'my-message',
-});
-```
-
-| Argument | Description | Type | Default | Version |
+| Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| duration | Time before auto-dismiss, in seconds | number | 3 |  |
-| getContainer | Return the mount node for Message, but still display at fullScreen | () => HTMLElement | () => document.body |  |
-| maxCount | Max message show, drop oldest if exceed limit | number | - |  |
-| prefixCls | The prefix className of message node | string | `ant-message` | 4.5.0 |
-| rtl | Whether to enable RTL mode | boolean | false |  |
-| top | Distance from top | string \| number | 8 |  |
+| actions | The actions content of list item. If `itemLayout` is `vertical`, shows the content on bottom, otherwise shows content on the far right | Array&lt;ReactNode> | - |  |
+| classNames | Semantic structure className | [`Record<actions \| extra, string>`](#semantic-dom) | - | 5.18.0 |
+| extra | The extra content of list item. If `itemLayout` is `vertical`, shows the content on right, otherwise shows content on the far right | ReactNode | - |  |
+| styles | Semantic DOM style | [`Record<actions \| extra, CSSProperties>`](#semantic-dom) | - | 5.18.0 |
+
+### List.Item.Meta
+
+| Property    | Description                  | Type      | Default | Version |
+| ----------- | ---------------------------- | --------- | ------- | ------- |
+| avatar      | The avatar of list item      | ReactNode | -       |         |
+| description | The description of list item | ReactNode | -       |         |
+| title       | The title of list item       | ReactNode | -       |         |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify="true"></code>
 
 ## Design Token
 
-<ComponentTokenTable component="Message"></ComponentTokenTable>
-
-## FAQ
-
-### Why I can not access context, redux, ConfigProvider `locale/prefixCls/theme` in message?
-
-antd will dynamic create React instance by `ReactDOM.render` when call message methods. Whose context is different with origin code located context.
-
-When you need context info (like ConfigProvider context), you can use `message.useMessage` to get `api` instance and `contextHolder` node. And put it in your children:
-
-```tsx
-const [api, contextHolder] = message.useMessage();
-
-return (
-  <Context1.Provider value="Ant">
-    {/* contextHolder is inside Context1 which means api will get value of Context1 */}
-    {contextHolder}
-    <Context2.Provider value="Design">
-      {/* contextHolder is outside Context2 which means api will **not** get value of Context2 */}
-    </Context2.Provider>
-  </Context1.Provider>
-);
-```
-
-**Note:** You must insert `contextHolder` into your children with hooks. You can use origin method if you do not need context connection.
-
-> [App Package Component](/components/app) can be used to simplify the problem of `useMessage` and other methods that need to manually implant contextHolder.
-
-### How to set static methods prefixCls ？
-
-You can config with [`ConfigProvider.config`](/components/config-provider#configproviderconfig-4130)
+<ComponentTokenTable component="List"></ComponentTokenTable>
 
 ---
 Title: Layout
@@ -18369,106 +18469,6 @@ The sidebar.
 <ComponentTokenTable component="Layout"></ComponentTokenTable>
 
 ---
-Title: List
-URL: https://ant.design/components/list
----
-
-## When To Use
-
-A list can be used to display content related to a single subject. The content can consist of multiple elements of varying type and size.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/simple.tsx">Simple list</code>
-<code src="./demo/basic.tsx">Basic list</code>
-<code src="./demo/loadmore.tsx">Load more</code>
-<code src="./demo/vertical.tsx">Vertical</code>
-<code src="./demo/pagination.tsx">Pagination Settings</code>
-<code src="./demo/grid.tsx">Grid</code>
-<code src="./demo/grid-test.tsx" debug>Test Grid</code>
-<code src="./demo/responsive.tsx">Responsive grid list</code>
-<code src="./demo/infinite-load.tsx">Scrolling loaded</code>
-<code src="./demo/drag-sorting.tsx">Drag sorting</code>
-<code src="./demo/drag-sorting-handler.tsx">Drag sorting with handler</code>
-<code src="./demo/grid-drag-sorting.tsx">Grid Drag sorting</code>
-<code src="./demo/grid-drag-sorting-handler.tsx">Grid Drag sorting with handler</code>
-<code src="./demo/virtual-list.tsx">virtual list</code>
-<code src="./demo/component-token.tsx" debug>custom component token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-### List
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| bordered | Toggles rendering of the border around the list | boolean | false |  |
-| dataSource | DataSource array for list | any\[] | - |  |
-| footer | List footer renderer | ReactNode | - |  |
-| grid | The grid type of list. You can set grid to something like {gutter: 16, column: 4} | [object](#list-grid-props) | - |  |
-| header | List header renderer | ReactNode | - |  |
-| itemLayout | The layout of list | `horizontal` \| `vertical` | `horizontal` |  |
-| loading | Shows a loading indicator while the contents of the list are being fetched | boolean \| [SpinProps](/components/spin/#api) ([more](https://github.com/ant-design/ant-design/issues/8659)) | false |  |
-| loadMore | Shows a load more content | ReactNode | - |  |
-| locale | The i18n text including empty text | object | {emptyText: `No Data`} |  |
-| pagination | Pagination [config](/components/pagination/), hide it by setting it to false | boolean \| object | false |  |
-| renderItem | Customize list item when using `dataSource` | (item: T, index: number) => ReactNode | - |  |
-| rowKey | Item's unique value, could be an Item's key which holds a unique value of type `React.Key` or function that receives Item and returns a `React.Key` | `keyof` T \| (item: T) => `React.Key` | `"key"` |  |
-| size | Size of list | `default` \| `large` \| `small` | `default` |  |
-| split | Toggles rendering of the split under the list item | boolean | true |  |
-
-### pagination
-
-Properties for pagination.
-
-| Property | Description                               | Type                         | Default  |
-| -------- | ----------------------------------------- | ---------------------------- | -------- |
-| position | The specify the position of `Pagination`  | `top` \| `bottom` \| `both`  | `bottom` |
-| align    | The specify the alignment of `Pagination` | `start` \| `center` \| `end` | `end`    |
-
-More about pagination, please check [`Pagination`](/components/pagination/).
-
-### List grid props
-
-| Property | Description              | Type   | Default | Version |
-| -------- | ------------------------ | ------ | ------- | ------- |
-| column   | The column of grid       | number | -       |         |
-| gutter   | The spacing between grid | number | 0       |         |
-| xs       | `<576px` column of grid  | number | -       |         |
-| sm       | `≥576px` column of grid  | number | -       |         |
-| md       | `≥768px` column of grid  | number | -       |         |
-| lg       | `≥992px` column of grid  | number | -       |         |
-| xl       | `≥1200px` column of grid | number | -       |         |
-| xxl      | `≥1600px` column of grid | number | -       |         |
-
-### List.Item
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| actions | The actions content of list item. If `itemLayout` is `vertical`, shows the content on bottom, otherwise shows content on the far right | Array&lt;ReactNode> | - |  |
-| classNames | Semantic structure className | [`Record<actions \| extra, string>`](#semantic-dom) | - | 5.18.0 |
-| extra | The extra content of list item. If `itemLayout` is `vertical`, shows the content on right, otherwise shows content on the far right | ReactNode | - |  |
-| styles | Semantic DOM style | [`Record<actions \| extra, CSSProperties>`](#semantic-dom) | - | 5.18.0 |
-
-### List.Item.Meta
-
-| Property    | Description                  | Type      | Default | Version |
-| ----------- | ---------------------------- | --------- | ------- | ------- |
-| avatar      | The avatar of list item      | ReactNode | -       |         |
-| description | The description of list item | ReactNode | -       |         |
-| title       | The title of list item       | ReactNode | -       |         |
-
-## Semantic DOM
-
-<code src="./demo/_semantic.tsx" simplify="true"></code>
-
-## Design Token
-
-<ComponentTokenTable component="List"></ComponentTokenTable>
-
----
 Title: InputNumber
 URL: https://ant.design/components/input-number
 ---
@@ -18568,6 +18568,191 @@ InputNumber's value is wrapped by internal logic. The `event.target.value` you g
 > The use of the `type` attribute is deprecated
 
 The InputNumber component allows you to use all the attributes of the input element and ultimately pass them to the input element, This attribute will also be added to the input element when you pass in `type='number'`, which will activate native behavior (allowing the mouse wheel to change the value), As a result `changeOnWheel` cannot control whether the mouse wheel changes the value.
+
+---
+Title: Input
+URL: https://ant.design/components/input
+---
+
+## When To Use
+
+- A user input in a form field is needed.
+- A search input is required.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic usage</code>
+<code src="./demo/size.tsx">Three sizes of Input</code>
+<code src="./demo/variant.tsx" version="5.13.0">Variants</code>
+<code src="./demo/filled-debug.tsx" debug>Filled Debug</code>
+<code src="./demo/addon.tsx" debug>Pre / Post tab</code>
+<code src="./demo/compact-style.tsx">Compact Style</code>
+<code src="./demo/group.tsx" debug>Input Group</code>
+<code src="./demo/search-input.tsx">Search box</code>
+<code src="./demo/search-input-loading.tsx">Search box with loading</code>
+<code src="./demo/textarea.tsx">TextArea</code>
+<code src="./demo/autosize-textarea.tsx">Autosizing the height to fit the content</code>
+<code src="./demo/otp.tsx" version="5.16.0">OTP</code>
+<code src="./demo/tooltip.tsx">Format Tooltip Input</code>
+<code src="./demo/presuffix.tsx">prefix and suffix</code>
+<code src="./demo/password-input.tsx">Password box</code>
+<code src="./demo/allowClear.tsx">With clear icon</code>
+<code src="./demo/show-count.tsx">With character counting</code>
+<code src="./demo/advance-count.tsx" version=">= 5.10.0">Custom count logic</code>
+<code src="./demo/status.tsx">Status</code>
+<code src="./demo/focus.tsx">Focus</code>
+<code src="./demo/borderless-debug.tsx" debug>Style Debug</code>
+<code src="./demo/align.tsx" debug>Text Align</code>
+<code src="./demo/textarea-resize.tsx" debug>TextArea</code>
+<code src="./demo/debug-addon.tsx" debug>debug Pre / Post tab</code>
+<code src="./demo/component-token.tsx" debug>debug token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Input
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| ~~addonAfter~~ | The label text displayed after (on the right side of) the input field, please use Space.Compact instead | ReactNode | - |  |
+| ~~addonBefore~~ | The label text displayed before (on the left side of) the input field, please use Space.Compact instead | ReactNode | - |  |
+| allowClear | If allow to remove input content with clear icon | boolean \| { clearIcon: ReactNode } | false |  |
+| ~~bordered~~ | Whether has border style, please use `variant` instead | boolean | true | 4.5.0 |
+| classNames | Semantic DOM class | Record<[SemanticDOM](#input-1), string> | - | 5.4.0 |
+| count | Character count config | [CountConfig](#countconfig) | - | 5.10.0 |
+| defaultValue | The initial input content | string | - |  |
+| disabled | Whether the input is disabled | boolean | false |  |
+| id | The ID for input | string | - |  |
+| maxLength | The maximum number of characters in Input | number | - |  |
+| prefix | The prefix icon for the Input | ReactNode | - |  |
+| showCount | Whether to show character count | boolean \| { formatter: (info: { value: string, count: number, maxLength?: number }) => ReactNode } | false | 4.18.0 info.value: 4.23.0 |
+| status | Set validation status | 'error' \| 'warning' | - | 4.19.0 |
+| styles | Semantic DOM style | Record<[SemanticDOM](#input-1), CSSProperties> | - | 5.4.0 |
+| size | The size of the input box. Note: in the context of a form, the `middle` size is used | `large` \| `middle` \| `small` | - |  |
+| suffix | The suffix icon for the Input | ReactNode | - |  |
+| type | The type of input, see: [MDN](https://developer.mozilla.org/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)( use `Input.TextArea` instead of `type="textarea"`) | string | `text` |  |
+| value | The input content value | string | - |  |
+| variant | Variants of Input | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | 5.13.0 \| `underlined`: 5.24.0 |
+| onChange | Callback when user input | function(e) | - |  |
+| onPressEnter | The callback function that is triggered when Enter key is pressed | function(e) | - |  |
+| onClear | Callback when click the clear button | () => void | - | 5.20.0 |
+
+> When `Input` is used in a `Form.Item` context, if the `Form.Item` has the `id` props defined then `value`, `defaultValue`, and `id` props of `Input` are automatically set.
+
+The rest of the props of Input are exactly the same as the original [input](https://react.dev/reference/react-dom/components/input).
+
+#### CountConfig
+
+```tsx
+interface CountConfig {
+  // Max character count. Different from the native `maxLength`, it will be marked warning but not truncated
+  max?: number;
+  // Custom character count, for example, the standard emoji length is greater than 1, you can customize the counting strategy to change it to 1
+  strategy?: (value: string) => number;
+  // Same as `showCount`
+  show?: boolean | ((args: { value: string; count: number; maxLength?: number }) => ReactNode);
+  // Custom clipping logic when the number of characters exceeds `count.max`, no clipping when not configured
+  exceedFormatter?: (value: string, config: { max: number }) => string;
+}
+```
+
+### Input.TextArea
+
+Same as Input, and more:
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| autoSize | Height auto size feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
+| classNames | Semantic DOM class | Record<[SemanticDOM](#inputtextarea-1), string> | - | 5.4.0 |
+| styles | Semantic DOM style | Record<[SemanticDOM](#inputtextarea-1), CSSProperties> | - | 5.4.0 |
+
+The rest of the props of `Input.TextArea` are the same as the original [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea).
+
+### Input.Search
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| enterButton | false displays the default button color, true uses the primary color, or you can provide a custom button. Conflicts with addonAfter. | ReactNode | false |
+| loading | Search box with loading | boolean | false |
+| onSearch | The callback function triggered when you click on the search-icon, the clear-icon or press the Enter key | function(value, event, { source: "input" \| "clear" }) | - |
+
+Supports all props of `Input`.
+
+### Input.Password
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| iconRender | Custom toggle button | (visible) => ReactNode | (visible) => (visible ? &lt;EyeOutlined /> : &lt;EyeInvisibleOutlined />) | 4.3.0 |
+| visibilityToggle | Whether show toggle button or control password visible | boolean \| [VisibilityToggle](#visibilitytoggle) | true |  |
+
+### Input.OTP
+
+Added in `5.16.0`.
+
+> Notes for developers
+>
+> When the `mask` prop is string, we recommend receiving a single character or a single emoji. If multiple characters or multiple emoji are passed, a warning will be thrown.
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| defaultValue | Default value | string | - |  |
+| disabled | Whether the input is disabled | boolean | false |  |
+| formatter | Format display, blank fields will be filled with ` ` | (value: string) => string | - |  |
+| separator | render the separator after the input box of the specified index | ReactNode \|((i: number) => ReactNode) | - | 5.24.0 |
+| mask | Custom display, the original value will not be modified | boolean \| string | `false` | `5.17.0` |
+| length | The number of input elements | number | 6 |  |
+| status | Set validation status | 'error' \| 'warning' | - |  |
+| size | The size of the input box | `small` \| `middle` \| `large` | `middle` |  |
+| variant | Variants of Input | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | `underlined`: 5.24.0 |
+| value | The input content value | string | - |  |
+| onChange | Trigger when all the fields are filled | (value: string) => void | - |  |
+| onInput | Trigger when the input value changes | (value: string[]) => void | - | `5.22.0` |
+
+#### VisibilityToggle
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| visible | Whether the password is show or hide | boolean | false | 4.24.0 |
+| onVisibleChange | Callback executed when visibility of the password is changed | (visible) => void | - | 4.24.0 |
+
+#### Input Methods
+
+| Name | Description | Parameters | Version |
+| --- | --- | --- | --- |
+| blur | Remove focus | - |  |
+| focus | Get focus | (option?: { preventScroll?: boolean, cursor?: 'start' \| 'end' \| 'all' }) | option - 4.10.0 |
+
+## Semantic DOM
+
+### Input
+
+<code src="./demo/_semantic_input.tsx" simplify="true"></code>
+
+### Input.TextArea
+
+<code src="./demo/_semantic_textarea.tsx" simplify="true"></code>
+
+## Design Token
+
+<ComponentTokenTable component="Input"></ComponentTokenTable>
+
+## FAQ
+
+### Why Input lose focus when change `prefix/suffix/showCount`
+
+When Input dynamic add or remove `prefix/suffix/showCount` will make React recreate the dom structure and new input will be not focused. You can set an empty `<span />` element to keep the dom structure:
+
+```jsx
+const suffix = condition ? <Icon type="smile" /> : <span />;
+
+<Input suffix={suffix} />;
+```
+
+### Why TextArea in control can make `value` exceed `maxLength`?
+
+When in control, component should show as what it set to avoid submit value not align with store value in Form.
 
 ---
 Title: Image
@@ -18968,6 +19153,51 @@ If you must use static methods, you can put any of icon components just under `A
 ```
 
 ---
+Title: Flex
+URL: https://ant.design/components/flex
+---
+
+## When To Use
+
+- Good for setting spacing between elements.
+- Suitable for setting various horizontal and vertical alignments.
+
+### Difference with Space component
+
+- Space is used to set the spacing between inline elements. It will add a wrapper element for each child element for inline alignment. Suitable for equidistant arrangement of multiple child elements in rows and columns.
+- Flex is used to set the layout of block-level elements. It does not add a wrapper element. Suitable for layout of child elements in vertical or horizontal direction, and provides more flexibility and control.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/align.tsx">align</code>
+<code src="./demo/gap.tsx">gap</code>
+<code src="./demo/wrap.tsx">Wrap</code>
+<code src="./demo/combination.tsx">combination</code>
+<code src="./demo/debug.tsx" debug>debug</code>
+
+## API
+
+> This component is available since `antd@5.10.0`. The default behavior of Flex in horizontal mode is to align upward, In vertical mode, aligns the stretch, You can adjust this via properties.
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | type | Default | Version |
+| --- | --- | --- | --- | --- |
+| vertical | Is direction of the flex vertical, use `flex-direction: column` | boolean | `false` |  |
+| wrap | Set whether the element is displayed in a single line or in multiple lines | [flex-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap) \| boolean | nowrap | boolean: 5.17.0 |
+| justify | Sets the alignment of elements in the direction of the main axis | [justify-content](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content) | normal |  |
+| align | Sets the alignment of elements in the direction of the cross axis | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | normal |  |
+| flex | flex CSS shorthand properties | [flex](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) | normal |  |
+| gap | Sets the gap between grids | `small` \| `middle` \| `large` \| string \| number | - |  |
+| component | custom element type | React.ComponentType | `div` |  |
+
+## Design Token
+
+<ComponentTokenTable component="Flex"></ComponentTokenTable>
+
+---
 Title: Grid
 URL: https://ant.design/components/grid
 ---
@@ -19058,189 +19288,74 @@ The breakpoints of responsive grid follow [BootStrap 4 media queries rules](http
 <ComponentTokenTable component="Grid"></ComponentTokenTable>
 
 ---
-Title: Input
-URL: https://ant.design/components/input
+Title: Empty
+URL: https://ant.design/components/empty
 ---
 
 ## When To Use
 
-- A user input in a form field is needed.
-- A search input is required.
+- When there is no data provided, display for friendly tips.
+- User tutorial to create something in fresh new situation.
 
 ## Examples
 
 <!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic usage</code>
-<code src="./demo/size.tsx">Three sizes of Input</code>
-<code src="./demo/variant.tsx" version="5.13.0">Variants</code>
-<code src="./demo/filled-debug.tsx" debug>Filled Debug</code>
-<code src="./demo/addon.tsx" debug>Pre / Post tab</code>
-<code src="./demo/compact-style.tsx">Compact Style</code>
-<code src="./demo/group.tsx" debug>Input Group</code>
-<code src="./demo/search-input.tsx">Search box</code>
-<code src="./demo/search-input-loading.tsx">Search box with loading</code>
-<code src="./demo/textarea.tsx">TextArea</code>
-<code src="./demo/autosize-textarea.tsx">Autosizing the height to fit the content</code>
-<code src="./demo/otp.tsx" version="5.16.0">OTP</code>
-<code src="./demo/tooltip.tsx">Format Tooltip Input</code>
-<code src="./demo/presuffix.tsx">prefix and suffix</code>
-<code src="./demo/password-input.tsx">Password box</code>
-<code src="./demo/allowClear.tsx">With clear icon</code>
-<code src="./demo/show-count.tsx">With character counting</code>
-<code src="./demo/advance-count.tsx" version=">= 5.10.0">Custom count logic</code>
-<code src="./demo/status.tsx">Status</code>
-<code src="./demo/focus.tsx">Focus</code>
-<code src="./demo/borderless-debug.tsx" debug>Style Debug</code>
-<code src="./demo/align.tsx" debug>Text Align</code>
-<code src="./demo/textarea-resize.tsx" debug>TextArea</code>
-<code src="./demo/debug-addon.tsx" debug>debug Pre / Post tab</code>
-<code src="./demo/component-token.tsx" debug>debug token</code>
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/simple.tsx">Choose image</code>
+<code src="./demo/customize.tsx">Customize</code>
+<code src="./demo/config-provider.tsx">ConfigProvider</code>
+<code src="./demo/description.tsx">No description</code>
 
 ## API
 
 Common props ref：[Common props](/docs/react/common-props)
 
-### Input
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| ~~addonAfter~~ | The label text displayed after (on the right side of) the input field, please use Space.Compact instead | ReactNode | - |  |
-| ~~addonBefore~~ | The label text displayed before (on the left side of) the input field, please use Space.Compact instead | ReactNode | - |  |
-| allowClear | If allow to remove input content with clear icon | boolean \| { clearIcon: ReactNode } | false |  |
-| ~~bordered~~ | Whether has border style, please use `variant` instead | boolean | true | 4.5.0 |
-| classNames | Semantic DOM class | Record<[SemanticDOM](#input-1), string> | - | 5.4.0 |
-| count | Character count config | [CountConfig](#countconfig) | - | 5.10.0 |
-| defaultValue | The initial input content | string | - |  |
-| disabled | Whether the input is disabled | boolean | false |  |
-| id | The ID for input | string | - |  |
-| maxLength | The maximum number of characters in Input | number | - |  |
-| prefix | The prefix icon for the Input | ReactNode | - |  |
-| showCount | Whether to show character count | boolean \| { formatter: (info: { value: string, count: number, maxLength?: number }) => ReactNode } | false | 4.18.0 info.value: 4.23.0 |
-| status | Set validation status | 'error' \| 'warning' | - | 4.19.0 |
-| styles | Semantic DOM style | Record<[SemanticDOM](#input-1), CSSProperties> | - | 5.4.0 |
-| size | The size of the input box. Note: in the context of a form, the `middle` size is used | `large` \| `middle` \| `small` | - |  |
-| suffix | The suffix icon for the Input | ReactNode | - |  |
-| type | The type of input, see: [MDN](https://developer.mozilla.org/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)( use `Input.TextArea` instead of `type="textarea"`) | string | `text` |  |
-| value | The input content value | string | - |  |
-| variant | Variants of Input | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | 5.13.0 \| `underlined`: 5.24.0 |
-| onChange | Callback when user input | function(e) | - |  |
-| onPressEnter | The callback function that is triggered when Enter key is pressed | function(e) | - |  |
-| onClear | Callback when click the clear button | () => void | - | 5.20.0 |
-
-> When `Input` is used in a `Form.Item` context, if the `Form.Item` has the `id` props defined then `value`, `defaultValue`, and `id` props of `Input` are automatically set.
-
-The rest of the props of Input are exactly the same as the original [input](https://react.dev/reference/react-dom/components/input).
-
-#### CountConfig
-
-```tsx
-interface CountConfig {
-  // Max character count. Different from the native `maxLength`, it will be marked warning but not truncated
-  max?: number;
-  // Custom character count, for example, the standard emoji length is greater than 1, you can customize the counting strategy to change it to 1
-  strategy?: (value: string) => number;
-  // Same as `showCount`
-  show?: boolean | ((args: { value: string; count: number; maxLength?: number }) => ReactNode);
-  // Custom clipping logic when the number of characters exceeds `count.max`, no clipping when not configured
-  exceedFormatter?: (value: string, config: { max: number }) => string;
-}
+```jsx
+<Empty>
+  <Button>Create</Button>
+</Empty>
 ```
 
-### Input.TextArea
-
-Same as Input, and more:
-
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| autoSize | Height auto size feature, can be set to true \| false or an object { minRows: 2, maxRows: 6 } | boolean \| object | false |  |
-| classNames | Semantic DOM class | Record<[SemanticDOM](#inputtextarea-1), string> | - | 5.4.0 |
-| styles | Semantic DOM style | Record<[SemanticDOM](#inputtextarea-1), CSSProperties> | - | 5.4.0 |
+| description | Customize description | ReactNode | - |  |
+| image | Customize image. Will treat as image url when string provided | ReactNode | `Empty.PRESENTED_IMAGE_DEFAULT` |  |
+| imageStyle | The style of image | CSSProperties | - |  |
 
-The rest of the props of `Input.TextArea` are the same as the original [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea).
+## Built-in images
 
-### Input.Search
+- Empty.PRESENTED_IMAGE_SIMPLE
 
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| enterButton | false displays the default button color, true uses the primary color, or you can provide a custom button. Conflicts with addonAfter. | ReactNode | false |
-| loading | Search box with loading | boolean | false |
-| onSearch | The callback function triggered when you click on the search-icon, the clear-icon or press the Enter key | function(value, event, { source: "input" \| "clear" }) | - |
+  <div class="site-empty-buildIn-img site-empty-buildIn-simple"><div>
 
-Supports all props of `Input`.
+- Empty.PRESENTED_IMAGE_DEFAULT
 
-### Input.Password
+  <div class="site-empty-buildIn-img site-empty-buildIn-default"></div>
 
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| iconRender | Custom toggle button | (visible) => ReactNode | (visible) => (visible ? &lt;EyeOutlined /> : &lt;EyeInvisibleOutlined />) | 4.3.0 |
-| visibilityToggle | Whether show toggle button or control password visible | boolean \| [VisibilityToggle](#visibilitytoggle) | true |  |
-
-### Input.OTP
-
-Added in `5.16.0`.
-
-> Notes for developers
->
-> When the `mask` prop is string, we recommend receiving a single character or a single emoji. If multiple characters or multiple emoji are passed, a warning will be thrown.
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| defaultValue | Default value | string | - |  |
-| disabled | Whether the input is disabled | boolean | false |  |
-| formatter | Format display, blank fields will be filled with ` ` | (value: string) => string | - |  |
-| separator | render the separator after the input box of the specified index | ReactNode \|((i: number) => ReactNode) | - | 5.24.0 |
-| mask | Custom display, the original value will not be modified | boolean \| string | `false` | `5.17.0` |
-| length | The number of input elements | number | 6 |  |
-| status | Set validation status | 'error' \| 'warning' | - |  |
-| size | The size of the input box | `small` \| `middle` \| `large` | `middle` |  |
-| variant | Variants of Input | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | `underlined`: 5.24.0 |
-| value | The input content value | string | - |  |
-| onChange | Trigger when all the fields are filled | (value: string) => void | - |  |
-| onInput | Trigger when the input value changes | (value: string[]) => void | - | `5.22.0` |
-
-#### VisibilityToggle
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| visible | Whether the password is show or hide | boolean | false | 4.24.0 |
-| onVisibleChange | Callback executed when visibility of the password is changed | (visible) => void | - | 4.24.0 |
-
-#### Input Methods
-
-| Name | Description | Parameters | Version |
-| --- | --- | --- | --- |
-| blur | Remove focus | - |  |
-| focus | Get focus | (option?: { preventScroll?: boolean, cursor?: 'start' \| 'end' \| 'all' }) | option - 4.10.0 |
+<style>
+  .site-empty-buildIn-img {
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  .site-empty-buildIn-simple {
+    width: 55px;
+    height: 35px;
+    background-image: url("https://user-images.githubusercontent.com/507615/54591679-b0ceb580-4a65-11e9-925c-ad15b4eae93d.png");
+  }
+  .site-empty-buildIn-default {
+    width: 121px;
+    height: 116px;
+    background-image: url("https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png");
+  }
+</style>
 
 ## Semantic DOM
 
-### Input
-
-<code src="./demo/_semantic_input.tsx" simplify="true"></code>
-
-### Input.TextArea
-
-<code src="./demo/_semantic_textarea.tsx" simplify="true"></code>
+<code src="./demo/_semantic.tsx" simplify="true"></code>
 
 ## Design Token
 
-<ComponentTokenTable component="Input"></ComponentTokenTable>
-
-## FAQ
-
-### Why Input lose focus when change `prefix/suffix/showCount`
-
-When Input dynamic add or remove `prefix/suffix/showCount` will make React recreate the dom structure and new input will be not focused. You can set an empty `<span />` element to keep the dom structure:
-
-```jsx
-const suffix = condition ? <Icon type="smile" /> : <span />;
-
-<Input suffix={suffix} />;
-```
-
-### Why TextArea in control can make `value` exceed `maxLength`?
-
-When in control, component should show as what it set to avoid submit value not align with store value in Form.
+<ComponentTokenTable component="Empty"></ComponentTokenTable>
 
 ---
 Title: Form
@@ -19973,51 +20088,6 @@ Form label use [HTML label](https://developer.mozilla.org/en-US/docs/Web/HTML/El
 ```
 
 ---
-Title: Flex
-URL: https://ant.design/components/flex
----
-
-## When To Use
-
-- Good for setting spacing between elements.
-- Suitable for setting various horizontal and vertical alignments.
-
-### Difference with Space component
-
-- Space is used to set the spacing between inline elements. It will add a wrapper element for each child element for inline alignment. Suitable for equidistant arrangement of multiple child elements in rows and columns.
-- Flex is used to set the layout of block-level elements. It does not add a wrapper element. Suitable for layout of child elements in vertical or horizontal direction, and provides more flexibility and control.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/align.tsx">align</code>
-<code src="./demo/gap.tsx">gap</code>
-<code src="./demo/wrap.tsx">Wrap</code>
-<code src="./demo/combination.tsx">combination</code>
-<code src="./demo/debug.tsx" debug>debug</code>
-
-## API
-
-> This component is available since `antd@5.10.0`. The default behavior of Flex in horizontal mode is to align upward, In vertical mode, aligns the stretch, You can adjust this via properties.
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | type | Default | Version |
-| --- | --- | --- | --- | --- |
-| vertical | Is direction of the flex vertical, use `flex-direction: column` | boolean | `false` |  |
-| wrap | Set whether the element is displayed in a single line or in multiple lines | [flex-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap) \| boolean | nowrap | boolean: 5.17.0 |
-| justify | Sets the alignment of elements in the direction of the main axis | [justify-content](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content) | normal |  |
-| align | Sets the alignment of elements in the direction of the cross axis | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | normal |  |
-| flex | flex CSS shorthand properties | [flex](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) | normal |  |
-| gap | Sets the gap between grids | `small` \| `middle` \| `large` \| string \| number | - |  |
-| component | custom element type | React.ComponentType | `div` |  |
-
-## Design Token
-
-<ComponentTokenTable component="Flex"></ComponentTokenTable>
-
----
 Title: FloatButton
 URL: https://ant.design/components/float-button
 ---
@@ -20089,76 +20159,6 @@ Common props ref：[Common props](/docs/react/common-props)
 ## Design Token
 
 <ComponentTokenTable component="FloatButton"></ComponentTokenTable>
-
----
-Title: Empty
-URL: https://ant.design/components/empty
----
-
-## When To Use
-
-- When there is no data provided, display for friendly tips.
-- User tutorial to create something in fresh new situation.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/simple.tsx">Choose image</code>
-<code src="./demo/customize.tsx">Customize</code>
-<code src="./demo/config-provider.tsx">ConfigProvider</code>
-<code src="./demo/description.tsx">No description</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-```jsx
-<Empty>
-  <Button>Create</Button>
-</Empty>
-```
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| description | Customize description | ReactNode | - |  |
-| image | Customize image. Will treat as image url when string provided | ReactNode | `Empty.PRESENTED_IMAGE_DEFAULT` |  |
-| imageStyle | The style of image | CSSProperties | - |  |
-
-## Built-in images
-
-- Empty.PRESENTED_IMAGE_SIMPLE
-
-  <div class="site-empty-buildIn-img site-empty-buildIn-simple"><div>
-
-- Empty.PRESENTED_IMAGE_DEFAULT
-
-  <div class="site-empty-buildIn-img site-empty-buildIn-default"></div>
-
-<style>
-  .site-empty-buildIn-img {
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-  .site-empty-buildIn-simple {
-    width: 55px;
-    height: 35px;
-    background-image: url("https://user-images.githubusercontent.com/507615/54591679-b0ceb580-4a65-11e9-925c-ad15b4eae93d.png");
-  }
-  .site-empty-buildIn-default {
-    width: 121px;
-    height: 116px;
-    background-image: url("https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png");
-  }
-</style>
-
-## Semantic DOM
-
-<code src="./demo/_semantic.tsx" simplify="true"></code>
-
-## Design Token
-
-<ComponentTokenTable component="Empty"></ComponentTokenTable>
 
 ---
 Title: Dropdown
@@ -21011,87 +21011,6 @@ In production mode of Vite, default exports from cjs file should be used like th
 3. `message.config({ prefixCls: 'prefix-3' })`
 
 ---
-Title: ColorPicker
-URL: https://ant.design/components/color-picker
----
-
-## When To Use
-
-Used when the user needs to make a customized color selection.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/base.tsx">Basic Usage</code>
-<code src="./demo/size.tsx">Trigger size</code>
-<code src="./demo/controlled.tsx">controlled mode</code>
-<code src="./demo/line-gradient.tsx" version="5.20.0">Line Gradient</code>
-<code src="./demo/text-render.tsx">Rendering Trigger Text</code>
-<code src="./demo/disabled.tsx">Disable</code>
-<code src="./demo/disabled-alpha.tsx">Disabled Alpha</code>
-<code src="./demo/allowClear.tsx">Clear Color</code>
-<code src="./demo/trigger.tsx">Custom Trigger</code>
-<code src="./demo/trigger-event.tsx">Custom Trigger Event</code>
-<code src="./demo/format.tsx">Color Format</code>
-<code src="./demo/presets.tsx">Preset Colors</code>
-<code src="./demo/panel-render.tsx">Custom Render Panel</code>
-<code src="./demo/pure-panel.tsx" debug>Pure Render</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-> This component is available since `antd@5.5.0`.
-
-<!-- prettier-ignore -->
-| Property | Description | Type | Default | Version |
-| :-- | :-- | :-- | :-- | :-- |
-| allowClear | 	Allow clearing color selected | boolean | false | |
-| arrow | Configuration for popup arrow | `boolean \| { pointAtCenter: boolean }` | true | |
-| children | Trigger of ColorPicker | React.ReactNode | - | |
-| defaultValue | Default value of color | string \| `Color` | - | |
-| defaultFormat | Default format of color | `rgb` \| `hex` \| `hsb` | `hex` | 5.9.0 |
-| disabled | Disable ColorPicker | boolean | - | |
-| disabledAlpha | Disable Alpha | boolean | - | 5.8.0 |
-| disabledFormat | Disable format of color | boolean | - | |
-| ~~destroyTooltipOnHide~~ | Whether destroy dom when close | `boolean` | false | 5.7.0 |
-| destroyOnHidden | Whether destroy dom when close | `boolean` | false | 5.25.0 |
-| format | Format of color | `rgb` \| `hex` \| `hsb` | - | |
-| mode | Configure single or gradient color | `'single' \| 'gradient' \| ('single' \| 'gradient')[]` | `single` | 5.20.0 |
-| open | Whether to show popup | boolean | - | |
-| presets | Preset colors | `{ label: ReactNode, colors: Array<string \| Color>, defaultOpen?: boolean, key?: React.Key }[]` | - | `defaultOpen: 5.11.0, key: 5.23.0` |
-| placement | Placement of popup | The design of the [placement](/components/tooltip/#api) parameter is the same as the `Tooltips` component. | `bottomLeft` | |
-| panelRender | Custom Render Panel | `(panel: React.ReactNode, extra: { components: { Picker: FC; Presets: FC } }) => React.ReactNode` | - | 5.7.0 |
-| showText | Show color text | boolean \| `(color: Color) => React.ReactNode` | - | 5.7.0 |
-| size | Setting the trigger size | `large` \| `middle` \| `small` | `middle` | 5.7.0 |
-| trigger | ColorPicker trigger mode | `hover` \| `click` | `click` | |
-| value | Value of color | string \| `Color` | - | |
-| onChange | Callback when `value` is changed | `(value: Color, css: string) => void` | - | |
-| onChangeComplete | Called when color pick ends. Will not change the display color when `value` controlled by `onChangeComplete` | `(value: Color) => void` | - | 5.7.0 |
-| onFormatChange | Callback when `format` is changed | `(format: 'hex' \| 'rgb' \| 'hsb') => void` | - | |
-| onOpenChange | Callback when `open` is changed | `(open: boolean) => void` | - | |
-| onClear | Called when clear | `() => void` | - | 5.6.0 |
-
-### Color
-
-<!-- prettier-ignore -->
-| Property | Description | Type | Version |
-| :-- | :-- | :-- | :-- |
-| toCssString | Convert to CSS support format | `() => string` | 5.20.0 |
-| toHex | Convert to `hex` format characters, the return type like: `1677ff` | `() => string` | - |
-| toHexString | Convert to `hex` format color string, the return type like: `#1677ff` | `() => string` | - |
-| toHsb | Convert to `hsb` object  | `() => ({ h: number, s: number, b: number, a number })` | - |
-| toHsbString | Convert to `hsb` format color string, the return type like: `hsb(215, 91%, 100%)` | `() => string` | - |
-| toRgb | Convert to `rgb` object  | `() => ({ r: number, g: number, b: number, a number })` | - |
-| toRgbString | Convert to `rgb` format color string, the return type like: `rgb(22, 119, 255)` | `() => string` | - |
-
-## FAQ
-
-### Questions about color assignment
-
-The value of the color selector supports both string color values and selector-generated `Color` objects. However, since there is a precision error when converting color strings of different formats to each other, it is recommended to use selector-generated `Color` objects for assignment operations in controlled scenarios, so that the precision problem can be avoided and the values are guaranteed to be accurate and the selector can work as expected.
-
----
 Title: Collapse
 URL: https://ant.design/components/collapse
 ---
@@ -21310,6 +21229,87 @@ Form.Item default bind value to `value` property, but Checkbox value property is
 ```
 
 ---
+Title: ColorPicker
+URL: https://ant.design/components/color-picker
+---
+
+## When To Use
+
+Used when the user needs to make a customized color selection.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/base.tsx">Basic Usage</code>
+<code src="./demo/size.tsx">Trigger size</code>
+<code src="./demo/controlled.tsx">controlled mode</code>
+<code src="./demo/line-gradient.tsx" version="5.20.0">Line Gradient</code>
+<code src="./demo/text-render.tsx">Rendering Trigger Text</code>
+<code src="./demo/disabled.tsx">Disable</code>
+<code src="./demo/disabled-alpha.tsx">Disabled Alpha</code>
+<code src="./demo/allowClear.tsx">Clear Color</code>
+<code src="./demo/trigger.tsx">Custom Trigger</code>
+<code src="./demo/trigger-event.tsx">Custom Trigger Event</code>
+<code src="./demo/format.tsx">Color Format</code>
+<code src="./demo/presets.tsx">Preset Colors</code>
+<code src="./demo/panel-render.tsx">Custom Render Panel</code>
+<code src="./demo/pure-panel.tsx" debug>Pure Render</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+> This component is available since `antd@5.5.0`.
+
+<!-- prettier-ignore -->
+| Property | Description | Type | Default | Version |
+| :-- | :-- | :-- | :-- | :-- |
+| allowClear | 	Allow clearing color selected | boolean | false | |
+| arrow | Configuration for popup arrow | `boolean \| { pointAtCenter: boolean }` | true | |
+| children | Trigger of ColorPicker | React.ReactNode | - | |
+| defaultValue | Default value of color | string \| `Color` | - | |
+| defaultFormat | Default format of color | `rgb` \| `hex` \| `hsb` | `hex` | 5.9.0 |
+| disabled | Disable ColorPicker | boolean | - | |
+| disabledAlpha | Disable Alpha | boolean | - | 5.8.0 |
+| disabledFormat | Disable format of color | boolean | - | |
+| ~~destroyTooltipOnHide~~ | Whether destroy dom when close | `boolean` | false | 5.7.0 |
+| destroyOnHidden | Whether destroy dom when close | `boolean` | false | 5.25.0 |
+| format | Format of color | `rgb` \| `hex` \| `hsb` | - | |
+| mode | Configure single or gradient color | `'single' \| 'gradient' \| ('single' \| 'gradient')[]` | `single` | 5.20.0 |
+| open | Whether to show popup | boolean | - | |
+| presets | Preset colors | `{ label: ReactNode, colors: Array<string \| Color>, defaultOpen?: boolean, key?: React.Key }[]` | - | `defaultOpen: 5.11.0, key: 5.23.0` |
+| placement | Placement of popup | The design of the [placement](/components/tooltip/#api) parameter is the same as the `Tooltips` component. | `bottomLeft` | |
+| panelRender | Custom Render Panel | `(panel: React.ReactNode, extra: { components: { Picker: FC; Presets: FC } }) => React.ReactNode` | - | 5.7.0 |
+| showText | Show color text | boolean \| `(color: Color) => React.ReactNode` | - | 5.7.0 |
+| size | Setting the trigger size | `large` \| `middle` \| `small` | `middle` | 5.7.0 |
+| trigger | ColorPicker trigger mode | `hover` \| `click` | `click` | |
+| value | Value of color | string \| `Color` | - | |
+| onChange | Callback when `value` is changed | `(value: Color, css: string) => void` | - | |
+| onChangeComplete | Called when color pick ends. Will not change the display color when `value` controlled by `onChangeComplete` | `(value: Color) => void` | - | 5.7.0 |
+| onFormatChange | Callback when `format` is changed | `(format: 'hex' \| 'rgb' \| 'hsb') => void` | - | |
+| onOpenChange | Callback when `open` is changed | `(open: boolean) => void` | - | |
+| onClear | Called when clear | `() => void` | - | 5.6.0 |
+
+### Color
+
+<!-- prettier-ignore -->
+| Property | Description | Type | Version |
+| :-- | :-- | :-- | :-- |
+| toCssString | Convert to CSS support format | `() => string` | 5.20.0 |
+| toHex | Convert to `hex` format characters, the return type like: `1677ff` | `() => string` | - |
+| toHexString | Convert to `hex` format color string, the return type like: `#1677ff` | `() => string` | - |
+| toHsb | Convert to `hsb` object  | `() => ({ h: number, s: number, b: number, a number })` | - |
+| toHsbString | Convert to `hsb` format color string, the return type like: `hsb(215, 91%, 100%)` | `() => string` | - |
+| toRgb | Convert to `rgb` object  | `() => ({ r: number, g: number, b: number, a number })` | - |
+| toRgbString | Convert to `rgb` format color string, the return type like: `rgb(22, 119, 255)` | `() => string` | - |
+
+## FAQ
+
+### Questions about color assignment
+
+The value of the color selector supports both string color values and selector-generated `Color` objects. However, since there is a precision error when converting color strings of different formats to each other, it is recommended to use selector-generated `Color` objects for assignment operations in controlled scenarios, so that the precision problem can be avoided and the values are guaranteed to be accurate and the selector can work as expected.
+
+---
 Title: Cascader
 URL: https://ant.design/components/cascader
 ---
@@ -21445,70 +21445,6 @@ interface Option {
 <ComponentTokenTable component="Cascader"></ComponentTokenTable>
 
 ---
-Title: Carousel
-URL: https://ant.design/components/carousel
----
-
-## When To Use
-
-- When there is a group of content on the same level.
-- When there is insufficient content space, it can be used to save space in the form of a revolving door.
-- Commonly used for a group of pictures/cards.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/position.tsx">Position</code>
-<code src="./demo/autoplay.tsx">Scroll automatically</code>
-<code src="./demo/fade.tsx">Fade in</code>
-<code src="./demo/arrows.tsx" version="5.17.0">Arrows for switching</code>
-<code src="./demo/dot-duration.tsx" version="5.24.0">Progress of dots</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| arrows | Whether to show switch arrows | boolean | false | 5.17.0 |
-| autoplay | Whether to scroll automatically, you can specify `autoplay={{ dotDuration: true }}` to display the progress bar | boolean \| { dotDuration?: boolean } | false | dotDuration: 5.24.0 |
-| autoplaySpeed | Delay between each auto scroll (in milliseconds) | number | 3000 |  |
-| adaptiveHeight | Adjust the slide's height automatically | boolean | false |  |
-| dotPosition | The position of the dots, which can be one of `top` `bottom` `left` `right` | string | `bottom` |  |
-| dots | Whether to show the dots at the bottom of the gallery, `object` for `dotsClass` | boolean \| { className?: string } | true |  |
-| draggable | Enable scrollable via dragging on desktop | boolean | false |  |
-| fade | Whether to use fade transition | boolean | false |  |
-| infinite | Infinitely wrap around contents | boolean | true |  |
-| speed | Animation speed in milliseconds | number | 500 |  |
-| easing | Transition interpolation function name | string | `linear` |  |
-| effect | Transition effect | `scrollx` \| `fade` | `scrollx` |  |
-| afterChange | Callback function called after the current index changes | (current: number) => void | - |  |
-| beforeChange | Callback function called before the current index changes | (current: number, next: number) => void | - |  |
-| waitForAnimate | Whether to wait for the animation when switching | boolean | false |  |
-
-Find more APIs in react-slick [documentation](https://react-slick.neostack.com/docs/api).
-
-## Methods
-
-| Name | Description |
-| --- | --- |
-| goTo(slideNumber, dontAnimate) | Go to slide index, if dontAnimate=true, it happens without animation |
-| next() | Change current slide to next slide |
-| prev() | Change current slide to previous slide |
-
-## Design Token
-
-<ComponentTokenTable component="Carousel"></ComponentTokenTable>
-
-## FAQ
-
-### How to add custom arrows?
-
-See [#12479](https://github.com/ant-design/ant-design/issues/12479).
-
----
 Title: Card
 URL: https://ant.design/components/card
 ---
@@ -21586,92 +21522,6 @@ Common props ref：[Common props](/docs/react/common-props)
 ## Design Token
 
 <ComponentTokenTable component="Card"></ComponentTokenTable>
-
----
-Title: Calendar
-URL: https://ant.design/components/calendar
----
-
-## When To Use
-
-When data is in the form of dates, such as schedules, timetables, prices calendar, lunar calendar. This component also supports Year/Month switch.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx" clientOnly>Basic</code>
-<code src="./demo/notice-calendar.tsx" clientOnly>Notice Calendar</code>
-<code src="./demo/card.tsx" clientOnly>Card</code>
-<code src="./demo/select.tsx" clientOnly>Selectable Calendar</code>
-<code src="./demo/lunar.tsx" clientOnly>Lunar Calendar</code>
-<code src="./demo/week.tsx" clientOnly version="5.23.0">Show Week</code>
-<code src="./demo/customize-header.tsx" clientOnly>Customize Header</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-**Note:** Part of the Calendar's locale is read from `value`. So, please set the locale of `dayjs` correctly.
-
-```jsx
-// The default locale is en-US, if you want to use other locale, just set locale in entry file globally.
-// import dayjs from 'dayjs';
-// import 'dayjs/locale/zh-cn';
-// dayjs.locale('zh-cn');
-
-<Calendar cellRender={cellRender} onPanelChange={onPanelChange} onSelect={onSelect} />
-```
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| cellRender | Customize cell content | function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - | 5.4.0 |
-| dateFullCellRender | Customize the display of the date cell, the returned content will override the cell | function(date: Dayjs): ReactNode | - |  |
-| fullCellRender | Customize cell content | function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - | 5.4.0 |
-| defaultValue | The date selected by default | [dayjs](https://day.js.org/) | - |  |
-| disabledDate | Function that specifies the dates that cannot be selected, `currentDate` is same dayjs object as `value` prop which you shouldn't mutate it](https://github.com/ant-design/ant-design/issues/30987) | (currentDate: Dayjs) => boolean | - |  |
-| fullscreen | Whether to display in full-screen | boolean | true |  |
-| showWeek | Whether to display week number | boolean | false | 5.23.0 |
-| headerRender | Render custom header in panel | function(object:{value: Dayjs, type: 'year' \| 'month', onChange: f(), onTypeChange: f()}) | - |  |
-| locale | The calendar's locale | object | [(default)](https://github.com/ant-design/ant-design/blob/master/components/date-picker/locale/example.json) |  |
-| mode | The display mode of the calendar | `month` \| `year` | `month` |  |
-| validRange | To set valid range | \[[dayjs](https://day.js.org/), [dayjs](https://day.js.org/)] | - |  |
-| value | The current selected date | [dayjs](https://day.js.org/) | - |  |
-| onChange | Callback for when date changes | function(date: Dayjs) | - |  |
-| onPanelChange | Callback for when panel changes | function(date: Dayjs, mode: string) | - |  |
-| onSelect | Callback for when a date is selected, include source info | function(date: Dayjs, info: { source: 'year' \| 'month' \| 'date' \| 'customize' }) | - | `info`: 5.6.0 |
-
-## Design Token
-
-<ComponentTokenTable component="Calendar"></ComponentTokenTable>
-
-## FAQ
-
-### How to use Calendar with customize date library?
-
-See [Use custom date library](/docs/react/use-custom-date-library#calendar)
-
-### How to set locale for date-related components?
-
-See [How to set locale for date-related components](/components/date-picker/#localization)
-
-### Date-related components locale is not working?
-
-See FAQ [Date-related-components-locale-is-not-working?](/docs/react/faq#date-related-components-locale-is-not-working)
-
-### How to get date from panel click?
-
-`onSelect` provide `info.source` to help on this:
-
-```tsx
-<Calendar
-  onSelect={(date, { source }) => {
-    if (source === 'date') {
-      console.log('Panel Select:', source);
-    }
-  }}
-/>
-```
 
 ---
 Title: Button
@@ -21795,6 +21645,70 @@ If you don't need this feature, you can set `disabled` of `wave` in [ConfigProvi
   background: rgb(190, 200, 200);
 }
 </style>
+
+---
+Title: Carousel
+URL: https://ant.design/components/carousel
+---
+
+## When To Use
+
+- When there is a group of content on the same level.
+- When there is insufficient content space, it can be used to save space in the form of a revolving door.
+- Commonly used for a group of pictures/cards.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/position.tsx">Position</code>
+<code src="./demo/autoplay.tsx">Scroll automatically</code>
+<code src="./demo/fade.tsx">Fade in</code>
+<code src="./demo/arrows.tsx" version="5.17.0">Arrows for switching</code>
+<code src="./demo/dot-duration.tsx" version="5.24.0">Progress of dots</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| arrows | Whether to show switch arrows | boolean | false | 5.17.0 |
+| autoplay | Whether to scroll automatically, you can specify `autoplay={{ dotDuration: true }}` to display the progress bar | boolean \| { dotDuration?: boolean } | false | dotDuration: 5.24.0 |
+| autoplaySpeed | Delay between each auto scroll (in milliseconds) | number | 3000 |  |
+| adaptiveHeight | Adjust the slide's height automatically | boolean | false |  |
+| dotPosition | The position of the dots, which can be one of `top` `bottom` `left` `right` | string | `bottom` |  |
+| dots | Whether to show the dots at the bottom of the gallery, `object` for `dotsClass` | boolean \| { className?: string } | true |  |
+| draggable | Enable scrollable via dragging on desktop | boolean | false |  |
+| fade | Whether to use fade transition | boolean | false |  |
+| infinite | Infinitely wrap around contents | boolean | true |  |
+| speed | Animation speed in milliseconds | number | 500 |  |
+| easing | Transition interpolation function name | string | `linear` |  |
+| effect | Transition effect | `scrollx` \| `fade` | `scrollx` |  |
+| afterChange | Callback function called after the current index changes | (current: number) => void | - |  |
+| beforeChange | Callback function called before the current index changes | (current: number, next: number) => void | - |  |
+| waitForAnimate | Whether to wait for the animation when switching | boolean | false |  |
+
+Find more APIs in react-slick [documentation](https://react-slick.neostack.com/docs/api).
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| goTo(slideNumber, dontAnimate) | Go to slide index, if dontAnimate=true, it happens without animation |
+| next() | Change current slide to next slide |
+| prev() | Change current slide to previous slide |
+
+## Design Token
+
+<ComponentTokenTable component="Carousel"></ComponentTokenTable>
+
+## FAQ
+
+### How to add custom arrows?
+
+See [#12479](https://github.com/ant-design/ant-design/issues/12479).
 
 ---
 Title: Breadcrumb
@@ -21932,6 +21846,325 @@ return <Breadcrumb itemRender={itemRender} items={items} />;
 <ComponentTokenTable component="Breadcrumb"></ComponentTokenTable>
 
 ---
+Title: Calendar
+URL: https://ant.design/components/calendar
+---
+
+## When To Use
+
+When data is in the form of dates, such as schedules, timetables, prices calendar, lunar calendar. This component also supports Year/Month switch.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx" clientOnly>Basic</code>
+<code src="./demo/notice-calendar.tsx" clientOnly>Notice Calendar</code>
+<code src="./demo/card.tsx" clientOnly>Card</code>
+<code src="./demo/select.tsx" clientOnly>Selectable Calendar</code>
+<code src="./demo/lunar.tsx" clientOnly>Lunar Calendar</code>
+<code src="./demo/week.tsx" clientOnly version="5.23.0">Show Week</code>
+<code src="./demo/customize-header.tsx" clientOnly>Customize Header</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+**Note:** Part of the Calendar's locale is read from `value`. So, please set the locale of `dayjs` correctly.
+
+```jsx
+// The default locale is en-US, if you want to use other locale, just set locale in entry file globally.
+// import dayjs from 'dayjs';
+// import 'dayjs/locale/zh-cn';
+// dayjs.locale('zh-cn');
+
+<Calendar cellRender={cellRender} onPanelChange={onPanelChange} onSelect={onSelect} />
+```
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| cellRender | Customize cell content | function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - | 5.4.0 |
+| dateFullCellRender | Customize the display of the date cell, the returned content will override the cell | function(date: Dayjs): ReactNode | - |  |
+| fullCellRender | Customize cell content | function(current: dayjs, info: { prefixCls: string, originNode: React.ReactElement, today: dayjs, range?: 'start' \| 'end', type: PanelMode, locale?: Locale, subType?: 'hour' \| 'minute' \| 'second' \| 'meridiem' }) => React.ReactNode | - | 5.4.0 |
+| defaultValue | The date selected by default | [dayjs](https://day.js.org/) | - |  |
+| disabledDate | Function that specifies the dates that cannot be selected, `currentDate` is same dayjs object as `value` prop which you shouldn't mutate it](https://github.com/ant-design/ant-design/issues/30987) | (currentDate: Dayjs) => boolean | - |  |
+| fullscreen | Whether to display in full-screen | boolean | true |  |
+| showWeek | Whether to display week number | boolean | false | 5.23.0 |
+| headerRender | Render custom header in panel | function(object:{value: Dayjs, type: 'year' \| 'month', onChange: f(), onTypeChange: f()}) | - |  |
+| locale | The calendar's locale | object | [(default)](https://github.com/ant-design/ant-design/blob/master/components/date-picker/locale/example.json) |  |
+| mode | The display mode of the calendar | `month` \| `year` | `month` |  |
+| validRange | To set valid range | \[[dayjs](https://day.js.org/), [dayjs](https://day.js.org/)] | - |  |
+| value | The current selected date | [dayjs](https://day.js.org/) | - |  |
+| onChange | Callback for when date changes | function(date: Dayjs) | - |  |
+| onPanelChange | Callback for when panel changes | function(date: Dayjs, mode: string) | - |  |
+| onSelect | Callback for when a date is selected, include source info | function(date: Dayjs, info: { source: 'year' \| 'month' \| 'date' \| 'customize' }) | - | `info`: 5.6.0 |
+
+## Design Token
+
+<ComponentTokenTable component="Calendar"></ComponentTokenTable>
+
+## FAQ
+
+### How to use Calendar with customize date library?
+
+See [Use custom date library](/docs/react/use-custom-date-library#calendar)
+
+### How to set locale for date-related components?
+
+See [How to set locale for date-related components](/components/date-picker/#localization)
+
+### Date-related components locale is not working?
+
+See FAQ [Date-related-components-locale-is-not-working?](/docs/react/faq#date-related-components-locale-is-not-working)
+
+### How to get date from panel click?
+
+`onSelect` provide `info.source` to help on this:
+
+```tsx
+<Calendar
+  onSelect={(date, { source }) => {
+    if (source === 'date') {
+      console.log('Panel Select:', source);
+    }
+  }}
+/>
+```
+
+---
+Title: Avatar
+URL: https://ant.design/components/avatar
+---
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic</code>
+<code src="./demo/type.tsx">Type</code>
+<code src="./demo/dynamic.tsx">Autoset Font Size</code>
+<code src="./demo/badge.tsx">With Badge</code>
+<code src="./demo/group.tsx">Avatar.Group</code>
+<code src="./demo/toggle-debug.tsx" debug>Calculate text style when hiding</code>
+<code src="./demo/responsive.tsx">Responsive Size</code>
+<code src="./demo/fallback.tsx" debug>Fallback</code>
+<code src="./demo/component-token.tsx" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Avatar
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| alt | This attribute defines the alternative text describing the image | string | - |  |
+| gap | Letter type unit distance between left and right sides | number | 4 | 4.3.0 |
+| icon | Custom icon type for an icon avatar | ReactNode | - |  |
+| shape | The shape of avatar | `circle` \| `square` | `circle` |  |
+| size | The size of the avatar | number \| `large` \| `small` \| `default` \| { xs: number, sm: number, ...} | `default` | 4.7.0 |
+| src | The address of the image for an image avatar or image element | string \| ReactNode | - | ReactNode: 4.8.0 |
+| srcSet | A list of sources to use for different screen resolutions | string | - |  |
+| draggable | Whether the picture is allowed to be dragged | boolean \| `'true'` \| `'false'` | true |  |
+| crossOrigin | CORS settings attributes | `'anonymous'` \| `'use-credentials'` \| `''` | - | 4.17.0 |
+| onError | Handler when img load error, return false to prevent default fallback behavior | () => boolean | - |  |
+
+> Tip: You can set `icon` or `children` as the fallback for image load error, with the priority of `icon` > `children`
+
+### Avatar.Group <Badge>4.5.0+</Badge>
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| max | Set maximum display related configurations, Before `5.18.0` you can use [parameters](https://github.com/ant-design/ant-design/blob/9d134859becbdae5b9ce276f6d9af4264691d81f/components/avatar/group.tsx#L35-L38) | `{ count?: number; style?: CSSProperties; popover?: PopoverProps }` | - | 5.18.0 |
+| size | The size of the avatar | number \| `large` \| `small` \| `default` \| { xs: number, sm: number, ...} | `default` | 4.8.0 |
+| shape | The shape of the avatar | `circle` \| `square` | `circle` | 5.8.0 |
+
+## Design Token
+
+<ComponentTokenTable component="Avatar"></ComponentTokenTable>
+
+---
+Title: AutoComplete
+URL: https://ant.design/components/auto-complete
+---
+
+## When To Use
+
+- When you need an input box instead of a selector.
+- When you need input suggestions or helping text.
+
+The differences with Select are:
+
+- AutoComplete is an input box with text hints, and users can type freely. The keyword is aiding **input**.
+- Select is selecting among given choices. The keyword is **select**.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx">Basic Usage</code>
+<code src="./demo/options.tsx">Customized</code>
+<code src="./demo/custom.tsx">Customize Input Component</code>
+<code src="./demo/non-case-sensitive.tsx">Non-case-sensitive AutoComplete</code>
+<code src="./demo/certain-category.tsx">Lookup-Patterns - Certain Category</code>
+<code src="./demo/uncertain-category.tsx">Lookup-Patterns - Uncertain Category</code>
+<code src="./demo/status.tsx">Status</code>
+<code src="./demo/variant.tsx" version="5.13.0">Variants</code>
+<code src="./demo/allowClear.tsx">Customize clear button</code>
+<code src="./demo/form-debug.tsx" debug>Debug in Form</code>
+<code src="./demo/AutoComplete-and-Select.tsx" debug>AutoComplete and Select</code>
+<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| allowClear | Show clear button | boolean \| { clearIcon?: ReactNode } | false | 5.8.0: Support Object type |
+| autoFocus | If get focus when component mounted | boolean | false |  |
+| backfill | If backfill selected item the input when using keyboard | boolean | false |  |
+| children | Customize input element | HTMLInputElement \| HTMLTextAreaElement \| React.ReactElement&lt;InputProps> | &lt;Input /> |  |
+| classNames | Semantic DOM class | [Record<SemanticDOM, string>](#semantic-dom) | - | 5.25.0 |
+| defaultActiveFirstOption | Whether active first option by default | boolean | true |  |
+| defaultOpen | Initial open state of dropdown | boolean | - |  |
+| defaultValue | Initial selected option | string | - |  |
+| disabled | Whether disabled select | boolean | false |  |
+| ~~dropdownRender~~ | Customize dropdown content, use `popupRender` instead | (originNode: ReactNode) => ReactNode | - | 4.24.0 |
+| popupRender | Customize dropdown content | (originNode: ReactNode) => ReactNode | - |  |
+| ~~dropdownStyle~~ | The style of dropdown menu, use `styles.popup.root` instead | CSSProperties | - |  |
+| ~~popupClassName~~ | The className of dropdown menu, use `classNames.popup.root` instead | string | - | 4.23.0 |
+| popupMatchSelectWidth | Determine whether the dropdown menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean \| number | true |  |
+| filterOption | If true, filter options by input, if function, filter options against it. The function will receive two arguments, `inputValue` and `option`, if the function returns true, the option will be included in the filtered set; Otherwise, it will be excluded | boolean \| function(inputValue, option) | true |  |
+| getPopupContainer | Parent node of the dropdown. Default to body, if you encountered positioning problems during scroll, try changing to the scrollable area and position relative to it. [Example](https://codesandbox.io/s/4j168r7jw0) | function(triggerNode) | () => document.body |  |
+| notFoundContent | Specify content to show when no result matches | ReactNode | - |  |
+| open | Controlled open state of dropdown | boolean | - |  |
+| options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
+| placeholder | The placeholder of input | string | - |  |
+| status | Set validation status | 'error' \| 'warning' | - | 4.19.0 |
+| size | The size of the input box | `large` \| `middle` \| `small` | - |  |
+| value | Selected option | string | - |  |
+| styles | Semantic DOM style | [Record<SemanticDOM, CSSProperties>](#semantic-dom) | - | 5.25.0 |
+| variant | Variants of input | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | 5.13.0 |
+| virtual | Disable virtual scroll when set to false | boolean | true | 4.1.0 |
+| onBlur | Called when leaving the component | function() | - |  |
+| onChange | Called when selecting an option or changing an input value | function(value) | - |  |
+| ~~onDropdownVisibleChange~~ | Called when dropdown open, use `onOpenChange` instead | (open: boolean) => void | - |  |
+| onOpenChange | Called when dropdown open | (open: boolean) => void | - |  |
+| onFocus | Called when entering the component | function() | - |  |
+| onSearch | Called when searching items | function(value) | - |  |
+| onSelect | Called when a option is selected. param is option's value and option instance | function(value, option) | - |  |
+| onClear | Called when clear | function | - | 4.6.0 |
+| onInputKeyDown | Called when key pressed | (event: KeyboardEvent) => void | - |  |
+| onPopupScroll | Called when dropdown scrolls | (event: UIEvent) => void | - |  |
+
+## Methods
+
+| Name    | Description  | Version |
+| ------- | ------------ | ------- |
+| blur()  | Remove focus |         |
+| focus() | Get focus    |         |
+
+## Semantic DOM
+
+<code src="./demo/_semantic.tsx" simplify="true"></code>
+
+## Design Token
+
+<ComponentTokenTable component="Select"></ComponentTokenTable>
+
+## FAQ
+
+### Why doesn't the text composition system work well with onSearch in controlled mode?
+
+Please use `onChange` to manage control state. `onSearch` is used for searching input which is not the same as `onChange`. Besides, clicking on the option will not trigger the `onSearch` event.
+
+Related issue: [#18230](https://github.com/ant-design/ant-design/issues/18230) [#17916](https://github.com/ant-design/ant-design/issues/17916)
+
+### Why won't a controlled open AutoComplete display a drop-down menu when options are empty?
+
+The AutoComplete component is essentially an extension of the Input form element. When the `options` property is empty, displaying empty text could mislead the user into believing the component is not operational, when in fact they are still able to input text. To avoid confusion, the `open` property will not display the drop-down menu when set to `true` and in combination with an empty `options` property. The `open` property must be used in conjunction with the `options` property.
+
+---
+Title: Anchor
+URL: https://ant.design/components/anchor
+---
+
+## When To Use
+
+For displaying anchor hyperlinks on page and jumping between them.
+
+> Notes for developers
+>
+> After version `4.24.0`, we rewrite Anchor use FC, Some methods of obtaining `ref` and calling internal instance methods will invalid.
+
+## Examples
+
+<!-- prettier-ignore -->
+<code src="./demo/basic.tsx" iframe="200">Basic</code>
+<code src="./demo/horizontal.tsx" iframe="200">Horizontal Anchor</code>
+<code src="./demo/static.tsx" >Static Anchor</code>
+<code src="./demo/onClick.tsx">Customize the onClick event</code>
+<code src="./demo/customizeHighlight.tsx">Customize the anchor highlight</code>
+<code src="./demo/targetOffset.tsx" iframe="200">Set Anchor scroll offset</code>
+<code src="./demo/onChange.tsx">Listening for anchor link change</code>
+<code src="./demo/replace.tsx" iframe="200">Replace href in history</code>
+<code src="./demo/legacy-anchor.tsx" debug>Deprecated JSX demo</code>
+<code src="./demo/component-token.tsx" iframe="800" debug>Component Token</code>
+
+## API
+
+Common props ref：[Common props](/docs/react/common-props)
+
+### Anchor Props
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| affix | Fixed mode of Anchor | boolean \| Omit<AffixProps, 'offsetTop' \| 'target' \| 'children'> | true | object: 5.19.0 |
+| bounds | Bounding distance of anchor area | number | 5 |  |
+| getContainer | Scrolling container | () => HTMLElement | () => window |  |
+| getCurrentAnchor | Customize the anchor highlight | (activeLink: string) => string | - |  |
+| offsetTop | Pixels to offset from top when calculating position of scroll | number | 0 |  |
+| showInkInFixed | Whether show ink-square when `affix={false}` | boolean | false |  |
+| targetOffset | Anchor scroll offset, default as `offsetTop`, [example](#anchor-demo-targetoffset) | number | - |  |
+| onChange | Listening for anchor link change | (currentActiveLink: string) => void |  |  |
+| onClick | Set the handler to handle `click` event | (e: MouseEvent, link: object) => void | - |  |
+| items | Data configuration option content, support nesting through children | { key, href, title, target, children }\[] [see](#anchoritem) | - | 5.1.0 |
+| direction | Set Anchor direction | `vertical` \| `horizontal` | `vertical` | 5.2.0 |
+| replace | Replace items' href in browser history instead of pushing it | boolean | false | 5.7.0 |
+
+### AnchorItem
+
+| Property | Description | Type | Default | Version |
+| --- | --- | --- | --- | --- |
+| key | The unique identifier of the Anchor Link | string \| number | - |  |
+| href | The target of hyperlink | string |  |  |
+| target | Specifies where to display the linked URL | string |  |  |
+| title | The content of hyperlink | ReactNode |  |  |
+| children | Nested Anchor Link, `Attention: This attribute does not support horizontal orientation` | [AnchorItem](#anchoritem)\[] | - |  |
+| replace | Replace item href in browser history instead of pushing it | boolean | false | 5.7.0 |
+
+### Link Props
+
+We recommend using the items form instead.
+
+| Property | Description                               | Type      | Default | Version |
+| -------- | ----------------------------------------- | --------- | ------- | ------- |
+| href     | The target of hyperlink                   | string    |         |         |
+| target   | Specifies where to display the linked URL | string    |         |         |
+| title    | The content of hyperlink                  | ReactNode |         |         |
+
+## Design Token
+
+<ComponentTokenTable component="Anchor"></ComponentTokenTable>
+
+## FAQ
+
+### In version `5.25.0+`, the `:target` pseudo-class of the destination element does not take effect as expected after anchor navigation.
+
+For the purpose of page performance optimization, the implementation of anchor navigation has been changed from `window.location.href` to `window.history.pushState/replaceState`. Since `pushState/replaceState` does not trigger a page reload, the browser will not automatically update the matching state of the `:target` pseudo-class. To resolve this issue, you can manually construct the full URL: `href = window.location.origin + window.location.pathname + '#xxx'`.
+
+Related issues: [#53143](https://github.com/ant-design/ant-design/issues/53143) [#54255](https://github.com/ant-design/ant-design/issues/54255)
+
+---
 Title: Badge
 URL: https://ant.design/components/badge
 ---
@@ -21998,55 +22231,58 @@ Common props ref：[Common props](/docs/react/common-props)
 <ComponentTokenTable component="Badge"></ComponentTokenTable>
 
 ---
-Title: Avatar
-URL: https://ant.design/components/avatar
+Title: Alert
+URL: https://ant.design/components/alert
 ---
+
+## When To Use
+
+- When you need to show alert messages to users.
+- When you need a persistent static container which is closable by user actions.
 
 ## Examples
 
 <!-- prettier-ignore -->
 <code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/type.tsx">Type</code>
-<code src="./demo/dynamic.tsx">Autoset Font Size</code>
-<code src="./demo/badge.tsx">With Badge</code>
-<code src="./demo/group.tsx">Avatar.Group</code>
-<code src="./demo/toggle-debug.tsx" debug>Calculate text style when hiding</code>
-<code src="./demo/responsive.tsx">Responsive Size</code>
-<code src="./demo/fallback.tsx" debug>Fallback</code>
+<code src="./demo/style.tsx">More types</code>
+<code src="./demo/closable.tsx">Closable</code>
+<code src="./demo/description.tsx">Description</code>
+<code src="./demo/icon.tsx">Icon</code>
+<code src="./demo/banner.tsx" iframe="250">Banner</code>
+<code src="./demo/loop-banner.tsx">Loop Banner</code>
+<code src="./demo/smooth-closed.tsx">Smoothly Unmount</code>
+<code src="./demo/error-boundary.tsx">ErrorBoundary</code>
+<code src="./demo/custom-icon.tsx" debug>Custom Icon</code>
+<code src="./demo/action.tsx">Custom action</code>
 <code src="./demo/component-token.tsx" debug>Component Token</code>
 
 ## API
 
 Common props ref：[Common props](/docs/react/common-props)
 
-### Avatar
-
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
-| alt | This attribute defines the alternative text describing the image | string | - |  |
-| gap | Letter type unit distance between left and right sides | number | 4 | 4.3.0 |
-| icon | Custom icon type for an icon avatar | ReactNode | - |  |
-| shape | The shape of avatar | `circle` \| `square` | `circle` |  |
-| size | The size of the avatar | number \| `large` \| `small` \| `default` \| { xs: number, sm: number, ...} | `default` | 4.7.0 |
-| src | The address of the image for an image avatar or image element | string \| ReactNode | - | ReactNode: 4.8.0 |
-| srcSet | A list of sources to use for different screen resolutions | string | - |  |
-| draggable | Whether the picture is allowed to be dragged | boolean \| `'true'` \| `'false'` | true |  |
-| crossOrigin | CORS settings attributes | `'anonymous'` \| `'use-credentials'` \| `''` | - | 4.17.0 |
-| onError | Handler when img load error, return false to prevent default fallback behavior | () => boolean | - |  |
+| action | The action of Alert | ReactNode | - | 4.9.0 |
+| afterClose | Called when close animation is finished | () => void | - |  |
+| banner | Whether to show as banner | boolean | false |  |
+| closable | The config of closable, >=5.15.0: support `aria-*` | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
+| description | Additional content of Alert | ReactNode | - |  |
+| icon | Custom icon, effective when `showIcon` is true | ReactNode | - |  |
+| message | Content of Alert | ReactNode | - |  |
+| showIcon | Whether to show icon | boolean | false, in `banner` mode default is true |  |
+| type | Type of Alert styles, options: `success`, `info`, `warning`, `error` | string | `info`, in `banner` mode default is `warning` |  |
+| onClose | Callback when Alert is closed | (e: MouseEvent) => void | - |  |
 
-> Tip: You can set `icon` or `children` as the fallback for image load error, with the priority of `icon` > `children`
+### Alert.ErrorBoundary
 
-### Avatar.Group <Badge>4.5.0+</Badge>
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| max | Set maximum display related configurations, Before `5.18.0` you can use [parameters](https://github.com/ant-design/ant-design/blob/9d134859becbdae5b9ce276f6d9af4264691d81f/components/avatar/group.tsx#L35-L38) | `{ count?: number; style?: CSSProperties; popover?: PopoverProps }` | - | 5.18.0 |
-| size | The size of the avatar | number \| `large` \| `small` \| `default` \| { xs: number, sm: number, ...} | `default` | 4.8.0 |
-| shape | The shape of the avatar | `circle` \| `square` | `circle` | 5.8.0 |
+| Property    | Description                      | Type      | Default           | Version |
+| ----------- | -------------------------------- | --------- | ----------------- | ------- |
+| description | Custom error description to show | ReactNode | {{ error stack }} |         |
+| message     | Custom error message to show     | ReactNode | {{ error }}       |         |
 
 ## Design Token
 
-<ComponentTokenTable component="Avatar"></ComponentTokenTable>
+<ComponentTokenTable component="Alert"></ComponentTokenTable>
 
 ---
 Title: App
@@ -22187,242 +22423,6 @@ Common props ref：[Common props](/docs/react/common-props)
 ### CSS Var doesn't work inside `<App component={false}>`
 
 Make sure the App `component` is a valid html tag, so when you're turning on CSS variables, there's a container to hold the CSS class name. If not set, it defaults to the `div` tag. If set to `false`, no additional DOM nodes will be created, and no default styles will be provided.
-
----
-Title: Anchor
-URL: https://ant.design/components/anchor
----
-
-## When To Use
-
-For displaying anchor hyperlinks on page and jumping between them.
-
-> Notes for developers
->
-> After version `4.24.0`, we rewrite Anchor use FC, Some methods of obtaining `ref` and calling internal instance methods will invalid.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx" iframe="200">Basic</code>
-<code src="./demo/horizontal.tsx" iframe="200">Horizontal Anchor</code>
-<code src="./demo/static.tsx" >Static Anchor</code>
-<code src="./demo/onClick.tsx">Customize the onClick event</code>
-<code src="./demo/customizeHighlight.tsx">Customize the anchor highlight</code>
-<code src="./demo/targetOffset.tsx" iframe="200">Set Anchor scroll offset</code>
-<code src="./demo/onChange.tsx">Listening for anchor link change</code>
-<code src="./demo/replace.tsx" iframe="200">Replace href in history</code>
-<code src="./demo/legacy-anchor.tsx" debug>Deprecated JSX demo</code>
-<code src="./demo/component-token.tsx" iframe="800" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-### Anchor Props
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| affix | Fixed mode of Anchor | boolean \| Omit<AffixProps, 'offsetTop' \| 'target' \| 'children'> | true | object: 5.19.0 |
-| bounds | Bounding distance of anchor area | number | 5 |  |
-| getContainer | Scrolling container | () => HTMLElement | () => window |  |
-| getCurrentAnchor | Customize the anchor highlight | (activeLink: string) => string | - |  |
-| offsetTop | Pixels to offset from top when calculating position of scroll | number | 0 |  |
-| showInkInFixed | Whether show ink-square when `affix={false}` | boolean | false |  |
-| targetOffset | Anchor scroll offset, default as `offsetTop`, [example](#anchor-demo-targetoffset) | number | - |  |
-| onChange | Listening for anchor link change | (currentActiveLink: string) => void |  |  |
-| onClick | Set the handler to handle `click` event | (e: MouseEvent, link: object) => void | - |  |
-| items | Data configuration option content, support nesting through children | { key, href, title, target, children }\[] [see](#anchoritem) | - | 5.1.0 |
-| direction | Set Anchor direction | `vertical` \| `horizontal` | `vertical` | 5.2.0 |
-| replace | Replace items' href in browser history instead of pushing it | boolean | false | 5.7.0 |
-
-### AnchorItem
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| key | The unique identifier of the Anchor Link | string \| number | - |  |
-| href | The target of hyperlink | string |  |  |
-| target | Specifies where to display the linked URL | string |  |  |
-| title | The content of hyperlink | ReactNode |  |  |
-| children | Nested Anchor Link, `Attention: This attribute does not support horizontal orientation` | [AnchorItem](#anchoritem)\[] | - |  |
-| replace | Replace item href in browser history instead of pushing it | boolean | false | 5.7.0 |
-
-### Link Props
-
-We recommend using the items form instead.
-
-| Property | Description                               | Type      | Default | Version |
-| -------- | ----------------------------------------- | --------- | ------- | ------- |
-| href     | The target of hyperlink                   | string    |         |         |
-| target   | Specifies where to display the linked URL | string    |         |         |
-| title    | The content of hyperlink                  | ReactNode |         |         |
-
-## Design Token
-
-<ComponentTokenTable component="Anchor"></ComponentTokenTable>
-
-## FAQ
-
-### In version `5.25.0+`, the `:target` pseudo-class of the destination element does not take effect as expected after anchor navigation.
-
-For the purpose of page performance optimization, the implementation of anchor navigation has been changed from `window.location.href` to `window.history.pushState/replaceState`. Since `pushState/replaceState` does not trigger a page reload, the browser will not automatically update the matching state of the `:target` pseudo-class. To resolve this issue, you can manually construct the full URL: `href = window.location.origin + window.location.pathname + '#xxx'`.
-
-Related issues: [#53143](https://github.com/ant-design/ant-design/issues/53143) [#54255](https://github.com/ant-design/ant-design/issues/54255)
-
----
-Title: AutoComplete
-URL: https://ant.design/components/auto-complete
----
-
-## When To Use
-
-- When you need an input box instead of a selector.
-- When you need input suggestions or helping text.
-
-The differences with Select are:
-
-- AutoComplete is an input box with text hints, and users can type freely. The keyword is aiding **input**.
-- Select is selecting among given choices. The keyword is **select**.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic Usage</code>
-<code src="./demo/options.tsx">Customized</code>
-<code src="./demo/custom.tsx">Customize Input Component</code>
-<code src="./demo/non-case-sensitive.tsx">Non-case-sensitive AutoComplete</code>
-<code src="./demo/certain-category.tsx">Lookup-Patterns - Certain Category</code>
-<code src="./demo/uncertain-category.tsx">Lookup-Patterns - Uncertain Category</code>
-<code src="./demo/status.tsx">Status</code>
-<code src="./demo/variant.tsx" version="5.13.0">Variants</code>
-<code src="./demo/allowClear.tsx">Customize clear button</code>
-<code src="./demo/form-debug.tsx" debug>Debug in Form</code>
-<code src="./demo/AutoComplete-and-Select.tsx" debug>AutoComplete and Select</code>
-<code src="./demo/render-panel.tsx" debug>_InternalPanelDoNotUseOrYouWillBeFired</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| allowClear | Show clear button | boolean \| { clearIcon?: ReactNode } | false | 5.8.0: Support Object type |
-| autoFocus | If get focus when component mounted | boolean | false |  |
-| backfill | If backfill selected item the input when using keyboard | boolean | false |  |
-| children | Customize input element | HTMLInputElement \| HTMLTextAreaElement \| React.ReactElement&lt;InputProps> | &lt;Input /> |  |
-| classNames | Semantic DOM class | [Record<SemanticDOM, string>](#semantic-dom) | - | 5.25.0 |
-| defaultActiveFirstOption | Whether active first option by default | boolean | true |  |
-| defaultOpen | Initial open state of dropdown | boolean | - |  |
-| defaultValue | Initial selected option | string | - |  |
-| disabled | Whether disabled select | boolean | false |  |
-| ~~dropdownRender~~ | Customize dropdown content, use `popupRender` instead | (originNode: ReactNode) => ReactNode | - | 4.24.0 |
-| popupRender | Customize dropdown content | (originNode: ReactNode) => ReactNode | - |  |
-| ~~dropdownStyle~~ | The style of dropdown menu, use `styles.popup.root` instead | CSSProperties | - |  |
-| ~~popupClassName~~ | The className of dropdown menu, use `classNames.popup.root` instead | string | - | 4.23.0 |
-| popupMatchSelectWidth | Determine whether the dropdown menu and the select input are the same width. Default set `min-width` same as input. Will ignore when value less than select width. `false` will disable virtual scroll | boolean \| number | true |  |
-| filterOption | If true, filter options by input, if function, filter options against it. The function will receive two arguments, `inputValue` and `option`, if the function returns true, the option will be included in the filtered set; Otherwise, it will be excluded | boolean \| function(inputValue, option) | true |  |
-| getPopupContainer | Parent node of the dropdown. Default to body, if you encountered positioning problems during scroll, try changing to the scrollable area and position relative to it. [Example](https://codesandbox.io/s/4j168r7jw0) | function(triggerNode) | () => document.body |  |
-| notFoundContent | Specify content to show when no result matches | ReactNode | - |  |
-| open | Controlled open state of dropdown | boolean | - |  |
-| options | Select options. Will get better perf than jsx definition | { label, value }\[] | - |  |
-| placeholder | The placeholder of input | string | - |  |
-| status | Set validation status | 'error' \| 'warning' | - | 4.19.0 |
-| size | The size of the input box | `large` \| `middle` \| `small` | - |  |
-| value | Selected option | string | - |  |
-| styles | Semantic DOM style | [Record<SemanticDOM, CSSProperties>](#semantic-dom) | - | 5.25.0 |
-| variant | Variants of input | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | 5.13.0 |
-| virtual | Disable virtual scroll when set to false | boolean | true | 4.1.0 |
-| onBlur | Called when leaving the component | function() | - |  |
-| onChange | Called when selecting an option or changing an input value | function(value) | - |  |
-| ~~onDropdownVisibleChange~~ | Called when dropdown open, use `onOpenChange` instead | (open: boolean) => void | - |  |
-| onOpenChange | Called when dropdown open | (open: boolean) => void | - |  |
-| onFocus | Called when entering the component | function() | - |  |
-| onSearch | Called when searching items | function(value) | - |  |
-| onSelect | Called when a option is selected. param is option's value and option instance | function(value, option) | - |  |
-| onClear | Called when clear | function | - | 4.6.0 |
-| onInputKeyDown | Called when key pressed | (event: KeyboardEvent) => void | - |  |
-| onPopupScroll | Called when dropdown scrolls | (event: UIEvent) => void | - |  |
-
-## Methods
-
-| Name    | Description  | Version |
-| ------- | ------------ | ------- |
-| blur()  | Remove focus |         |
-| focus() | Get focus    |         |
-
-## Semantic DOM
-
-<code src="./demo/_semantic.tsx" simplify="true"></code>
-
-## Design Token
-
-<ComponentTokenTable component="Select"></ComponentTokenTable>
-
-## FAQ
-
-### Why doesn't the text composition system work well with onSearch in controlled mode?
-
-Please use `onChange` to manage control state. `onSearch` is used for searching input which is not the same as `onChange`. Besides, clicking on the option will not trigger the `onSearch` event.
-
-Related issue: [#18230](https://github.com/ant-design/ant-design/issues/18230) [#17916](https://github.com/ant-design/ant-design/issues/17916)
-
-### Why won't a controlled open AutoComplete display a drop-down menu when options are empty?
-
-The AutoComplete component is essentially an extension of the Input form element. When the `options` property is empty, displaying empty text could mislead the user into believing the component is not operational, when in fact they are still able to input text. To avoid confusion, the `open` property will not display the drop-down menu when set to `true` and in combination with an empty `options` property. The `open` property must be used in conjunction with the `options` property.
-
----
-Title: Alert
-URL: https://ant.design/components/alert
----
-
-## When To Use
-
-- When you need to show alert messages to users.
-- When you need a persistent static container which is closable by user actions.
-
-## Examples
-
-<!-- prettier-ignore -->
-<code src="./demo/basic.tsx">Basic</code>
-<code src="./demo/style.tsx">More types</code>
-<code src="./demo/closable.tsx">Closable</code>
-<code src="./demo/description.tsx">Description</code>
-<code src="./demo/icon.tsx">Icon</code>
-<code src="./demo/banner.tsx" iframe="250">Banner</code>
-<code src="./demo/loop-banner.tsx">Loop Banner</code>
-<code src="./demo/smooth-closed.tsx">Smoothly Unmount</code>
-<code src="./demo/error-boundary.tsx">ErrorBoundary</code>
-<code src="./demo/custom-icon.tsx" debug>Custom Icon</code>
-<code src="./demo/action.tsx">Custom action</code>
-<code src="./demo/component-token.tsx" debug>Component Token</code>
-
-## API
-
-Common props ref：[Common props](/docs/react/common-props)
-
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| action | The action of Alert | ReactNode | - | 4.9.0 |
-| afterClose | Called when close animation is finished | () => void | - |  |
-| banner | Whether to show as banner | boolean | false |  |
-| closable | The config of closable, >=5.15.0: support `aria-*` | boolean \| ({ closeIcon?: React.ReactNode } & React.AriaAttributes) | `false` |  |
-| description | Additional content of Alert | ReactNode | - |  |
-| icon | Custom icon, effective when `showIcon` is true | ReactNode | - |  |
-| message | Content of Alert | ReactNode | - |  |
-| showIcon | Whether to show icon | boolean | false, in `banner` mode default is true |  |
-| type | Type of Alert styles, options: `success`, `info`, `warning`, `error` | string | `info`, in `banner` mode default is `warning` |  |
-| onClose | Callback when Alert is closed | (e: MouseEvent) => void | - |  |
-
-### Alert.ErrorBoundary
-
-| Property    | Description                      | Type      | Default           | Version |
-| ----------- | -------------------------------- | --------- | ----------------- | ------- |
-| description | Custom error description to show | ReactNode | {{ error stack }} |         |
-| message     | Custom error message to show     | ReactNode | {{ error }}       |         |
-
-## Design Token
-
-<ComponentTokenTable component="Alert"></ComponentTokenTable>
 
 ---
 Title: Affix

@@ -1,1 +1,0 @@
-(("undefined"!=typeof globalThis?globalThis:self).makoChunk_antd=("undefined"!=typeof globalThis?globalThis:self).makoChunk_antd||[]).push([["8944d4f1"],{"8944d4f1":function(e,a,d){"use strict";d.d(a,"__esModule",{value:!0}),d.d(a,"default",{enumerable:!0,get:function(){return n;}});var n=d("ad95cdfe").Sandpack;}}]);
