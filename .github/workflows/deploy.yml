@@ -24,25 +24,10 @@ jobs:
 
       - run: npm run build -- --skip-clean
 
-      - name: Deploy to Gitee
-        timeout-minutes: 10
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.GITEE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H gitee.com >> ~/.ssh/known_hosts
-
-          git clone git@gitee.com:ant-design/5x.ant.design.git gitee-repo
-          cd gitee-repo
-          git checkout -B gh-pages
-          rm -rf ./*
-          cp -r ../temp-antd-build/_site/* .
-
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-
-          echo "Adding files to git..."
-          timeout 300 git add . || git add .
-          echo "Create a commit and push to Gitee..."
-          git commit -n -m "Deploy $(date '+%Y-%m-%d')" || true
-          git push origin gh-pages --force
+      - name: Sync to Gitee
+        uses: wearerequired/git-mirror-action@v1
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
+        with:
+          source-repo: 'git@github.com:ant-design/5x.ant.design.git'
+          destination-repo: 'git@gitee.com:ant-design/5x.ant.design.git'
