@@ -29,5 +29,5 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
         with:
-          source-repo: 'git@github.com:ant-design/5x.ant.design.git'
+          source-repo: 'https://github.com/ant-design/5x.ant.design.git'
           destination-repo: 'git@gitee.com:ant-design/5x.ant.design.git'
