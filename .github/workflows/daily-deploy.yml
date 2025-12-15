@@ -34,10 +34,15 @@ jobs:
           echo "Latest upstream commit: $LATEST_COMMIT"
 
           # Check if we have a record of the last deployed commit
-          git fetch origin gh-pages --depth=1 || true
+          if git fetch origin gh-pages --depth=1 2>/dev/null; then
+            echo "Successfully fetched gh-pages branch"
+          else
+            echo "Warning: Could not fetch gh-pages branch (may not exist yet)"
+          fi
 
           # Try to get the last deployed commit from gh-pages branch commit message
-          LAST_DEPLOYED=$(git log origin/gh-pages -1 --format=%B 2>/dev/null | grep -oP '(?<=ant-design@)[a-f0-9]+' || echo "")
+          # Match both short (7+) and full (40) character commit hashes
+          LAST_DEPLOYED=$(git log origin/gh-pages -1 --format=%B 2>/dev/null | grep -oP '(?<=ant-design@)[a-f0-9]{7,40}' || echo "")
 
           if [ -z "$LAST_DEPLOYED" ]; then
             echo "No previous deployment found, will deploy"
