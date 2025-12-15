@@ -40,8 +40,9 @@ jobs:
 
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          
+
           echo "Adding files to git..."
           timeout 300 git add . || git add .
+          echo "Create a commit and push to Gitee..."
           git commit -n -m "Deploy $(date '+%Y-%m-%d')" || true
           git push origin gh-pages --force
