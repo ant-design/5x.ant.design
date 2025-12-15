@@ -43,5 +43,5 @@ jobs:
           
           echo "Adding files to git..."
           timeout 300 git add . || git add .
-          git commit -m "Deploy $(date '+%Y-%m-%d')" || true
+          git commit -n -m "Deploy $(date '+%Y-%m-%d')" || true
           git push origin gh-pages --force
