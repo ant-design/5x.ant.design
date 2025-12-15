@@ -1,0 +1,76 @@
+name: Daily Deploy
+
+on:
+  schedule:
+    # Run daily at 00:00 UTC (8:00 AM Beijing Time)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Check for upstream changes
+        id: check-changes
+        run: |
+          # Get the latest commit from ant-design 5.x-stable branch
+          LATEST_COMMIT=$(git ls-remote https://github.com/ant-design/ant-design.git refs/heads/5.x-stable | cut -f1)
+          echo "Latest upstream commit: $LATEST_COMMIT"
+
+          # Check if we have a record of the last deployed commit
+          git fetch origin gh-pages --depth=1 || true
+
+          # Try to get the last deployed commit from gh-pages branch commit message
+          LAST_DEPLOYED=$(git log origin/gh-pages -1 --format=%B 2>/dev/null | grep -oP '(?<=ant-design@)[a-f0-9]+' || echo "")
+
+          if [ -z "$LAST_DEPLOYED" ]; then
+            echo "No previous deployment found, will deploy"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          elif [ "$LATEST_COMMIT" != "$LAST_DEPLOYED" ]; then
+            echo "Changes detected between $LAST_DEPLOYED and $LATEST_COMMIT"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "No changes detected, skipping deployment"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+          echo "upstream_commit=$LATEST_COMMIT" >> $GITHUB_OUTPUT
+
+      - name: Install dependencies
+        if: steps.check-changes.outputs.has_changes == 'true'
+        run: npm ci
+
+      - name: Build and Deploy
+        if: steps.check-changes.outputs.has_changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Set deploy message with upstream commit
+          export DEPLOY_MESSAGE="Deploy: $(date +%Y-%m-%d) (ant-design@${{ steps.check-changes.outputs.upstream_commit }})"
+
+          # Run the deployment script
+          node sync.js
+
+      - name: No changes
+        if: steps.check-changes.outputs.has_changes == 'false'
+        run: echo "✅ No changes in upstream, skipping deployment"
