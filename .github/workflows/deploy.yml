@@ -22,7 +22,7 @@ jobs:
 
       - run: npm i
 
-      - run: npm run build
+      - run: npm run build -- --skip-clean
 
       - name: Deploy to Gitee
         run: |

@@ -9,8 +9,9 @@ const path = require('path');
 /**
  * 构建并部署 antd 文档站点
  * @param {boolean} buildOnly - 是否只构建不部署
+ * @param {boolean} skipClean - 是否跳过清理临时目录
  */
-async function buildAndDeploy(buildOnly = false) {
+async function buildAndDeploy(buildOnly = false, skipClean = false) {
   const tempDir = 'temp-antd-build';
 
   try {
@@ -82,7 +83,11 @@ async function buildAndDeploy(buildOnly = false) {
     console.error(`❌ 失败: ${error.message}`);
     process.exit(1);
   } finally {
-    await fs.remove(tempDir).catch(() => {});
+    if (!skipClean) {
+      await fs.remove(tempDir).catch(() => {});
+    } else {
+      console.log('🔧 跳过清理临时目录:', tempDir);
+    }
   }
 }
 
@@ -90,12 +95,17 @@ async function buildAndDeploy(buildOnly = false) {
 if (require.main === module) {
   const args = process.argv.slice(2);
   const buildOnly = args.includes('--build-only');
+  const skipClean = args.includes('--skip-clean');
   
   if (buildOnly) {
     console.log('🔧 构建模式：只构建，不部署');
   }
   
-  buildAndDeploy(buildOnly);
+  if (skipClean) {
+    console.log('🔧 跳过清理模式：保留临时构建目录');
+  }
+  
+  buildAndDeploy(buildOnly, skipClean);
 }
 
 module.exports = { buildAndDeploy };
