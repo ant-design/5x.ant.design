@@ -1,0 +1,49 @@
+name: Deploy Site
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - run: npm ci
+      
+      - run: npm run build
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: temp-antd-build/_site
+          
+      - name: Deploy to Gitee
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GITEE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H gitee.com >> ~/.ssh/known_hosts
+          
+          git clone git@gitee.com:ant-design/5x.ant.design.git gitee-repo
+          cd gitee-repo
+          git checkout -B gh-pages
+          rm -rf ./*
+          cp -r ../temp-antd-build/_site/* .
+          [ -f ../CNAME ] && cp ../CNAME .
+          
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Deploy $(date '+%Y-%m-%d')" || true
+          git push origin gh-pages --force
