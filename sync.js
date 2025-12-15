@@ -21,7 +21,7 @@ async function buildAndDeploy(buildOnly = false) {
     console.log('🔄 克隆 ant-design 5.x-stable 分支...');
 
     const git = simpleGit();
-    await git.clone('git@github.com:ant-design/ant-design.git', tempDir, {
+    await git.clone('https://github.com/ant-design/ant-design.git', tempDir, {
       '--depth': 1,
       '--branch': '5.x-stable',
     });
