@@ -12,6 +12,15 @@ ut install
 ut run deploy
 ```
 
+## 自动部署
+
+本仓库配置了 GitHub Actions 工作流，每天自动检查 `ant-design` 仓库的 `5.x-stable` 分支是否有更新：
+
+- ⏰ **每日运行**：UTC 时间 00:00 (北京时间上午 8:00)
+- 🔍 **智能检测**：只在检测到上游变化时才运行部署
+- 🚀 **自动部署**：自动构建并部署到 GitHub Pages
+- 🔧 **手动触发**：支持在 GitHub Actions 页面手动触发工作流
+
 ## 工作原理
 
 1. 🔄 克隆 `ant-design` 的 `5.x-stable` 分支
