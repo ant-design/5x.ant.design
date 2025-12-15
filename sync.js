@@ -75,9 +75,10 @@ async function buildAndDeploy() {
 
     // 6. 部署
     console.log('🔄 部署到 GitHub Pages...');
+    const deployMessage = process.env.DEPLOY_MESSAGE || `Deploy: ${new Date().toISOString().split('T')[0]}`;
     await ghPages.publish(buildPath, {
       branch: 'gh-pages',
-      message: `Deploy: ${new Date().toISOString().split('T')[0]}`,
+      message: deployMessage,
       dotfiles: true,
     });
 
