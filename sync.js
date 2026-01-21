@@ -8,8 +8,10 @@ const path = require('path');
 
 /**
  * 构建并部署 antd 文档站点
+ * @param {boolean} buildOnly - 是否只构建不部署
+ * @param {boolean} skipClean - 是否跳过清理临时目录
  */
-async function buildAndDeploy() {
+async function buildAndDeploy(buildOnly = false, skipClean = false) {
   const tempDir = 'temp-antd-build';
 
   try {
@@ -32,22 +34,14 @@ async function buildAndDeploy() {
     console.log('🔄 构建文档站点...');
     execSync('ut run site', { cwd: tempDir, stdio: 'inherit' });
 
-    // 3. 查找构建产物
-    const buildDirs = ['dist', '_site', 'build', 'public'];
-    let buildPath = null;
-
-    for (const dir of buildDirs) {
-      const fullPath = path.join(tempDir, dir);
-      if (await fs.pathExists(fullPath)) {
-        buildPath = fullPath;
-        console.log(`📁 找到构建产物: ${dir}`);
-        break;
-      }
+    // 3. 构建产物目录
+    const buildPath = path.join(tempDir, '_site');
+    
+    if (!(await fs.pathExists(buildPath))) {
+      throw new Error('构建产物目录 _site 不存在');
     }
-
-    if (!buildPath) {
-      throw new Error('找不到构建产物目录');
-    }
+    
+    console.log('📁 使用构建产物目录: _site');
 
     // 4. 生成 Jekyll 配置文件到构建产物目录
     console.log('🔄 生成 Jekyll 配置文件...');
@@ -73,27 +67,46 @@ async function buildAndDeploy() {
       console.log('📄 复制 CNAME 文件');
     }
 
-    // 6. 部署
-    console.log('🔄 部署到 GitHub Pages...');
-    const deployMessage = process.env.DEPLOY_MESSAGE || `Deploy: ${new Date().toISOString().split('T')[0]}`;
-    await ghPages.publish(buildPath, {
-      branch: 'gh-pages',
-      message: deployMessage,
-      dotfiles: true,
-    });
-
-    console.log('🎉 部署完成！站点: https://5x.ant.design');
+    // 6. 部署（如果不是只构建模式）
+    if (!buildOnly) {
+      console.log('🔄 部署到 GitHub Pages...');
+      const deployMessage = process.env.DEPLOY_MESSAGE || `Deploy: ${new Date().toISOString().split('T')[0]}`;
+      await ghPages.publish(buildPath, {
+        branch: 'gh-pages',
+        message: deployMessage,
+        dotfiles: true,
+      });
+      console.log('🎉 部署完成！站点: https://5x.ant.design');
+    } else {
+      console.log('✅ 构建完成！构建产物在:', buildPath);
+    }
   } catch (error) {
     console.error(`❌ 失败: ${error.message}`);
     process.exit(1);
   } finally {
-    await fs.remove(tempDir).catch(() => {});
+    if (!skipClean) {
+      await fs.remove(tempDir).catch(() => {});
+    } else {
+      console.log('🔧 跳过清理临时目录:', tempDir);
+    }
   }
 }
 
 // 执行构建和部署
 if (require.main === module) {
-  buildAndDeploy();
+  const args = process.argv.slice(2);
+  const buildOnly = args.includes('--build-only');
+  const skipClean = args.includes('--skip-clean');
+  
+  if (buildOnly) {
+    console.log('🔧 构建模式：只构建，不部署');
+  }
+  
+  if (skipClean) {
+    console.log('🔧 跳过清理模式：保留临时构建目录');
+  }
+  
+  buildAndDeploy(buildOnly, skipClean);
 }
 
 module.exports = { buildAndDeploy };
