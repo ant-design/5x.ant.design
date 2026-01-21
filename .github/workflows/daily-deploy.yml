@@ -1,0 +1,86 @@
+name: Daily Deploy
+
+on:
+  schedule:
+    # Run daily at 00:00 UTC (8:00 AM Beijing Time)
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  check-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check for upstream changes
+        id: check
+        run: |
+          # Get the latest commit hash from ant-design 5.x-stable branch
+          LATEST_COMMIT=$(git ls-remote https://github.com/ant-design/ant-design.git refs/heads/5.x-stable | cut -f1)
+          echo "Latest commit: $LATEST_COMMIT"
+          
+          # Get the last deployed commit hash from gh-pages branch (if exists)
+          LAST_DEPLOYED=$(git ls-remote origin refs/heads/gh-pages | cut -f1 || echo "")
+          
+          # Check if we have a marker file in gh-pages branch
+          if [ -n "$LAST_DEPLOYED" ]; then
+            git fetch origin gh-pages:gh-pages || true
+            LAST_COMMIT=$(git show gh-pages:.deploy-commit 2>/dev/null || echo "")
+          else
+            LAST_COMMIT=""
+          fi
+          
+          echo "Last deployed commit: $LAST_COMMIT"
+          
+          # If commits are different or no previous deployment, we need to deploy
+          if [ "$LATEST_COMMIT" != "$LAST_COMMIT" ]; then
+            echo "Changes detected, deploying..."
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "$LATEST_COMMIT" > .deploy-commit
+          else
+            echo "No changes detected, skipping deployment"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - uses: utooland/setup-utoo@v1
+        if: steps.check.outputs.has_changes == 'true'
+
+      - name: Install dependencies
+        if: steps.check.outputs.has_changes == 'true'
+        run: npm i
+
+      - name: Build and deploy
+        if: steps.check.outputs.has_changes == 'true'
+        run: npm run build -- --skip-clean
+
+      - name: Save deployment marker
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin gh-pages:gh-pages || true
+          git checkout gh-pages
+          cp .deploy-commit ./ || true
+          git add .deploy-commit || true
+          git commit -m "Update deployment marker" || true
+          git push origin gh-pages || true
+
+      - name: Sync to Gitee
+        if: steps.check.outputs.has_changes == 'true'
+        uses: wearerequired/git-mirror-action@v1
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
+        with:
+          source-repo: 'https://github.com/ant-design/5x.ant.design.git'
+          destination-repo: 'git@gitee.com:ant-design/5x.ant.design.git'
