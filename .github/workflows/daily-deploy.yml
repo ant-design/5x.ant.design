@@ -30,21 +30,21 @@ jobs:
           LATEST_COMMIT=$(git ls-remote https://github.com/ant-design/ant-design.git refs/heads/5.x-stable | cut -f1)
           echo "Latest commit: $LATEST_COMMIT"
           
-          # Get the last deployed commit hash from gh-pages branch (if exists)
-          LAST_DEPLOYED=$(git ls-remote origin refs/heads/gh-pages | cut -f1 || echo "")
-          
-          # Check if we have a marker file in gh-pages branch
-          if [ -n "$LAST_DEPLOYED" ]; then
-            git fetch origin gh-pages:gh-pages || true
-            LAST_COMMIT=$(git show gh-pages:.deploy-commit 2>/dev/null || echo "")
+          # Try to get the last deployed commit hash from gh-pages branch
+          LAST_COMMIT=""
+          if git ls-remote --exit-code origin refs/heads/gh-pages > /dev/null 2>&1; then
+            echo "gh-pages branch exists, checking for deployment marker"
+            if git fetch origin gh-pages:gh-pages 2>/dev/null; then
+              LAST_COMMIT=$(git show gh-pages:.deploy-commit 2>/dev/null || echo "")
+            fi
           else
-            LAST_COMMIT=""
+            echo "gh-pages branch does not exist yet"
           fi
           
-          echo "Last deployed commit: $LAST_COMMIT"
+          echo "Last deployed commit: ${LAST_COMMIT:-none}"
           
           # If commits are different or no previous deployment, we need to deploy
-          if [ "$LATEST_COMMIT" != "$LAST_COMMIT" ]; then
+          if [ "$LATEST_COMMIT" != "$LAST_COMMIT" ] || [ -z "$LAST_COMMIT" ]; then
             echo "Changes detected, deploying..."
             echo "has_changes=true" >> $GITHUB_OUTPUT
             echo "$LATEST_COMMIT" > .deploy-commit
@@ -67,14 +67,32 @@ jobs:
       - name: Save deployment marker
         if: steps.check.outputs.has_changes == 'true'
         run: |
+          set -e
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin gh-pages:gh-pages || true
-          git checkout gh-pages
-          cp .deploy-commit ./ || true
-          git add .deploy-commit || true
-          git commit -m "Update deployment marker" || true
-          git push origin gh-pages || true
+          
+          # Check if gh-pages branch exists
+          if git ls-remote --exit-code origin refs/heads/gh-pages > /dev/null 2>&1; then
+            echo "Updating existing gh-pages branch"
+            git fetch origin gh-pages:gh-pages
+            git checkout gh-pages
+          else
+            echo "Creating new gh-pages branch"
+            git checkout --orphan gh-pages
+            git rm -rf . || true
+          fi
+          
+          # Copy and commit the deployment marker
+          cp .deploy-commit ./ 2>/dev/null || echo "Marker file not found, skipping"
+          if [ -f .deploy-commit ]; then
+            git add .deploy-commit
+            if git diff --cached --quiet; then
+              echo "No changes to commit"
+            else
+              git commit -m "Update deployment marker"
+              git push origin gh-pages
+            fi
+          fi
 
       - name: Sync to Gitee
         if: steps.check.outputs.has_changes == 'true'
