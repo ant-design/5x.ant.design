@@ -70,10 +70,12 @@ async function buildAndDeploy(buildOnly = false, skipClean = false) {
     // 6. 部署（如果不是只构建模式）
     if (!buildOnly) {
       console.log('🔄 部署到 GitHub Pages...');
-      await ghPages.publish(buildPath, {
-        branch: 'gh-pages',
-        message: `Deploy: ${new Date().toISOString().split('T')[0]}`,
-        dotfiles: true,
+      await new Promise((resolve, reject) => {
+        ghPages.publish(buildPath, {
+          branch: 'gh-pages',
+          message: `Deploy: ${new Date().toISOString().split('T')[0]}`,
+          dotfiles: true,
+        }, (error) => error ? reject(error) : resolve());
       });
       console.log('🎉 部署完成！站点: https://5x.ant.design');
     } else {
